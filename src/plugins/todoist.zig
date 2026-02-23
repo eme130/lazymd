@@ -9,7 +9,7 @@ const Self = @This();
 /// Commands: :todoist, :todoist.add, :todoist.done, :todoist.inbox
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "todoist", .version = "0.1.0", .author = "lazy-md contributors", .description = "Todoist task integration" };
+    return .{ .name = "todoist", .version = "0.1.0", .author = "LazyMD contributors", .description = "Todoist task integration" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

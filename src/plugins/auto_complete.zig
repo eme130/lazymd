@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :autocomplete, :autocomplete.link, :autocomplete.tag
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "auto-complete", .version = "0.1.0", .author = "lazy-md contributors", .description = "Auto-complete for links and tags" };
+    return .{ .name = "auto-complete", .version = "0.1.0", .author = "LazyMD contributors", .description = "Auto-complete for links and tags" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :callout, :callout.tip, :callout.warn, :callout.note, :callout.danger
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "admonitions", .version = "0.1.0", .author = "lazy-md contributors", .description = "Callout blocks (tip, warning, note)" };
+    return .{ .name = "admonitions", .version = "0.1.0", .author = "LazyMD contributors", .description = "Callout blocks (tip, warning, note)" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

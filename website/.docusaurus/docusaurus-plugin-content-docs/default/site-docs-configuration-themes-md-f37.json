@@ -1,0 +1,39 @@
+{
+  "id": "configuration/themes",
+  "title": "Themes",
+  "description": "12 built-in color themes for lazy-md — Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night, and more. Syntax highlighting colors for 16 languages with truecolor support.",
+  "source": "@site/docs/configuration/themes.md",
+  "sourceDirName": "configuration",
+  "slug": "/configuration/themes",
+  "permalink": "/docs/configuration/themes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/configuration/themes.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "Themes",
+    "sidebar_position": 2,
+    "description": "12 built-in color themes for lazy-md — Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night, and more. Syntax highlighting colors for 16 languages with truecolor support.",
+    "keywords": [
+      "terminal editor themes",
+      "dracula theme",
+      "gruvbox",
+      "nord",
+      "catppuccin",
+      "color themes",
+      "syntax highlighting colors",
+      "lazy-md themes"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "File Formats",
+    "permalink": "/docs/configuration/file-formats"
+  },
+  "next": {
+    "title": "Plugin System Overview",
+    "permalink": "/docs/plugins/overview"
+  }
+}

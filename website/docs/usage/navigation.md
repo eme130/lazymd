@@ -1,8 +1,8 @@
 ---
 title: Navigation
 sidebar_position: 2
-description: Complete keyboard navigation reference for lazy-md. Vim motions including hjkl, word jumps, line start/end, page scroll, and count prefixes.
-keywords: [vim navigation, hjkl, keyboard shortcuts, terminal editor navigation, vim motions, lazy-md keybindings]
+description: Complete keyboard navigation reference for LazyMD. Vim motions including hjkl, word jumps, line start/end, page scroll, and count prefixes.
+keywords: [vim navigation, hjkl, keyboard shortcuts, terminal editor navigation, vim motions, LazyMD keybindings]
 ---
 
 # Navigation

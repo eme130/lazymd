@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :git, :git.commit, :git.push, :git.pull, :git.status, :git.log
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "git-sync", .version = "0.1.0", .author = "lazy-md contributors", .description = "Git-based note synchronization" };
+    return .{ .name = "git-sync", .version = "0.1.0", .author = "LazyMD contributors", .description = "Git-based note synchronization" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

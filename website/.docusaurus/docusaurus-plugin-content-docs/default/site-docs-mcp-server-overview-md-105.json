@@ -1,0 +1,38 @@
+{
+  "id": "mcp-server/overview",
+  "title": "MCP Server",
+  "description": "Use lazy-md as an MCP (Model Context Protocol) server for AI agents. 22 built-in tools for reading, navigating, editing markdown documents, and querying the knowledge graph via JSON-RPC 2.0 over stdio. Integrates with Claude Code and Gemini CLI.",
+  "source": "@site/docs/mcp-server/overview.md",
+  "sourceDirName": "mcp-server",
+  "slug": "/mcp-server/overview",
+  "permalink": "/docs/mcp-server/overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/mcp-server/overview.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "MCP Server",
+    "sidebar_position": 1,
+    "description": "Use lazy-md as an MCP (Model Context Protocol) server for AI agents. 22 built-in tools for reading, navigating, editing markdown documents, and querying the knowledge graph via JSON-RPC 2.0 over stdio. Integrates with Claude Code and Gemini CLI.",
+    "keywords": [
+      "MCP server",
+      "Model Context Protocol",
+      "AI agent markdown",
+      "Claude Code MCP",
+      "Gemini CLI MCP",
+      "JSON-RPC markdown",
+      "lazy-md MCP",
+      "stdio server",
+      "wiki-links",
+      "backlinks",
+      "knowledge graph"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Running Tests",
+    "permalink": "/docs/contributing/testing"
+  }
+}

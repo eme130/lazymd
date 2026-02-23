@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :autolink, :autolink.line
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "auto-link", .version = "0.1.0", .author = "lazy-md contributors", .description = "Auto-convert URLs to links" };
+    return .{ .name = "auto-link", .version = "0.1.0", .author = "LazyMD contributors", .description = "Auto-convert URLs to links" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

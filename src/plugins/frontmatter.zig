@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :fm, :fm.add, :fm.edit
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "frontmatter", .version = "0.1.0", .author = "lazy-md contributors", .description = "YAML frontmatter management" };
+    return .{ .name = "frontmatter", .version = "0.1.0", .author = "LazyMD contributors", .description = "YAML frontmatter management" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

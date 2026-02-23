@@ -12,7 +12,7 @@ var g_typewriter_active: bool = false;
 
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "typewriter", .version = "0.1.0", .author = "lazy-md contributors", .description = "Typewriter scrolling — cursor always centered" };
+    return .{ .name = "typewriter", .version = "0.1.0", .author = "LazyMD contributors", .description = "Typewriter scrolling — cursor always centered" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

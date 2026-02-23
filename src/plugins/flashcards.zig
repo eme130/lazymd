@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :flash, :flash.add, :flash.count
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "flashcards", .version = "0.1.0", .author = "lazy-md contributors", .description = "Spaced repetition flashcards" };
+    return .{ .name = "flashcards", .version = "0.1.0", .author = "LazyMD contributors", .description = "Spaced repetition flashcards" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

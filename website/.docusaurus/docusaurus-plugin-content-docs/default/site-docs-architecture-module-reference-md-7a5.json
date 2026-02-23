@@ -1,0 +1,37 @@
+{
+  "id": "architecture/module-reference",
+  "title": "Module Reference",
+  "description": "Complete module reference for the lazy-md codebase — Terminal, Input, Buffer, Editor, Renderer, Layout, Preview, syntax tokenizer, and plugin system.",
+  "source": "@site/docs/architecture/module-reference.md",
+  "sourceDirName": "architecture",
+  "slug": "/architecture/module-reference",
+  "permalink": "/docs/architecture/module-reference",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/architecture/module-reference.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "Module Reference",
+    "sidebar_position": 2,
+    "description": "Complete module reference for the lazy-md codebase — Terminal, Input, Buffer, Editor, Renderer, Layout, Preview, syntax tokenizer, and plugin system.",
+    "keywords": [
+      "lazy-md modules",
+      "zig modules",
+      "terminal editor internals",
+      "buffer module",
+      "renderer module",
+      "code reference"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "System Design",
+    "permalink": "/docs/architecture/system-design"
+  },
+  "next": {
+    "title": "How to Contribute",
+    "permalink": "/docs/contributing/how-to-contribute"
+  }
+}

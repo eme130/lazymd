@@ -125,7 +125,7 @@ fn handleMessage(self: *Self, line: []const u8) !void {
 
 fn handleInitialize(self: *Self, id: ?std.json.Value) !void {
     try self.sendRawResult(id,
-        \\{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":false},"resources":{"subscribe":false,"listChanged":false}},"serverInfo":{"name":"lazy-md","version":"0.1.0"}}
+        \\{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":false},"resources":{"subscribe":false,"listChanged":false}},"serverInfo":{"name":"LazyMD","version":"0.1.0"}}
     );
 }
 
@@ -1254,7 +1254,7 @@ pub fn jsonStringify(allocator: Allocator, s: []const u8) ![]const u8 {
 }
 
 pub fn log(comptime fmt: []const u8, args: anytype) void {
-    const msg = std.fmt.allocPrint(std.heap.page_allocator, "[lazy-md] " ++ fmt ++ "\n", args) catch return;
+    const msg = std.fmt.allocPrint(std.heap.page_allocator, "[LazyMD] " ++ fmt ++ "\n", args) catch return;
     defer std.heap.page_allocator.free(msg);
     _ = posix.write(posix.STDERR_FILENO, msg) catch {};
 }

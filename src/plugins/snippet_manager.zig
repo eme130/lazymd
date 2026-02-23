@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :snip, :snip.list
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "snippet-manager", .version = "0.1.0", .author = "lazy-md contributors", .description = "Reusable text snippets" };
+    return .{ .name = "snippet-manager", .version = "0.1.0", .author = "LazyMD contributors", .description = "Reusable text snippets" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

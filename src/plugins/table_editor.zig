@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :table, :table.fmt, :table.add-col, :table.add-row
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "table-editor", .version = "0.1.0", .author = "lazy-md contributors", .description = "Markdown table creation and formatting" };
+    return .{ .name = "table-editor", .version = "0.1.0", .author = "LazyMD contributors", .description = "Markdown table creation and formatting" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

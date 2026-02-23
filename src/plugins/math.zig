@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :math, :math.inline, :math.block
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "math", .version = "0.1.0", .author = "lazy-md contributors", .description = "LaTeX math expression support" };
+    return .{ .name = "math", .version = "0.1.0", .author = "LazyMD contributors", .description = "LaTeX math expression support" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

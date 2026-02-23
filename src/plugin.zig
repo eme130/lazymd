@@ -3,7 +3,7 @@ const Editor = @import("Editor.zig");
 const Surface = @import("frontend/Surface.zig");
 
 // ── Plugin System ─────────────────────────────────────────────────────
-// lazy-md's extensible plugin architecture.
+// LazyMD's extensible plugin architecture.
 //
 // Plugins implement the Plugin interface (vtable) to hook into editor
 // events, register commands, and extend the UI.

@@ -1,8 +1,8 @@
 ---
 title: Editing
 sidebar_position: 3
-description: Text editing commands in lazy-md — insert mode shortcuts, deletion commands, undo/redo, and all vim editing operations for markdown files.
-keywords: [vim editing commands, insert mode, delete line, undo redo, terminal text editing, lazy-md editing]
+description: Text editing commands in LazyMD — insert mode shortcuts, deletion commands, undo/redo, and all vim editing operations for markdown files.
+keywords: [vim editing commands, insert mode, delete line, undo redo, terminal text editing, LazyMD editing]
 ---
 
 # Editing

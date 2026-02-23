@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :define, :define.insert
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "dictionary", .version = "0.1.0", .author = "lazy-md contributors", .description = "Word definition lookup" };
+    return .{ .name = "dictionary", .version = "0.1.0", .author = "LazyMD contributors", .description = "Word definition lookup" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

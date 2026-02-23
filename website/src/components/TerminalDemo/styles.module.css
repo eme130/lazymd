@@ -9,7 +9,7 @@
   inset: -40px;
   background: radial-gradient(
     ellipse at center,
-    rgba(99, 102, 241, 0.08) 0%,
+    rgba(16, 185, 129, 0.08) 0%,
     transparent 70%
   );
   border-radius: 40px;
@@ -29,7 +29,7 @@
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.03),
     0 25px 60px -12px rgba(0, 0, 0, 0.6),
-    0 0 100px -20px rgba(99, 102, 241, 0.1);
+    0 0 100px -20px rgba(16, 185, 129, 0.1);
 }
 
 .terminalHeader {
@@ -72,8 +72,8 @@
 }
 
 /* Terminal color classes */
-.bar { background: rgba(99, 102, 241, 0.12); color: #818cf8; display: block; }
-.tree { color: #818cf8; }
+.bar { background: rgba(16, 185, 129, 0.12); color: #34d399; display: block; }
+.tree { color: #34d399; }
 .gutter { color: #3f3f46; }
 .h1 { color: #67e8f9; font-weight: bold; }
 .h2 { color: #4ade80; font-weight: bold; }

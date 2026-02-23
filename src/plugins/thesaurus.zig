@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :synonyms, :synonyms.replace
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "thesaurus", .version = "0.1.0", .author = "lazy-md contributors", .description = "Synonym and antonym lookup" };
+    return .{ .name = "thesaurus", .version = "0.1.0", .author = "LazyMD contributors", .description = "Synonym and antonym lookup" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

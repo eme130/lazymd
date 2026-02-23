@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :theme.chooser, :theme.preview, :theme.info
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "theme-chooser", .version = "0.1.0", .author = "lazy-md contributors", .description = "Interactive theme browser and chooser" };
+    return .{ .name = "theme-chooser", .version = "0.1.0", .author = "LazyMD contributors", .description = "Interactive theme browser and chooser" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -9,7 +9,7 @@ const Self = @This();
 /// Commands: :lint, :lint.fix
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "linter", .version = "0.1.0", .author = "lazy-md contributors", .description = "Markdown linting and style checks" };
+    return .{ .name = "linter", .version = "0.1.0", .author = "LazyMD contributors", .description = "Markdown linting and style checks" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

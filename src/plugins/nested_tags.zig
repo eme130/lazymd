@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :ntag, :ntag.add, :ntag.tree
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "nested-tags", .version = "0.1.0", .author = "lazy-md contributors", .description = "Hierarchical nested tag support" };
+    return .{ .name = "nested-tags", .version = "0.1.0", .author = "LazyMD contributors", .description = "Hierarchical nested tag support" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

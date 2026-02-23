@@ -1,0 +1,35 @@
+{
+  "id": "contributing/how-to-contribute",
+  "title": "How to Contribute",
+  "description": "How to contribute to lazy-md — fork the repo, create a branch, make changes, run tests, format code, and submit a pull request.",
+  "source": "@site/docs/contributing/how-to-contribute.md",
+  "sourceDirName": "contributing",
+  "slug": "/contributing/how-to-contribute",
+  "permalink": "/docs/contributing/how-to-contribute",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/contributing/how-to-contribute.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "How to Contribute",
+    "sidebar_position": 1,
+    "description": "How to contribute to lazy-md — fork the repo, create a branch, make changes, run tests, format code, and submit a pull request.",
+    "keywords": [
+      "contribute lazy-md",
+      "open source contribution",
+      "pull request",
+      "zig project contribution"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Module Reference",
+    "permalink": "/docs/architecture/module-reference"
+  },
+  "next": {
+    "title": "Building from Source",
+    "permalink": "/docs/contributing/building"
+  }
+}

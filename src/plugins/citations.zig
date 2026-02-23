@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :cite, :cite.list, :cite.ref
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "citations", .version = "0.1.0", .author = "lazy-md contributors", .description = "Academic citations and BibTeX" };
+    return .{ .name = "citations", .version = "0.1.0", .author = "LazyMD contributors", .description = "Academic citations and BibTeX" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

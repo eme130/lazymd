@@ -1,0 +1,40 @@
+{
+  "id": "plugins/catalog",
+  "title": "Plugin Catalog",
+  "description": "All 62 built-in plugins for lazy-md — note-taking, productivity, writing modes, markdown extensions, integrations, and export tools. Zettelkasten, kanban, pomodoro, and more.",
+  "source": "@site/docs/plugins/catalog.md",
+  "sourceDirName": "plugins",
+  "slug": "/plugins/catalog",
+  "permalink": "/docs/plugins/catalog",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/plugins/catalog.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "Plugin Catalog",
+    "sidebar_position": 2,
+    "description": "All 62 built-in plugins for lazy-md — note-taking, productivity, writing modes, markdown extensions, integrations, and export tools. Zettelkasten, kanban, pomodoro, and more.",
+    "keywords": [
+      "lazy-md plugins",
+      "zettelkasten",
+      "kanban",
+      "pomodoro",
+      "markdown plugins",
+      "note taking plugins",
+      "built-in plugins",
+      "zen mode",
+      "daily notes"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Plugin System Overview",
+    "permalink": "/docs/plugins/overview"
+  },
+  "next": {
+    "title": "Developing Plugins",
+    "permalink": "/docs/plugins/development"
+  }
+}

@@ -43,7 +43,7 @@ pub fn run(self: *Self) !void {
 
     // Print startup message to stderr (stdout may be used by MCP)
     var msg_buf: [128]u8 = undefined;
-    const msg = std.fmt.bufPrint(&msg_buf, "lazy-md web server listening on http://localhost:{d}\n", .{self.port}) catch "lazy-md web server started\n";
+    const msg = std.fmt.bufPrint(&msg_buf, "LazyMD web server listening on http://localhost:{d}\n", .{self.port}) catch "LazyMD web server started\n";
     _ = posix.write(posix.STDERR_FILENO, msg) catch {};
 
     // Accept connections
@@ -135,7 +135,7 @@ fn processJsonRpc(self: *Self, message: []const u8, mcp: *McpServer) !?[]const u
         if (std.mem.eql(u8, m, "initialize")) {
             try w.writeAll("{\"jsonrpc\":\"2.0\",\"id\":");
             try w.writeAll(id_str orelse "1");
-            try w.writeAll(",\"result\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{\"tools\":{}},\"serverInfo\":{\"name\":\"lazy-md\",\"version\":\"0.1.0\"}}}");
+            try w.writeAll(",\"result\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{\"tools\":{}},\"serverInfo\":{\"name\":\"LazyMD\",\"version\":\"0.1.0\"}}}");
             return try buf.toOwnedSlice(self.allocator);
         } else if (std.mem.eql(u8, m, "tools/list")) {
             try w.writeAll("{\"jsonrpc\":\"2.0\",\"id\":");
@@ -161,11 +161,11 @@ fn handleHttp(self: *Self, stream: std.net.Stream, request: []const u8) !void {
     if (std.mem.eql(u8, path, "/") or std.mem.eql(u8, path, "/index.html")) {
         const body =
             \\<!DOCTYPE html>
-            \\<html><head><title>lazy-md</title>
+            \\<html><head><title>LazyMD</title>
             \\<meta charset="utf-8">
             \\<meta name="viewport" content="width=device-width,initial-scale=1">
             \\</head><body>
-            \\<h1>lazy-md web server</h1>
+            \\<h1>LazyMD web server</h1>
             \\<p>Connect your editor frontend to ws://localhost on this port.</p>
             \\<p>Status: <span id="status">Checking...</span></p>
             \\<script>

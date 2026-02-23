@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :mermaid, :mermaid.flow, :mermaid.seq, :mermaid.gantt
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "mermaid", .version = "0.1.0", .author = "lazy-md contributors", .description = "Mermaid diagram support" };
+    return .{ .name = "mermaid", .version = "0.1.0", .author = "LazyMD contributors", .description = "Mermaid diagram support" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

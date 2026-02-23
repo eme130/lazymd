@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :graph, :graph.local, :graph.orphans
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "graph-view", .version = "0.1.0", .author = "lazy-md contributors", .description = "ASCII graph of note connections" };
+    return .{ .name = "graph-view", .version = "0.1.0", .author = "LazyMD contributors", .description = "ASCII graph of note connections" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :dv, :dv.list, :dv.tasks
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "dataview", .version = "0.1.0", .author = "lazy-md contributors", .description = "Query note metadata and frontmatter" };
+    return .{ .name = "dataview", .version = "0.1.0", .author = "LazyMD contributors", .description = "Query note metadata and frontmatter" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

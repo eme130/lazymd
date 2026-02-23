@@ -4,7 +4,7 @@ const Color = Terminal.Color;
 const Highlighter = @import("highlight/Highlighter.zig");
 
 // ── Theme System ──────────────────────────────────────────────────────
-// Configurable color themes for lazy-md.
+// Configurable color themes for LazyMD.
 // Each theme defines colors for UI chrome, editor, syntax, and preview.
 
 pub const ThemeColors = struct {
@@ -90,7 +90,7 @@ pub const builtin_themes = [_]ThemeDef{
     // 0: Default
     .{
         .name = "default",
-        .description = "Default lazy-md theme",
+        .description = "Default LazyMD theme",
         .colors = .{},
     },
     // 1: Dracula

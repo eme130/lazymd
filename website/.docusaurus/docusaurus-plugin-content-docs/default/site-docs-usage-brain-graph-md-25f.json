@@ -1,0 +1,39 @@
+{
+  "id": "usage/brain-graph",
+  "title": "Brain — Knowledge Graph",
+  "description": "Obsidian-style knowledge graph for lazy-md. Visualize [[wiki-link]] connections between notes with a force-directed ASCII layout, backlink discovery, and graph queries via MCP.",
+  "source": "@site/docs/usage/brain-graph.md",
+  "sourceDirName": "usage",
+  "slug": "/usage/brain-graph",
+  "permalink": "/docs/usage/brain-graph",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/usage/brain-graph.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "title": "Brain — Knowledge Graph",
+    "sidebar_position": 7,
+    "description": "Obsidian-style knowledge graph for lazy-md. Visualize [[wiki-link]] connections between notes with a force-directed ASCII layout, backlink discovery, and graph queries via MCP.",
+    "keywords": [
+      "brain",
+      "knowledge graph",
+      "wiki-links",
+      "backlinks",
+      "obsidian graph",
+      "force directed layout",
+      "note connections",
+      "graph view"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Panels & Layout",
+    "permalink": "/docs/usage/panels-layout"
+  },
+  "next": {
+    "title": "Mouse Support",
+    "permalink": "/docs/usage/mouse-support"
+  }
+}

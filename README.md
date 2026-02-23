@@ -1,21 +1,19 @@
-# lazy-md
+# LazyMD
 
 A terminal-based markdown editor written in Zig. Inspired by [lazygit](https://github.com/jesseduffield/lazygit) and [lazydocker](https://github.com/jesseduffield/lazydocker).
 
 ![Zig](https://img.shields.io/badge/Zig-0.15.1-f7a41d?logo=zig&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
-[![CI](https://github.com/user/lazy-md/actions/workflows/ci.yml/badge.svg)](https://github.com/user/lazy-md/actions/workflows/ci.yml)
-
-## Screenshot
+[![CI](https://github.com/EME130/lazymd/actions/workflows/ci.yml/badge.svg)](https://github.com/EME130/lazymd/actions/workflows/ci.yml)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│ lazy-md v0.1.0                         Tab:panels  1:tree  2:preview    │
+│ LazyMD v0.1.0                         Tab:panels  1:tree  2:preview    │
 ├────────────┬──────────────────────────────────────┬──────────────────────┤
-│ Files      │  1  # Welcome to lazy-md             │ Preview              │
+│ Files      │  1  # Welcome to LazyMD             │ Preview              │
 │            │  2                                    │                      │
-│  📁 src    │  3  A **fast** terminal editor        │ Welcome to lazy-md   │
+│  📁 src    │  3  A **fast** terminal editor        │ Welcome to LazyMD   │
 │  📄 README │  4  with *vim* keybindings.           │ ══════════════════   │
 │  📄 main   │  5                                    │                      │
 │            │  6  ## Features                       │ A fast terminal      │
@@ -33,224 +31,58 @@ A terminal-based markdown editor written in Zig. Inspired by [lazygit](https://g
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Features
-
-- **Vim-like modal editing** — Normal, Insert, and Command modes with familiar keybindings
-- **Markdown syntax highlighting** — Headers, bold, italic, code blocks, links, lists, blockquotes, strikethrough
-- **lazygit-style 3-panel layout** — File tree | Editor | Live Preview
-- **Rendered markdown preview** — ASCII-styled preview with headers, bullets, code boxes, and styled text
-- **Mouse support** — Click to position cursor, scroll with mouse wheel, click panels to switch focus
-- **Plugin system** — Extensible architecture for community plugins with commands, events, and custom panels
-- **Gap buffer** with full undo/redo stack
-- **Double-buffered rendering** with diff-based updates for flicker-free display
-- **`.rndm` file format** — 100% backward compatible with `.md`
-- **Zero external dependencies** — Pure Zig, built on POSIX termios + ANSI escape codes
-
 ## Install
 
 **Linux:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/EME130/lazymd/main/scripts/install-linux.sh | bash
-```
-
-**macOS:**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/EME130/lazymd/main/scripts/install-macos.sh | bash
-```
-
-**Windows** (PowerShell):
-
-```powershell
-irm https://raw.githubusercontent.com/EME130/lazymd/main/scripts/install-windows.ps1 | iex
-```
-
-**From source** (all platforms — requires [Zig](https://ziglang.org/download/) 0.15.1+):
-
-```bash
 git clone https://github.com/EME130/lazymd.git
 cd lazymd
 zig build
-cp zig-out/bin/lazy-md /usr/local/bin/   # or add to your PATH
+```
+
+The binary is at `zig-out/bin/lm`. Optionally copy it to your PATH:
+
+```bash
+cp zig-out/bin/lm /usr/local/bin/
 ```
 
 Pre-built binaries are available on the [Releases](https://github.com/EME130/lazymd/releases) page.
-See detailed guides: [Linux](docs/install-linux.md) | [macOS](docs/install-macos.md) | [Windows](docs/install-windows.md)
 
 ## Quick Start
 
 ```bash
-# Open a file
-lazy-md myfile.md
-
-# Open in current directory (shows file tree)
-lazy-md
-
-# Create a new file
-lazy-md notes.md
+lm myfile.md       # Open a file
+lm                  # Open current directory (file tree)
+lm notes.md        # Create a new file
 ```
 
-Once inside:
-1. Press `i` to enter Insert mode
-2. Type your markdown
-3. Press `Escape` to go back to Normal mode
-4. Type `:w` + `Enter` to save
-5. Type `:q` + `Enter` to quit
+Press `i` to insert, `Escape` to return to normal mode, `:w` to save, `:q` to quit.
 
-## Keybindings
+## MCP Server
 
-### Normal Mode
-
-| Key | Action |
-|-----|--------|
-| `h` `j` `k` `l` | Move cursor left/down/up/right |
-| `w` `b` `e` | Word forward/backward/end |
-| `0` `$` `^` | Line start/end/first non-blank |
-| `gg` `G` | Go to top/bottom |
-| `{count}{motion}` | Repeat motion (e.g., `5j` = move down 5 lines) |
-| `i` `a` `o` `O` | Enter insert mode (before/after/below/above) |
-| `I` `A` | Insert at line start/end |
-| `x` | Delete character |
-| `dd` | Delete line |
-| `u` | Undo |
-| `Ctrl+R` | Redo |
-| `Ctrl+D` `Ctrl+U` | Half-page down/up |
-| `Ctrl+S` | Save |
-| `:` | Enter command mode |
-| `Tab` | Cycle panel focus |
-| `Alt+1` | Toggle file tree |
-| `Alt+2` | Toggle preview |
-
-### Insert Mode
-
-| Key | Action |
-|-----|--------|
-| Type normally | Insert text |
-| `Escape` | Return to normal mode |
-| `Backspace` `Delete` | Delete character |
-| `Tab` | Insert 4 spaces |
-| Arrow keys | Move cursor |
-
-### Commands
-
-| Command | Action |
-|---------|--------|
-| `:w` | Save |
-| `:q` | Quit (warns on unsaved changes) |
-| `:q!` | Force quit |
-| `:wq` `:x` | Save and quit |
-| `:w <path>` | Save as |
-| `:e <path>` | Open file |
-
-### Mouse
-
-| Action | Effect |
-|--------|--------|
-| Left click (editor) | Position cursor |
-| Left click (panel) | Switch focus to panel |
-| Scroll wheel | Scroll content up/down |
-
-## Preview Panel
-
-The preview panel renders your markdown in a styled ASCII format:
-
-- **Headers** display as bold text with `═══` (h1) or `───` (h2) underlines
-- **Bold** and *italic* text is rendered with ANSI styles (markers stripped)
-- `Inline code` appears with a highlighted background
-- **Lists** use `•` bullet characters
-- **Blockquotes** have `│` borders
-- **Code blocks** are enclosed in box-drawing borders with syntax coloring
-- **Horizontal rules** render as full-width `─── ` lines
-- **Links** show as underlined text
-
-Toggle the preview with `Alt+2`.
-
-## Plugin System
-
-lazy-md supports an extensible plugin architecture. Plugins can:
-
-- Register custom commands
-- Hook into editor events (file open/save, buffer changes, mode changes)
-- Add custom UI panels
-- Extend the editor's functionality
-
-### Creating a Plugin
-
-1. Create a Zig file in `src/plugins/`
-2. Implement the plugin interface (see [Plugin Guide](docs/PLUGIN_GUIDE.md))
-3. Register with `plugin.makePlugin()` in `main.zig`
-
-See the full [Plugin Development Guide](docs/PLUGIN_GUIDE.md) for examples and API reference.
-
-## AI Agent Integration (MCP Server)
-
-lazy-md is an [MCP](https://modelcontextprotocol.io/) server. AI coding agents (Claude Code, Gemini CLI, etc.) can connect over stdio and use lazy-md's markdown editing tools programmatically.
+LazyMD is an [MCP](https://modelcontextprotocol.io/) server with 22 built-in tools. AI agents connect over stdio to read, navigate, and edit markdown documents.
 
 ```bash
-# Start as MCP server
-lazy-md --mcp-server
-
-# With a file preloaded
-lazy-md --mcp-server README.md
+lm --mcp-server              # Start MCP server
+lm --mcp-server myfile.md    # With a file preloaded
 ```
-
-### Available Tools
-
-| Tool | Description |
-|------|-------------|
-| `open_file` | Open a .md/.rndm file |
-| `read_document` | Read full document content |
-| `write_document` | Save to disk |
-| `list_headings` | List all headings with line numbers |
-| `edit_section` | Replace content under a heading |
-| `insert_text` | Insert text at a line or end |
-| `delete_lines` | Delete line range |
-| `search_content` | Case-insensitive search |
-| `get_structure` | Document metadata + outline |
-
-### Connect from Claude Code
 
 ```bash
-claude mcp add lazy-md -- /path/to/lazy-md --mcp-server
+# Claude Code
+claude mcp add LazyMD -- /path/to/lm --mcp-server
 ```
-
-### Connect from Gemini CLI
-
-Add to `~/.gemini/settings.json`:
 
 ```json
-{
-  "mcpServers": {
-    "lazy-md": {
-      "command": "/path/to/lazy-md",
-      "args": ["--mcp-server"]
-    }
-  }
-}
+// Gemini CLI (~/.gemini/settings.json)
+{ "mcpServers": { "LazyMD": { "command": "/path/to/lm", "args": ["--mcp-server"] } } }
 ```
 
-### Connect from any MCP client
+## Documentation
 
-lazy-md speaks JSON-RPC 2.0 over stdin/stdout (MCP protocol version `2024-11-05`). Any MCP-compatible client can connect by spawning the process with `--mcp-server`.
-
-## Architecture
-
-```
-src/
-  main.zig               Entry point, CLI args, TUI + MCP mode dispatch
-  Terminal.zig            Raw mode, ANSI escape codes, colors, mouse
-  Input.zig               Key + mouse event parsing, escape sequences
-  Buffer.zig              Gap buffer, undo/redo, file I/O
-  Editor.zig              Vim modes, cursor, scroll, rendering
-  Renderer.zig            Double-buffered cell grid, diff flush
-  markdown/syntax.zig     Markdown tokenizer + color theme
-  ui/Layout.zig           3-panel layout engine
-  ui/Preview.zig          Rendered markdown preview
-  plugin.zig              Plugin system (interface, manager, helpers)
-  mcp/Server.zig          MCP server (JSON-RPC 2.0 over stdio)
-  mcp/tools.json          Tool definitions (embedded at compile time)
-```
+- [Website](https://lazymd.com)
+- [Plugin Guide](docs/PLUGIN_GUIDE.md)
+- [Roadmap](ROADMAP.md)
 
 ## Development
 
@@ -260,19 +92,6 @@ zig build run      # Run
 zig build test     # Run tests
 zig fmt src/       # Format code
 ```
-
-### CI/CD
-
-The project uses GitHub Actions for:
-- **CI** — Runs tests on Linux and macOS, checks formatting
-- **Release** — Builds binaries for Linux/macOS on tag push
-- **Pages** — Deploys the website from `website/`
-
-## Documentation
-
-- [Website](https://lazymd.com) — Landing page and online docs
-- [Plugin Guide](docs/PLUGIN_GUIDE.md) — How to build plugins
-- [API Reference](website/docs.html) — Full documentation
 
 ## License
 

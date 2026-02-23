@@ -1,0 +1,32 @@
+{
+  "id": "getting-started/installation",
+  "title": "Installation",
+  "description": "How to install lazy-md, the terminal-based markdown editor with vim keybindings. Build from source with Zig or download pre-built binaries for Linux and macOS.",
+  "source": "@site/docs/getting-started/installation.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/installation",
+  "permalink": "/docs/getting-started/installation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/getting-started/installation.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "Installation",
+    "sidebar_position": 1,
+    "description": "How to install lazy-md, the terminal-based markdown editor with vim keybindings. Build from source with Zig or download pre-built binaries for Linux and macOS.",
+    "keywords": [
+      "lazy-md install",
+      "terminal markdown editor install",
+      "zig markdown editor",
+      "lazy-md setup",
+      "build lazy-md"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "next": {
+    "title": "Quick Start",
+    "permalink": "/docs/getting-started/quick-start"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "plugins/development",
+  "title": "Developing Plugins",
+  "description": "How to create custom plugins for lazy-md in Zig. Step-by-step guide with a Hello World example using the plugin vtable interface.",
+  "source": "@site/docs/plugins/development.md",
+  "sourceDirName": "plugins",
+  "slug": "/plugins/development",
+  "permalink": "/docs/plugins/development",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/plugins/development.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "Developing Plugins",
+    "sidebar_position": 3,
+    "description": "How to create custom plugins for lazy-md in Zig. Step-by-step guide with a Hello World example using the plugin vtable interface.",
+    "keywords": [
+      "lazy-md plugin development",
+      "zig plugin",
+      "create plugin",
+      "plugin tutorial",
+      "vtable interface",
+      "editor plugin guide"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Plugin Catalog",
+    "permalink": "/docs/plugins/catalog"
+  },
+  "next": {
+    "title": "Plugin API Reference",
+    "permalink": "/docs/plugins/api-reference"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Recent posts",
+  "items": [
+    {
+      "title": "Introducing lazy-md: A Terminal Markdown Editor with Vim Keybindings",
+      "permalink": "/blog/2025/01/01/welcome",
+      "unlisted": false,
+      "date": "2025-01-01T00:00:00.000Z"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-// WebSocket MCP client — connects to lazy-md --web-server backend
+// WebSocket MCP client — connects to lm --web-server backend
 
 import type { JsonRpcRequest, JsonRpcResponse, JsonRpcMessage } from '../types/protocol';
 
@@ -85,7 +85,7 @@ export class McpClient {
     await this.send('initialize', {
       protocolVersion: '2024-11-05',
       capabilities: {},
-      clientInfo: { name: 'lazy-md-web', version: '0.1.0' },
+      clientInfo: { name: 'lazymd-web', version: '0.1.0' },
     });
   }
 

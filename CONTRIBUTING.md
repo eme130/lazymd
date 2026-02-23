@@ -1,11 +1,11 @@
-# Contributing to lazy-md
+# Contributing to LazyMD
 
-Thank you for your interest in contributing to lazy-md!
+Thank you for your interest in contributing to LazyMD!
 
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/lazy-md.git`
+2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/lazymd.git`
 3. Install [Zig](https://ziglang.org/download/) 0.15.1+
 
 ## Development Workflow

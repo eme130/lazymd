@@ -1,0 +1,35 @@
+{
+  "id": "getting-started/quick-start",
+  "title": "Quick Start",
+  "description": "Get started with lazy-md in under a minute. Open markdown files, use vim keybindings to edit, and save — all from your terminal.",
+  "source": "@site/docs/getting-started/quick-start.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/quick-start",
+  "permalink": "/docs/getting-started/quick-start",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/getting-started/quick-start.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "Quick Start",
+    "sidebar_position": 2,
+    "description": "Get started with lazy-md in under a minute. Open markdown files, use vim keybindings to edit, and save — all from your terminal.",
+    "keywords": [
+      "lazy-md quick start",
+      "terminal markdown editing",
+      "vim markdown tutorial",
+      "lazy-md getting started"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Installation",
+    "permalink": "/docs/getting-started/installation"
+  },
+  "next": {
+    "title": "Your First File",
+    "permalink": "/docs/getting-started/first-file"
+  }
+}

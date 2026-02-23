@@ -5,23 +5,26 @@ import Link from '@docusaurus/Link';
 import TerminalDemo from '@site/src/components/TerminalDemo';
 import s from './index.module.css';
 
+/* ── Hero ──────────────────────────────────────────────────────────── */
+
 function Hero(): React.JSX.Element {
   return (
     <header className={s.hero}>
       <div className={s.heroGlow} aria-hidden="true" />
+      <div className={s.heroGrain} aria-hidden="true" />
       <div className={s.heroInner}>
         <div className={s.heroTag}>
           <span className={s.heroTagDot} aria-hidden="true" />
-          Written in Zig. Zero dependencies.
+          Open Source &mdash; Written in Zig
         </div>
         <h1 className={s.heroTitle}>
-          Markdown editing,<br />
-          reimagined for<br />
-          the terminal.
+          The editor<br />
+          <em className={s.heroTitleItalic}>of the future.</em>
         </h1>
         <p className={s.heroSubtitle}>
-          A vim-native markdown editor with live preview, syntax highlighting,
-          and AI agent integration. Fast by default.
+          Not another Obsidian alternative. LazyMD is the code editor built for
+          the AI era &mdash; where plain text is the universal interface
+          and your editor runs on every surface imaginable.
         </p>
         <div className={s.heroActions}>
           <Link className={s.btnPrimary} to="/docs/getting-started/installation">
@@ -36,33 +39,153 @@ function Hero(): React.JSX.Element {
   );
 }
 
+/* ── Social Proof ─────────────────────────────────────────────────── */
+
+const badges: Array<[string, string]> = [
+  ['\u26A1', 'Written in Zig'],
+  ['\u{1F517}', 'MCP Protocol'],
+  ['\u2328', 'Vim Keybindings'],
+  ['\u{1F4E6}', 'Single Binary'],
+  ['\u{1F9E0}', 'Knowledge Graph'],
+];
+
 function SocialProof(): React.JSX.Element {
   return (
     <section className={s.socialProof}>
       <div className={s.socialProofInner}>
-        <span className={s.badge}>
-          <span className={s.badgeIcon} aria-hidden="true">&#9889;</span> Built with Zig
-        </span>
-        <span className={s.divider} aria-hidden="true" />
-        <span className={s.badge}>
-          <span className={s.badgeIcon} aria-hidden="true">&#128268;</span> MCP Protocol
-        </span>
-        <span className={s.divider} aria-hidden="true" />
-        <span className={s.badge}>
-          <span className={s.badgeIcon} aria-hidden="true">&#9000;</span> Vim Keybindings
-        </span>
-        <span className={s.divider} aria-hidden="true" />
-        <span className={s.badge}>
-          <span className={s.badgeIcon} aria-hidden="true">&#128230;</span> Single Binary
-        </span>
-        <span className={s.divider} aria-hidden="true" />
-        <span className={s.badge}>
-          <span className={s.badgeIcon} aria-hidden="true">&#129504;</span> Knowledge Graph
-        </span>
+        {badges.map(([icon, label], i) => (
+          <React.Fragment key={label}>
+            {i > 0 && <span className={s.divider} aria-hidden="true" />}
+            <span className={s.badge}>
+              <span className={s.badgeIcon} aria-hidden="true">{icon}</span>
+              {label}
+            </span>
+          </React.Fragment>
+        ))}
       </div>
     </section>
   );
 }
+
+/* ── Philosophy: Why Plain Text ───────────────────────────────────── */
+
+const philosophy = [
+  {
+    icon: '\u2728',
+    title: 'AI agents speak markdown',
+    desc: 'Every LLM reads, writes, and thinks in plain text. Markdown is the native language of AI-assisted coding \u2014 no proprietary format stands between you and your tools.',
+  },
+  {
+    icon: '\u2696',
+    title: 'Git-native by default',
+    desc: 'Every line is diffable. Every change is mergeable. No binary blobs, no sync conflicts. Your notes and code live in the same version control as everything else.',
+  },
+  {
+    icon: '\u221E',
+    title: 'Zero lock-in, infinite portability',
+    desc: '.md files work in any editor, on any OS, in any decade. Your content outlives every app. Markdown written in 2004 reads perfectly today \u2014 and will in 2044.',
+  },
+  {
+    icon: '\u2318',
+    title: 'Human-readable, machine-parseable',
+    desc: 'Plain text is the only format that both humans and machines read natively. No schema, no compilation step. Open a file and it just makes sense.',
+  },
+];
+
+function Philosophy(): React.JSX.Element {
+  return (
+    <section className={s.section} id="philosophy">
+      <div className={s.container}>
+        <div style={{textAlign: 'center'}}>
+          <span className={s.sectionLabel}>Philosophy</span>
+        </div>
+        <h2 className={s.sectionTitle}>
+          Plain text is eating<br />the world.
+        </h2>
+        <p className={s.sectionDesc}>
+          In the age of AI agents and LLM-driven development, plain text isn't
+          primitive &mdash; it's the most powerful format there is. Every AI
+          tool, every version control system, every OS speaks it natively.
+        </p>
+        <div className={s.philosophyGrid}>
+          {philosophy.map(({icon, title, desc}) => (
+            <article key={title} className={s.philosophyCard}>
+              <span className={s.philosophyIcon} aria-hidden="true">{icon}</span>
+              <h3>{title}</h3>
+              <p>{desc}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Interfaces: Runs Everywhere ──────────────────────────────────── */
+
+const interfaces = [
+  {
+    label: 'Terminal (TUI)',
+    status: 'Available now',
+    live: true,
+    desc: 'The original. SSH into a server, open a tmux pane, or work locally. Vim keybindings, live preview, zero dependencies. Feels like home.',
+    ascii: '  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n  \u2502 $ lm note.md \u2502\n  \u2502 \u2588\u2588\u2588\u2588\u2588 \u2502 # Hello   \u2502\n  \u2502 docs  \u2502 world.    \u2502\n  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518',
+  },
+  {
+    label: 'Web Editor',
+    status: 'Coming soon',
+    live: false,
+    desc: 'The same editing experience in your browser. Real-time collaboration, cloud sync, and zero install. Open a link and start writing.',
+    ascii: '  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n  \u2502 \u25CF\u25CF\u25CF  lazymd.com   \u2502\n  \u251C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n  \u2502 # Hello world.  \u2502\n  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518',
+  },
+  {
+    label: 'Native Apps',
+    status: 'Coming soon',
+    live: false,
+    desc: 'macOS, Windows, Linux, iOS, Android. Native performance with platform-native feel. One markdown vault, every device in your life.',
+    ascii: '  \u250C\u2500\u2500\u2500\u2500\u2510  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n  \u2502 \u2588\u2588 \u2502  \u2502  \u2588\u2588  \u2502\n  \u2502 \u2588\u2588 \u2502  \u2502  \u2588\u2588  \u2502\n  \u2514\u2500\u2500\u2500\u2500\u2518  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n   iOS      macOS',
+  },
+  {
+    label: 'Any Device',
+    status: 'The vision',
+    live: false,
+    desc: 'Rabbit R1, smart displays, e-ink tablets, embedded systems. If it has a screen and a network connection, LazyMD can run there.',
+    ascii: '  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n  \u2502 \u25B7 R1   \u2502\n  \u2502 ~~~~   \u2502\n  \u2502 ~~~~   \u2502\n  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n   Any surface.',
+  },
+];
+
+function Interfaces(): React.JSX.Element {
+  return (
+    <section className={s.sectionAlt} id="interfaces">
+      <div className={s.container}>
+        <div style={{textAlign: 'center'}}>
+          <span className={s.sectionLabel}>Interfaces</span>
+        </div>
+        <h2 className={s.sectionTitle}>
+          One editor.<br />Every surface.
+        </h2>
+        <p className={s.sectionDesc}>
+          Your terminal is just the beginning. LazyMD is designed as a
+          protocol-first editor that can render on any device with a screen.
+        </p>
+        <div className={s.interfaceGrid}>
+          {interfaces.map(({label, status, live, desc, ascii}) => (
+            <article key={label} className={s.interfaceCard}>
+              <pre className={s.interfaceAscii} aria-hidden="true">{ascii}</pre>
+              <div className={s.interfaceMeta}>
+                <h3>{label}</h3>
+                <span className={live ? s.statusLive : s.statusSoon}>{status}</span>
+              </div>
+              <p>{desc}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Features ─────────────────────────────────────────────────────── */
 
 const features = [
   {icon: '\u2328', title: 'Vim-Native Editing', desc: 'Full modal editing with Normal, Insert, and Command modes. Navigate with hjkl, motions with w/b, delete with dd, undo with u \u2014 muscle-memory compatible.', wide: false},
@@ -79,14 +202,14 @@ const features = [
 
 function Features(): React.JSX.Element {
   return (
-    <section className={s.sectionAlt} id="features">
+    <section className={s.section} id="features">
       <div className={s.container}>
         <div style={{textAlign: 'center'}}>
           <span className={s.sectionLabel}>Features</span>
         </div>
         <h2 className={s.sectionTitle}>Everything you need,<br />nothing you don't.</h2>
         <p className={s.sectionDesc}>
-          Built for developers who live in the terminal. If you use vim, tmux, and the command line daily, lazy-md fits right in.
+          Built for developers who live in the terminal. If you use vim, tmux, and the command line daily, LazyMD fits right in.
         </p>
         <div className={s.featureGrid}>
           {features.map(({icon, title, desc, wide}) => (
@@ -102,105 +225,7 @@ function Features(): React.JSX.Element {
   );
 }
 
-function Install(): React.JSX.Element {
-  return (
-    <section className={s.section} id="installation">
-      <div className={s.container}>
-        <div style={{textAlign: 'center'}}>
-          <span className={s.sectionLabel}>Get Started</span>
-        </div>
-        <h2 className={s.sectionTitle}>Up and running in seconds.</h2>
-        <p className={s.sectionDesc}>
-          Compiles to a single binary with zero runtime dependencies.
-        </p>
-        <div className={s.installGrid}>
-          <div className={s.installCard}>
-            <div className={s.installStep} aria-hidden="true">1</div>
-            <h3>Prerequisites</h3>
-            <p>Install <a href="https://ziglang.org/download/">Zig</a> 0.15.1 or later from the official site.</p>
-          </div>
-          <div className={s.installCard}>
-            <div className={s.installStep} aria-hidden="true">2</div>
-            <h3>Build</h3>
-            <div className={s.codeBlock}>
-              <code>{`git clone https://github.com/\nEME130/lazymd.git\ncd lazy-md && zig build`}</code>
-            </div>
-          </div>
-          <div className={s.installCard}>
-            <div className={s.installStep} aria-hidden="true">3</div>
-            <h3>Run</h3>
-            <div className={s.codeBlock}>
-              <code>{`./zig-out/bin/lazy-md myfile.md`}</code>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Keybindings(): React.JSX.Element {
-  return (
-    <section className={s.sectionAlt} id="keybindings">
-      <div className={s.container}>
-        <div style={{textAlign: 'center'}}>
-          <span className={s.sectionLabel}>Keybindings</span>
-        </div>
-        <h2 className={s.sectionTitle}>The vim bindings you already know.</h2>
-        <p className={s.sectionDesc}>
-          No learning curve if you use vim or neovim. Jump right in.
-        </p>
-        <div className={s.keybindingTables}>
-          <div className={s.keybindingCard}>
-            <h3>Navigation</h3>
-            <table>
-              <thead className="sr-only">
-                <tr><th>Keys</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Move cursor</td></tr>
-                <tr><td><kbd>w</kbd> <kbd>b</kbd> <kbd>e</kbd></td><td>Word motions</td></tr>
-                <tr><td><kbd>0</kbd> <kbd>$</kbd> <kbd>^</kbd></td><td>Line start / end</td></tr>
-                <tr><td><kbd>gg</kbd> <kbd>G</kbd></td><td>Top / bottom of file</td></tr>
-                <tr><td><kbd>Ctrl+D</kbd> <kbd>Ctrl+U</kbd></td><td>Half-page scroll</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div className={s.keybindingCard}>
-            <h3>Editing</h3>
-            <table>
-              <thead className="sr-only">
-                <tr><th>Keys</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><kbd>i</kbd> <kbd>a</kbd> <kbd>o</kbd> <kbd>O</kbd></td><td>Enter insert mode</td></tr>
-                <tr><td><kbd>x</kbd></td><td>Delete character</td></tr>
-                <tr><td><kbd>dd</kbd></td><td>Delete line</td></tr>
-                <tr><td><kbd>u</kbd></td><td>Undo</td></tr>
-                <tr><td><kbd>Ctrl+R</kbd></td><td>Redo</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div className={s.keybindingCard}>
-            <h3>Commands</h3>
-            <table>
-              <thead className="sr-only">
-                <tr><th>Keys</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><kbd>:w</kbd></td><td>Save file</td></tr>
-                <tr><td><kbd>:q</kbd></td><td>Quit editor</td></tr>
-                <tr><td><kbd>:wq</kbd></td><td>Save and quit</td></tr>
-                <tr><td><kbd>Tab</kbd></td><td>Cycle panels</td></tr>
-                <tr><td><kbd>Alt+1</kbd> <kbd>Alt+2</kbd> <kbd>Alt+3</kbd></td><td>Toggle panels</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+/* ── MCP / AI Integration ─────────────────────────────────────────── */
 
 const mcpTools = [
   'open_file', 'read_document', 'write_document', 'list_headings',
@@ -212,7 +237,7 @@ const mcpTools = [
 
 function MCPSection(): React.JSX.Element {
   return (
-    <section className={s.section} id="mcp-server">
+    <section className={s.sectionAlt} id="mcp-server">
       <div className={s.container}>
         <div style={{textAlign: 'center'}}>
           <span className={s.sectionLabel}>AI Integration</span>
@@ -242,12 +267,12 @@ function MCPSection(): React.JSX.Element {
               <span className={s.mcpCodeTab}>Gemini CLI</span>
             </div>
             <div className={s.mcpCodeBody}>
-              <code>{`# Add lazy-md as an MCP server
-claude mcp add lazy-md -- \\
-  /path/to/lazy-md --mcp-server
+              <code>{`# Add LazyMD as an MCP server
+claude mcp add LazyMD -- \\
+  /path/to/lm --mcp-server
 
 # Start with a file preloaded
-lazy-md --mcp-server myfile.md`}</code>
+lm --mcp-server myfile.md`}</code>
             </div>
           </div>
         </div>
@@ -256,13 +281,116 @@ lazy-md --mcp-server myfile.md`}</code>
   );
 }
 
+/* ── Teams (Coming Soon) ──────────────────────────────────────────── */
+
+const teamFeatures = [
+  {
+    icon: '\u{1F91D}',
+    title: 'Cooperative Coding',
+    desc: 'Real-time multiplayer editing. See your team\'s cursors, edits, and selections live. Pair program across continents.',
+  },
+  {
+    icon: '\u{1F3C6}',
+    title: 'Rankings & Leaderboards',
+    desc: 'Track contributions, streaks, and impact across your organization. Gamify the development experience.',
+  },
+  {
+    icon: '\u23F1',
+    title: 'Time Tracking',
+    desc: 'Built-in time tracking per file, project, and team. Know where your engineering hours actually go \u2014 no third-party tools.',
+  },
+  {
+    icon: '\u{1F3E2}',
+    title: 'Multi-Tenancy',
+    desc: 'Isolated workspaces for teams and organizations. Role-based access, audit logs, and compliance-ready infrastructure.',
+  },
+];
+
+function Teams(): React.JSX.Element {
+  return (
+    <section className={s.teamsSection} id="teams">
+      <div className={s.teamsGlow} aria-hidden="true" />
+      <div className={s.container}>
+        <div style={{textAlign: 'center'}}>
+          <span className={s.teamsLabel}>Coming Soon</span>
+        </div>
+        <h2 className={s.sectionTitle}>
+          Built for teams.
+        </h2>
+        <p className={s.sectionDesc}>
+          Everything below ships with <strong>LazyMD Cloud</strong> &mdash; the managed
+          version for organizations that want collaboration, analytics, and
+          enterprise-grade infrastructure out of the box.
+        </p>
+        <div className={s.teamsGrid}>
+          {teamFeatures.map(({icon, title, desc}) => (
+            <article key={title} className={s.teamsCard}>
+              <span className={s.teamsIcon} aria-hidden="true">{icon}</span>
+              <h3>{title}</h3>
+              <p>{desc}</p>
+            </article>
+          ))}
+        </div>
+        <div className={s.teamsNotify}>
+          <p>Interested in early access?</p>
+          <Link className={s.btnWarm} to="https://github.com/EME130/lazymd/discussions">
+            Join the waitlist
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Install ──────────────────────────────────────────────────────── */
+
+function Install(): React.JSX.Element {
+  return (
+    <section className={s.section} id="installation">
+      <div className={s.container}>
+        <div style={{textAlign: 'center'}}>
+          <span className={s.sectionLabel}>Get Started</span>
+        </div>
+        <h2 className={s.sectionTitle}>Up and running in seconds.</h2>
+        <p className={s.sectionDesc}>
+          Compiles to a single binary with zero runtime dependencies.
+        </p>
+        <div className={s.installGrid}>
+          <div className={s.installCard}>
+            <div className={s.installStep} aria-hidden="true">1</div>
+            <h3>Prerequisites</h3>
+            <p>Install <a href="https://ziglang.org/download/">Zig</a> 0.15.1 or later from the official site.</p>
+          </div>
+          <div className={s.installCard}>
+            <div className={s.installStep} aria-hidden="true">2</div>
+            <h3>Build</h3>
+            <div className={s.codeBlock}>
+              <code>{`git clone https://github.com/\nEME130/lazymd.git\ncd lazymd && zig build`}</code>
+            </div>
+          </div>
+          <div className={s.installCard}>
+            <div className={s.installStep} aria-hidden="true">3</div>
+            <h3>Run</h3>
+            <div className={s.codeBlock}>
+              <code>{`./zig-out/bin/lm myfile.md`}</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── CTA ──────────────────────────────────────────────────────────── */
+
 function CTASection(): React.JSX.Element {
   return (
     <section className={s.ctaSection}>
       <div className={s.ctaGlow} aria-hidden="true" />
-      <h2 className={s.ctaTitle}>Ready to try lazy-md?</h2>
+      <h2 className={s.ctaTitle}>The future is plain text.</h2>
       <p className={s.ctaDesc}>
-        Open source, MIT licensed, and built to last.
+        Open source, MIT licensed, and built to outlast every proprietary editor
+        that came before it.
       </p>
       <div className={s.heroActions}>
         <Link className={s.btnPrimary} to="/docs/getting-started/installation">
@@ -276,11 +404,13 @@ function CTASection(): React.JSX.Element {
   );
 }
 
+/* ── Page ──────────────────────────────────────────────────────────── */
+
 export default function Home(): React.JSX.Element {
   return (
     <Layout
-      title="Terminal Markdown Editor with Vim Keybindings"
-      description="lazy-md is a fast, terminal-based markdown editor with vim keybindings, live preview, syntax highlighting for 16+ languages, and a plugin system. Written in Zig with zero dependencies. Also works as an MCP server for AI agents.">
+      title="The Editor of the Future"
+      description="LazyMD is the code editor built for the AI era. Plain text is the universal interface. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.">
       <Head>
         <html lang="en" />
       </Head>
@@ -290,10 +420,12 @@ export default function Home(): React.JSX.Element {
           <TerminalDemo />
         </div>
         <SocialProof />
+        <Philosophy />
+        <Interfaces />
         <Features />
-        <Install />
-        <Keybindings />
         <MCPSection />
+        <Teams />
+        <Install />
         <CTASection />
       </main>
     </Layout>

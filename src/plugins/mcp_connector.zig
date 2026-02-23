@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :mcp, :mcp.export, :mcp.context
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "mcp-connector", .version = "0.1.0", .author = "lazy-md contributors", .description = "MCP protocol for AI agent access" };
+    return .{ .name = "mcp-connector", .version = "0.1.0", .author = "LazyMD contributors", .description = "MCP protocol for AI agent access" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;
@@ -59,12 +59,12 @@ fn mcpStatus(event: *plugin.PluginEvent) void {
 fn mcpExport(event: *plugin.PluginEvent) void {
     const editor = event.editor;
 
-    std.fs.cwd().makeDir(".lazy-md") catch |err| switch (err) {
+    std.fs.cwd().makeDir(".LazyMD") catch |err| switch (err) {
         error.PathAlreadyExists => {},
         else => {},
     };
 
-    const file = std.fs.cwd().createFile(".lazy-md/mcp-context.json", .{}) catch {
+    const file = std.fs.cwd().createFile(".lazymd/mcp-context.json", .{}) catch {
         editor.status.set("Failed to create MCP context file", true);
         return;
     };
@@ -106,7 +106,7 @@ fn mcpExport(event: *plugin.PluginEvent) void {
 
     file.writeAll("\"\n}\n") catch {};
 
-    editor.status.set("MCP context exported to .lazy-md/mcp-context.json", false);
+    editor.status.set("MCP context exported to .lazymd/mcp-context.json", false);
 }
 
 fn mcpContext(event: *plugin.PluginEvent) void {
@@ -118,7 +118,7 @@ fn mcpContext(event: *plugin.PluginEvent) void {
         \\
         \\<!-- MCP Context: {s} -->
         \\<!-- AI agents can read this block for context -->
-        \\<!-- vault: lazy-md, format: markdown -->
+        \\<!-- vault: LazyMD, format: markdown -->
         \\
         \\
     , .{context}) catch {

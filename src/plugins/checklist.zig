@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :check, :check.toggle, :check.progress
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "checklist", .version = "0.1.0", .author = "lazy-md contributors", .description = "Checklist management and progress" };
+    return .{ .name = "checklist", .version = "0.1.0", .author = "LazyMD contributors", .description = "Checklist management and progress" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

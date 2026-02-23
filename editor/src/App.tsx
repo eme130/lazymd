@@ -25,7 +25,7 @@ export function App() {
       await connect(url);
       setShowConnect(false);
     } catch {
-      setConnectError('Failed to connect. Is lazy-md --web-server running?');
+      setConnectError('Failed to connect. Is lm --web-server running?');
     }
   }, [connect]);
 

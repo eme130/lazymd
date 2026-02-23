@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :export.html
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "export-html", .version = "0.1.0", .author = "lazy-md contributors", .description = "Export to HTML" };
+    return .{ .name = "export-html", .version = "0.1.0", .author = "LazyMD contributors", .description = "Export to HTML" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -1,0 +1,67 @@
+{
+  "permalink": "/blog/2025/01/01/welcome",
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/blog/2025-01-01-welcome.md",
+  "source": "@site/blog/2025-01-01-welcome.md",
+  "title": "Introducing lazy-md: A Terminal Markdown Editor with Vim Keybindings",
+  "description": "Introducing lazy-md — a fast, terminal-based markdown editor written in Zig with vim keybindings, live preview, syntax highlighting for 16+ languages, 62 built-in plugins, and an MCP server for AI agents.",
+  "date": "2025-01-01T00:00:00.000Z",
+  "tags": [
+    {
+      "inline": true,
+      "label": "announcement",
+      "permalink": "/blog/tags/announcement"
+    },
+    {
+      "inline": true,
+      "label": "terminal-editor",
+      "permalink": "/blog/tags/terminal-editor"
+    },
+    {
+      "inline": true,
+      "label": "vim",
+      "permalink": "/blog/tags/vim"
+    },
+    {
+      "inline": true,
+      "label": "markdown",
+      "permalink": "/blog/tags/markdown"
+    },
+    {
+      "inline": true,
+      "label": "zig",
+      "permalink": "/blog/tags/zig"
+    }
+  ],
+  "readingTime": 1.105,
+  "hasTruncateMarker": true,
+  "authors": [
+    {
+      "name": "lazy-md team",
+      "url": "https://github.com/user/lazy-md",
+      "key": "default",
+      "page": null
+    }
+  ],
+  "frontMatter": {
+    "title": "Introducing lazy-md: A Terminal Markdown Editor with Vim Keybindings",
+    "authors": [
+      "default"
+    ],
+    "tags": [
+      "announcement",
+      "terminal-editor",
+      "vim",
+      "markdown",
+      "zig"
+    ],
+    "description": "Introducing lazy-md — a fast, terminal-based markdown editor written in Zig with vim keybindings, live preview, syntax highlighting for 16+ languages, 62 built-in plugins, and an MCP server for AI agents.",
+    "keywords": [
+      "lazy-md",
+      "terminal markdown editor",
+      "vim editor",
+      "zig editor",
+      "open source editor"
+    ]
+  },
+  "unlisted": false
+}

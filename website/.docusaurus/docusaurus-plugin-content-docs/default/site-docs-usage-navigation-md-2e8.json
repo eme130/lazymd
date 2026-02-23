@@ -1,0 +1,37 @@
+{
+  "id": "usage/navigation",
+  "title": "Navigation",
+  "description": "Complete keyboard navigation reference for lazy-md. Vim motions including hjkl, word jumps, line start/end, page scroll, and count prefixes.",
+  "source": "@site/docs/usage/navigation.md",
+  "sourceDirName": "usage",
+  "slug": "/usage/navigation",
+  "permalink": "/docs/usage/navigation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/usage/navigation.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "Navigation",
+    "sidebar_position": 2,
+    "description": "Complete keyboard navigation reference for lazy-md. Vim motions including hjkl, word jumps, line start/end, page scroll, and count prefixes.",
+    "keywords": [
+      "vim navigation",
+      "hjkl",
+      "keyboard shortcuts",
+      "terminal editor navigation",
+      "vim motions",
+      "lazy-md keybindings"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Editing Modes",
+    "permalink": "/docs/usage/editing-modes"
+  },
+  "next": {
+    "title": "Editing",
+    "permalink": "/docs/usage/editing"
+  }
+}

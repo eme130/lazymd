@@ -11,7 +11,7 @@ active: bool = false,
 
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "zen-mode", .version = "0.1.0", .author = "lazy-md contributors", .description = "Distraction-free writing mode" };
+    return .{ .name = "zen-mode", .version = "0.1.0", .author = "LazyMD contributors", .description = "Distraction-free writing mode" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

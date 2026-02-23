@@ -15,7 +15,7 @@ const FocusType = enum { paragraph, sentence, off };
 
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "focus-mode", .version = "0.1.0", .author = "lazy-md contributors", .description = "Highlight current paragraph/sentence" };
+    return .{ .name = "focus-mode", .version = "0.1.0", .author = "LazyMD contributors", .description = "Highlight current paragraph/sentence" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

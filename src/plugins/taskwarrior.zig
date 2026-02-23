@@ -5,7 +5,7 @@ const Self = @This();
 
 // ── TaskWarrior TUI Plugin ────────────────────────────────────────────
 // Integrates with taskwarrior (https://taskwarrior.org) to display
-// and manage tasks within the lazy-md editor.
+// and manage tasks within the LazyMD editor.
 //
 // Commands:
 //   :tw.list    - List pending tasks
@@ -22,7 +22,7 @@ pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     return .{
         .name = "taskwarrior",
         .version = "0.1.0",
-        .author = "lazy-md contributors",
+        .author = "LazyMD contributors",
         .description = "TaskWarrior TUI integration — view and manage tasks",
     };
 }

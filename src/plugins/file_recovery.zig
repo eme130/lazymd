@@ -4,11 +4,11 @@ const Editor = @import("../Editor.zig");
 const Self = @This();
 
 /// File Recovery plugin — save snapshots for crash recovery.
-/// Saves current buffer to .lazy-md/snapshots/ directory.
+/// Saves current buffer to .lazymd/snapshots/ directory.
 /// Commands: :recover, :recover.list, :recover.save
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "file-recovery", .version = "0.1.0", .author = "lazy-md contributors", .description = "Auto-save snapshots and crash recovery" };
+    return .{ .name = "file-recovery", .version = "0.1.0", .author = "LazyMD contributors", .description = "Auto-save snapshots and crash recovery" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;
@@ -31,11 +31,11 @@ pub fn getCommands(self: *Self) []const plugin.CommandDef {
 }
 
 fn ensureDir() bool {
-    std.fs.cwd().makeDir(".lazy-md") catch |err| switch (err) {
+    std.fs.cwd().makeDir(".LazyMD") catch |err| switch (err) {
         error.PathAlreadyExists => {},
         else => return false,
     };
-    std.fs.cwd().makeDir(".lazy-md/snapshots") catch |err| switch (err) {
+    std.fs.cwd().makeDir(".lazymd/snapshots") catch |err| switch (err) {
         error.PathAlreadyExists => {},
         else => return false,
     };
@@ -46,7 +46,7 @@ fn saveSnapshot(event: *plugin.PluginEvent) void {
     const editor = event.editor;
 
     if (!ensureDir()) {
-        editor.status.set("Cannot create .lazy-md/snapshots/ directory", true);
+        editor.status.set("Cannot create .lazymd/snapshots/ directory", true);
         return;
     }
 
@@ -67,7 +67,7 @@ fn saveSnapshot(event: *plugin.PluginEvent) void {
     };
 
     var path_buf: [192]u8 = undefined;
-    const path = std.fmt.bufPrint(&path_buf, ".lazy-md/snapshots/{s}.{d:0>4}{d:0>2}{d:0>2}-{d:0>2}{d:0>2}{d:0>2}", .{
+    const path = std.fmt.bufPrint(&path_buf, ".lazymd/snapshots/{s}.{d:0>4}{d:0>2}{d:0>2}-{d:0>2}{d:0>2}{d:0>2}", .{
         file_stem,
         yd.year,
         @as(u9, @intFromEnum(md.month)) + 1,
@@ -101,7 +101,7 @@ fn saveSnapshot(event: *plugin.PluginEvent) void {
 fn listSnapshots(event: *plugin.PluginEvent) void {
     const editor = event.editor;
 
-    var dir = std.fs.cwd().openDir(".lazy-md/snapshots", .{ .iterate = true }) catch {
+    var dir = std.fs.cwd().openDir(".lazymd/snapshots", .{ .iterate = true }) catch {
         editor.status.set("No snapshots directory. Use :recover.save first", false);
         return;
     };
@@ -133,7 +133,7 @@ fn listSnapshots(event: *plugin.PluginEvent) void {
 fn recover(event: *plugin.PluginEvent) void {
     const editor = event.editor;
 
-    var dir = std.fs.cwd().openDir(".lazy-md/snapshots", .{ .iterate = true }) catch {
+    var dir = std.fs.cwd().openDir(".lazymd/snapshots", .{ .iterate = true }) catch {
         editor.status.set("No snapshots to recover from", false);
         return;
     };
@@ -168,7 +168,7 @@ fn recover(event: *plugin.PluginEvent) void {
     }
 
     var path_buf: [192]u8 = undefined;
-    const path = std.fmt.bufPrint(&path_buf, ".lazy-md/snapshots/{s}", .{best_name[0..best_len]}) catch {
+    const path = std.fmt.bufPrint(&path_buf, ".lazymd/snapshots/{s}", .{best_name[0..best_len]}) catch {
         editor.status.set("Path error", true);
         return;
     };

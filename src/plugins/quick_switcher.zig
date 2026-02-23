@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :open, :switcher
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "quick-switcher", .version = "0.1.0", .author = "lazy-md contributors", .description = "Fuzzy file switcher" };
+    return .{ .name = "quick-switcher", .version = "0.1.0", .author = "LazyMD contributors", .description = "Fuzzy file switcher" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

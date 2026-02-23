@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :zk.new, :zk.link, :zk.index
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "zettelkasten", .version = "0.1.0", .author = "lazy-md contributors", .description = "Zettelkasten note-taking method" };
+    return .{ .name = "zettelkasten", .version = "0.1.0", .author = "LazyMD contributors", .description = "Zettelkasten note-taking method" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

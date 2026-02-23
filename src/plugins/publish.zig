@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :publish, :publish.build, :publish.preview
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "publish", .version = "0.1.0", .author = "lazy-md contributors", .description = "Publish notes as static site" };
+    return .{ .name = "publish", .version = "0.1.0", .author = "LazyMD contributors", .description = "Publish notes as static site" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

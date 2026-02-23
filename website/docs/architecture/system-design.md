@@ -1,13 +1,13 @@
 ---
 title: System Design
 sidebar_position: 1
-description: Architecture overview of lazy-md — gap buffer, double-buffered rendering, zero-dependency Zig design, vtable plugin system, and module separation.
-keywords: [lazy-md architecture, gap buffer, double buffering, zig terminal editor, vtable pattern, system design]
+description: Architecture overview of LazyMD — gap buffer, double-buffered rendering, zero-dependency Zig design, vtable plugin system, and module separation.
+keywords: [LazyMD architecture, gap buffer, double buffering, zig terminal editor, vtable pattern, system design]
 ---
 
 # System Design
 
-lazy-md is built with clean module separation:
+lm is built with clean module separation:
 
 ```
 main.zig  (Event Loop)

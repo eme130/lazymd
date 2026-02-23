@@ -1,13 +1,13 @@
 ---
 title: Plugin Catalog
 sidebar_position: 2
-description: All 62 built-in plugins for lazy-md — note-taking, productivity, writing modes, markdown extensions, integrations, and export tools. Zettelkasten, kanban, pomodoro, and more.
-keywords: [lazy-md plugins, zettelkasten, kanban, pomodoro, markdown plugins, note taking plugins, built-in plugins, zen mode, daily notes]
+description: All 62 built-in plugins for LazyMD — note-taking, productivity, writing modes, markdown extensions, integrations, and export tools. Zettelkasten, kanban, pomodoro, and more.
+keywords: [LazyMD plugins, zettelkasten, kanban, pomodoro, markdown plugins, note taking plugins, built-in plugins, zen mode, daily notes]
 ---
 
 # Plugin Catalog
 
-lazy-md ships with **62 built-in plugins** covering note-taking, productivity, integrations, and more. All plugins follow the vtable interface pattern.
+lm ships with **62 built-in plugins** covering note-taking, productivity, integrations, and more. All plugins follow the vtable interface pattern.
 
 ## Core Editing
 

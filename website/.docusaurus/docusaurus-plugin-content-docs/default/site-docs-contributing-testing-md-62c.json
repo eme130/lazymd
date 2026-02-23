@@ -1,0 +1,36 @@
+{
+  "id": "contributing/testing",
+  "title": "Running Tests",
+  "description": "How to run the lazy-md test suite with zig build test. Unit tests cover Terminal, Input, Buffer, Editor, Renderer, Layout, Preview, syntax, and plugin modules.",
+  "source": "@site/docs/contributing/testing.md",
+  "sourceDirName": "contributing",
+  "slug": "/contributing/testing",
+  "permalink": "/docs/contributing/testing",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/contributing/testing.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "Running Tests",
+    "sidebar_position": 3,
+    "description": "How to run the lazy-md test suite with zig build test. Unit tests cover Terminal, Input, Buffer, Editor, Renderer, Layout, Preview, syntax, and plugin modules.",
+    "keywords": [
+      "lazy-md tests",
+      "zig build test",
+      "unit tests",
+      "test suite",
+      "zig testing"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Building from Source",
+    "permalink": "/docs/contributing/building"
+  },
+  "next": {
+    "title": "MCP Server",
+    "permalink": "/docs/mcp-server/overview"
+  }
+}

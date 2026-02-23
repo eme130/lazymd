@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :cal, :cal.today, :cal.goto
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "calendar", .version = "0.1.0", .author = "lazy-md contributors", .description = "Visual calendar navigation" };
+    return .{ .name = "calendar", .version = "0.1.0", .author = "LazyMD contributors", .description = "Visual calendar navigation" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

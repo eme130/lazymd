@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :habit, :habit.new, :habit.add
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "habit-tracker", .version = "0.1.0", .author = "lazy-md contributors", .description = "Daily habit tracking" };
+    return .{ .name = "habit-tracker", .version = "0.1.0", .author = "LazyMD contributors", .description = "Daily habit tracking" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

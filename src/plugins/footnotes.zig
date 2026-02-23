@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :fn.add, :fn.list
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "footnotes", .version = "0.1.0", .author = "lazy-md contributors", .description = "Markdown footnote management" };
+    return .{ .name = "footnotes", .version = "0.1.0", .author = "LazyMD contributors", .description = "Markdown footnote management" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

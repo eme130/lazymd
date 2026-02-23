@@ -12,7 +12,7 @@ sessions: u32 = 0,
 
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "pomodoro", .version = "0.1.0", .author = "lazy-md contributors", .description = "Pomodoro focus timer" };
+    return .{ .name = "pomodoro", .version = "0.1.0", .author = "LazyMD contributors", .description = "Pomodoro focus timer" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

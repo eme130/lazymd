@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :plan, :plan.today, :plan.template
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "day-planner", .version = "0.1.0", .author = "lazy-md contributors", .description = "Time-blocked daily planning" };
+    return .{ .name = "day-planner", .version = "0.1.0", .author = "LazyMD contributors", .description = "Time-blocked daily planning" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

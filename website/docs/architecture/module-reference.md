@@ -1,8 +1,8 @@
 ---
 title: Module Reference
 sidebar_position: 2
-description: Complete module reference for the lazy-md codebase — Terminal, Input, Buffer, Editor, Renderer, Layout, Preview, syntax tokenizer, and plugin system.
-keywords: [lazy-md modules, zig modules, terminal editor internals, buffer module, renderer module, code reference]
+description: Complete module reference for the LazyMD codebase — Terminal, Input, Buffer, Editor, Renderer, Layout, Preview, syntax tokenizer, and plugin system.
+keywords: [LazyMD modules, zig modules, terminal editor internals, buffer module, renderer module, code reference]
 ---
 
 # Module Reference

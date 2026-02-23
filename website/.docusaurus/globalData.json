@@ -1,0 +1,138 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "getting-started/installation",
+          "docs": [
+            {
+              "id": "architecture/module-reference",
+              "path": "/docs/architecture/module-reference",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "architecture/system-design",
+              "path": "/docs/architecture/system-design",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "configuration/file-formats",
+              "path": "/docs/configuration/file-formats",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "configuration/themes",
+              "path": "/docs/configuration/themes",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "contributing/building",
+              "path": "/docs/contributing/building",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "contributing/how-to-contribute",
+              "path": "/docs/contributing/how-to-contribute",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "contributing/testing",
+              "path": "/docs/contributing/testing",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "getting-started/first-file",
+              "path": "/docs/getting-started/first-file",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "getting-started/installation",
+              "path": "/docs/getting-started/installation",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "getting-started/quick-start",
+              "path": "/docs/getting-started/quick-start",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "mcp-server/overview",
+              "path": "/docs/mcp-server/overview",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "plugins/api-reference",
+              "path": "/docs/plugins/api-reference",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "plugins/catalog",
+              "path": "/docs/plugins/catalog",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "plugins/development",
+              "path": "/docs/plugins/development",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "plugins/overview",
+              "path": "/docs/plugins/overview",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "usage/brain-graph",
+              "path": "/docs/usage/brain-graph",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "usage/commands",
+              "path": "/docs/usage/commands",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "usage/editing",
+              "path": "/docs/usage/editing",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "usage/editing-modes",
+              "path": "/docs/usage/editing-modes",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "usage/mouse-support",
+              "path": "/docs/usage/mouse-support",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "usage/navigation",
+              "path": "/docs/usage/navigation",
+              "sidebar": "docsSidebar"
+            },
+            {
+              "id": "usage/panels-layout",
+              "path": "/docs/usage/panels-layout",
+              "sidebar": "docsSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "docsSidebar": {
+              "link": {
+                "path": "/docs/getting-started/installation",
+                "label": "getting-started/installation"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

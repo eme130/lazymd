@@ -7,7 +7,7 @@ const Self = @This();
 /// Commands: :project, :project.stats, :project.new
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "project-manager", .version = "0.1.0", .author = "lazy-md contributors", .description = "Switch between project vaults" };
+    return .{ .name = "project-manager", .version = "0.1.0", .author = "LazyMD contributors", .description = "Switch between project vaults" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;
@@ -129,7 +129,7 @@ fn newProject(event: *plugin.PluginEvent) void {
     const tpl = std.fmt.bufPrint(&tpl_buf,
         \\# {s}
         \\
-        \\A lazy-md vault.
+        \\A LazyMD vault.
         \\
         \\## Structure
         \\

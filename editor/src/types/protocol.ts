@@ -1,4 +1,4 @@
-// JSON-RPC 2.0 message types for lazy-md WebSocket protocol
+// JSON-RPC 2.0 message types for LazyMD WebSocket protocol
 
 export interface JsonRpcRequest {
   jsonrpc: '2.0';

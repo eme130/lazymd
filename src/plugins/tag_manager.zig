@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :tags, :tags.search, :tags.add
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "tag-manager", .version = "0.1.0", .author = "lazy-md contributors", .description = "Manage and search #tags" };
+    return .{ .name = "tag-manager", .version = "0.1.0", .author = "LazyMD contributors", .description = "Manage and search #tags" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :random
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "random-note", .version = "0.1.0", .author = "lazy-md contributors", .description = "Open a random note" };
+    return .{ .name = "random-note", .version = "0.1.0", .author = "LazyMD contributors", .description = "Open a random note" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

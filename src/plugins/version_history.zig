@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :history, :history.diff, :history.restore
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "version-history", .version = "0.1.0", .author = "lazy-md contributors", .description = "Document version tracking" };
+    return .{ .name = "version-history", .version = "0.1.0", .author = "LazyMD contributors", .description = "Document version tracking" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

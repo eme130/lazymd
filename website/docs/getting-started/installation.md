@@ -1,28 +1,28 @@
 ---
 title: Installation
 sidebar_position: 1
-description: How to install lazy-md, the terminal-based markdown editor with vim keybindings. Build from source with Zig or download pre-built binaries for Linux and macOS.
-keywords: [lazy-md install, terminal markdown editor install, zig markdown editor, lazy-md setup, build lazy-md]
+description: How to install LazyMD, the terminal-based markdown editor with vim keybindings. Build from source with Zig or download pre-built binaries for Linux and macOS.
+keywords: [LazyMD install, terminal markdown editor install, zig markdown editor, LazyMD setup, build LazyMD]
 ---
 
 # Installation
 
 ## Prerequisites
 
-lazy-md requires [Zig](https://ziglang.org/download/) version 0.15.1 or later.
+lm requires [Zig](https://ziglang.org/download/) version 0.15.1 or later.
 
 ## Build from source
 
 ```bash
 git clone https://github.com/EME130/lazymd.git
-cd lazy-md
+cd lazymd
 zig build
 ```
 
-The compiled binary is at `zig-out/bin/lazy-md`. Move it to your PATH:
+The compiled binary is at `zig-out/bin/lm`. Move it to your PATH:
 
 ```bash
-cp zig-out/bin/lazy-md /usr/local/bin/
+cp zig-out/bin/lm /usr/local/bin/
 ```
 
 ## Pre-built binaries

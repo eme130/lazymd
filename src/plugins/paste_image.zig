@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :paste.img, :paste.link
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "paste-image", .version = "0.1.0", .author = "lazy-md contributors", .description = "Paste images from clipboard" };
+    return .{ .name = "paste-image", .version = "0.1.0", .author = "LazyMD contributors", .description = "Paste images from clipboard" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

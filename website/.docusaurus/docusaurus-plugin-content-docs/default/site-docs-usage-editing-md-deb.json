@@ -1,0 +1,37 @@
+{
+  "id": "usage/editing",
+  "title": "Editing",
+  "description": "Text editing commands in lazy-md — insert mode shortcuts, deletion commands, undo/redo, and all vim editing operations for markdown files.",
+  "source": "@site/docs/usage/editing.md",
+  "sourceDirName": "usage",
+  "slug": "/usage/editing",
+  "permalink": "/docs/usage/editing",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/usage/editing.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "Editing",
+    "sidebar_position": 3,
+    "description": "Text editing commands in lazy-md — insert mode shortcuts, deletion commands, undo/redo, and all vim editing operations for markdown files.",
+    "keywords": [
+      "vim editing commands",
+      "insert mode",
+      "delete line",
+      "undo redo",
+      "terminal text editing",
+      "lazy-md editing"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Navigation",
+    "permalink": "/docs/usage/navigation"
+  },
+  "next": {
+    "title": "Commands",
+    "permalink": "/docs/usage/commands"
+  }
+}
