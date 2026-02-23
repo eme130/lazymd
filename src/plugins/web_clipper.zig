@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :clip, :clip.url, :clip.paste
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "web-clipper", .version = "0.1.0", .author = "lazy-md contributors", .description = "Clip web pages to markdown" };
+    return .{ .name = "web-clipper", .version = "0.1.0", .author = "LazyMD contributors", .description = "Clip web pages to markdown" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

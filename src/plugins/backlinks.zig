@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :backlinks
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "backlinks", .version = "0.1.0", .author = "lazy-md contributors", .description = "Find files linking to current note" };
+    return .{ .name = "backlinks", .version = "0.1.0", .author = "LazyMD contributors", .description = "Find files linking to current note" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -1,0 +1,37 @@
+{
+  "id": "architecture/system-design",
+  "title": "System Design",
+  "description": "Architecture overview of lazy-md — gap buffer, double-buffered rendering, zero-dependency Zig design, vtable plugin system, and module separation.",
+  "source": "@site/docs/architecture/system-design.md",
+  "sourceDirName": "architecture",
+  "slug": "/architecture/system-design",
+  "permalink": "/docs/architecture/system-design",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/architecture/system-design.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "System Design",
+    "sidebar_position": 1,
+    "description": "Architecture overview of lazy-md — gap buffer, double-buffered rendering, zero-dependency Zig design, vtable plugin system, and module separation.",
+    "keywords": [
+      "lazy-md architecture",
+      "gap buffer",
+      "double buffering",
+      "zig terminal editor",
+      "vtable pattern",
+      "system design"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Plugin API Reference",
+    "permalink": "/docs/plugins/api-reference"
+  },
+  "next": {
+    "title": "Module Reference",
+    "permalink": "/docs/architecture/module-reference"
+  }
+}

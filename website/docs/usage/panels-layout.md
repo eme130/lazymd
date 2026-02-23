@@ -1,17 +1,17 @@
 ---
 title: Panels & Layout
 sidebar_position: 5
-description: "lazy-md's multi-panel TUI layout inspired by lazygit: file tree, editor, live markdown preview, and brain graph view. Toggle and resize panels with keyboard shortcuts."
+description: "LazyMD's multi-panel TUI layout inspired by lazygit: file tree, editor, live markdown preview, and brain graph view. Toggle and resize panels with keyboard shortcuts."
 keywords: [multi panel layout, tui layout, terminal ui, lazygit inspired, file tree panel, markdown preview panel, brain graph view, knowledge graph]
 ---
 
 # Panels & Layout
 
-lazy-md features a multi-panel layout inspired by lazygit:
+lm features a multi-panel layout inspired by lazygit:
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  lazy-md v0.1.0   Tab:panels  1:tree  2:preview │
+│  LazyMD v0.1.0   Tab:panels  1:tree  2:preview │
 │                    3:brain  :q quit              │
 ├──────────┬─────────────────────┬─────────────────┤
 │ Files    │  1  # Hello World   │ Preview         │

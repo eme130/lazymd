@@ -1,13 +1,13 @@
 ---
 title: Editing Modes
 sidebar_position: 1
-description: Learn about vim-style modal editing in lazy-md — Normal, Insert, and Command modes. Full vim keybindings for terminal markdown editing.
-keywords: [vim modes, modal editing, normal mode, insert mode, command mode, vim markdown, lazy-md vim]
+description: Learn about vim-style modal editing in LazyMD — Normal, Insert, and Command modes. Full vim keybindings for terminal markdown editing.
+keywords: [vim modes, modal editing, normal mode, insert mode, command mode, vim markdown, LazyMD vim]
 ---
 
 # Editing Modes
 
-lazy-md uses vim-style modal editing with three modes:
+lm uses vim-style modal editing with three modes:
 
 ## Normal Mode
 

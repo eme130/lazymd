@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :meeting, :meeting.new
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "meeting-notes", .version = "0.1.0", .author = "lazy-md contributors", .description = "Structured meeting notes" };
+    return .{ .name = "meeting-notes", .version = "0.1.0", .author = "LazyMD contributors", .description = "Structured meeting notes" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

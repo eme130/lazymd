@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :weekly, :monthly, :quarterly
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "periodic-notes", .version = "0.1.0", .author = "lazy-md contributors", .description = "Weekly and monthly journal notes" };
+    return .{ .name = "periodic-notes", .version = "0.1.0", .author = "LazyMD contributors", .description = "Weekly and monthly journal notes" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

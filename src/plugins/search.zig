@@ -7,7 +7,7 @@ const Self = @This();
 /// Commands: :search, :search.next, :search.vault
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "search", .version = "0.1.0", .author = "lazy-md contributors", .description = "Full-text search in file and vault" };
+    return .{ .name = "search", .version = "0.1.0", .author = "LazyMD contributors", .description = "Full-text search in file and vault" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

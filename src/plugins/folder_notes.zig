@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :folder.index, :folder.create
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "folder-notes", .version = "0.1.0", .author = "lazy-md contributors", .description = "Auto-generate folder index notes" };
+    return .{ .name = "folder-notes", .version = "0.1.0", .author = "LazyMD contributors", .description = "Auto-generate folder index notes" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

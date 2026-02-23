@@ -9,7 +9,7 @@ const Self = @This();
 /// Commands: :journal, :journal.new, :journal.timestamp
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "journal", .version = "0.1.0", .author = "lazy-md contributors", .description = "Chronological journal entries" };
+    return .{ .name = "journal", .version = "0.1.0", .author = "LazyMD contributors", .description = "Chronological journal entries" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

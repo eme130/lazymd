@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :bm.set, :bm.go, :bm.list, :bm.clear
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "bookmarks", .version = "0.1.0", .author = "lazy-md contributors", .description = "Bookmark positions in files" };
+    return .{ .name = "bookmarks", .version = "0.1.0", .author = "LazyMD contributors", .description = "Bookmark positions in files" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

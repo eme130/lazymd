@@ -3,11 +3,11 @@ const plugin = @import("../plugin.zig");
 const Editor = @import("../Editor.zig");
 const Self = @This();
 
-/// Recent Files plugin — tracks recently opened files via .lazy-md/recent.
+/// Recent Files plugin — tracks recently opened files via .lazymd/recent.
 /// Commands: :recent, :recent.clear
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "recent-files", .version = "0.1.0", .author = "lazy-md contributors", .description = "Recently opened files list" };
+    return .{ .name = "recent-files", .version = "0.1.0", .author = "LazyMD contributors", .description = "Recently opened files list" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;
@@ -28,7 +28,7 @@ pub fn getCommands(self: *Self) []const plugin.CommandDef {
     };
 }
 
-const recent_path = ".lazy-md/recent";
+const recent_path = ".lazymd/recent";
 
 fn showRecent(event: *plugin.PluginEvent) void {
     const editor = event.editor;

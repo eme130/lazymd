@@ -9,7 +9,7 @@ const Self = @This();
 /// Commands: :kanban, :kanban.new, :kanban.move
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "kanban", .version = "0.1.0", .author = "lazy-md contributors", .description = "Markdown-based kanban board" };
+    return .{ .name = "kanban", .version = "0.1.0", .author = "LazyMD contributors", .description = "Markdown-based kanban board" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -1,0 +1,37 @@
+{
+  "id": "usage/commands",
+  "title": "Commands",
+  "description": "lazy-md command mode reference — save, quit, open files, and all : commands. Vim-compatible command-line operations for the terminal markdown editor.",
+  "source": "@site/docs/usage/commands.md",
+  "sourceDirName": "usage",
+  "slug": "/usage/commands",
+  "permalink": "/docs/usage/commands",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/usage/commands.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "title": "Commands",
+    "sidebar_position": 4,
+    "description": "lazy-md command mode reference — save, quit, open files, and all : commands. Vim-compatible command-line operations for the terminal markdown editor.",
+    "keywords": [
+      "vim commands",
+      "save quit",
+      "command mode",
+      "wq",
+      "terminal editor commands",
+      "lazy-md commands"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Editing",
+    "permalink": "/docs/usage/editing"
+  },
+  "next": {
+    "title": "Panels & Layout",
+    "permalink": "/docs/usage/panels-layout"
+  }
+}

@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :slides, :slides.next, :slides.prev, :slides.new
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "slides", .version = "0.1.0", .author = "lazy-md contributors", .description = "Terminal presentation slides" };
+    return .{ .name = "slides", .version = "0.1.0", .author = "LazyMD contributors", .description = "Terminal presentation slides" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :reading-time
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "reading-time", .version = "0.1.0", .author = "lazy-md contributors", .description = "Estimate document reading time" };
+    return .{ .name = "reading-time", .version = "0.1.0", .author = "LazyMD contributors", .description = "Estimate document reading time" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

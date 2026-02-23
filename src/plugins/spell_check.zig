@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :spell, :spell.add, :spell.check
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "spell-check", .version = "0.1.0", .author = "lazy-md contributors", .description = "Spell checking for documents" };
+    return .{ .name = "spell-check", .version = "0.1.0", .author = "LazyMD contributors", .description = "Spell checking for documents" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

@@ -37,9 +37,9 @@ export function ConnectDialog({ onConnect, onCancel, error }: Props) {
         role="dialog"
         aria-labelledby="connect-dialog-title"
       >
-        <h2 id="connect-dialog-title" className="connect-dialog__title">Connect to lazy-md</h2>
+        <h2 id="connect-dialog-title" className="connect-dialog__title">Connect to LazyMD</h2>
         <p className="connect-dialog__subtitle">
-          Enter the WebSocket URL of your lazy-md server (lazy-md --web-server)
+          Enter the WebSocket URL of your LazyMD server (lm --web-server)
         </p>
         {error && <div className="connect-dialog__error" role="alert" aria-live="polite">{error}</div>}
         <label htmlFor="ws-url" className="sr-only">WebSocket URL</label>

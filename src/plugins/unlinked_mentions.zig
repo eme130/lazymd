@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :unlinked, :unlinked.link
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "unlinked-mentions", .version = "0.1.0", .author = "lazy-md contributors", .description = "Find unlinked mentions of current note" };
+    return .{ .name = "unlinked-mentions", .version = "0.1.0", .author = "LazyMD contributors", .description = "Find unlinked mentions of current note" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

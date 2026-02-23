@@ -1,0 +1,36 @@
+{
+  "id": "getting-started/first-file",
+  "title": "Your First File",
+  "description": "Open your first markdown file in lazy-md and explore the three-panel layout — file tree, vim editor, and live preview side by side in your terminal.",
+  "source": "@site/docs/getting-started/first-file.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/first-file",
+  "permalink": "/docs/getting-started/first-file",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/getting-started/first-file.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "Your First File",
+    "sidebar_position": 3,
+    "description": "Open your first markdown file in lazy-md and explore the three-panel layout — file tree, vim editor, and live preview side by side in your terminal.",
+    "keywords": [
+      "lazy-md interface",
+      "three panel layout",
+      "markdown file tree",
+      "live markdown preview",
+      "terminal editor layout"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Quick Start",
+    "permalink": "/docs/getting-started/quick-start"
+  },
+  "next": {
+    "title": "Editing Modes",
+    "permalink": "/docs/usage/editing-modes"
+  }
+}

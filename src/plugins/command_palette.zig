@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :palette, :commands, :help
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "command-palette", .version = "0.1.0", .author = "lazy-md contributors", .description = "Fuzzy command palette" };
+    return .{ .name = "command-palette", .version = "0.1.0", .author = "LazyMD contributors", .description = "Fuzzy command palette" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;
@@ -64,7 +64,7 @@ fn openPalette(event: *plugin.PluginEvent) void {
 }
 
 fn showHelp(event: *plugin.PluginEvent) void {
-    event.editor.status.set("lazy-md: :w save | :q quit | :wq save+quit | :e open | :palette commands | :theme themes", false);
+    event.editor.status.set("LazyMD: :w save | :q quit | :wq save+quit | :e open | :palette commands | :theme themes", false);
 }
 
 fn containsIgnoreCase(haystack: []const u8, needle: []const u8) bool {

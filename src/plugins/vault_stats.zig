@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :vault, :vault.health, :vault.summary
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "vault-stats", .version = "0.1.0", .author = "lazy-md contributors", .description = "Vault analytics and statistics" };
+    return .{ .name = "vault-stats", .version = "0.1.0", .author = "LazyMD contributors", .description = "Vault analytics and statistics" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;
@@ -160,7 +160,7 @@ fn insertSummary(event: *plugin.PluginEvent) void {
     }
 
     var buf: [256]u8 = undefined;
-    const summary = std.fmt.bufPrint(&buf, "\n## Vault Summary\n\n- **Notes**: {d}\n- **Folders**: {d}\n- **Editor**: lazy-md\n\n", .{ notes, folders }) catch {
+    const summary = std.fmt.bufPrint(&buf, "\n## Vault Summary\n\n- **Notes**: {d}\n- **Folders**: {d}\n- **Editor**: LazyMD\n\n", .{ notes, folders }) catch {
         editor.status.set("Format error", true);
         return;
     };

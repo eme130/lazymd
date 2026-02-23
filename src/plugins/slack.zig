@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :slack, :slack.format, :slack.share
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "slack", .version = "0.1.0", .author = "lazy-md contributors", .description = "Slack messaging integration" };
+    return .{ .name = "slack", .version = "0.1.0", .author = "LazyMD contributors", .description = "Slack messaging integration" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

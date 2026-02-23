@@ -9,7 +9,7 @@ const Self = @This();
 /// Commands: :refactor.extract, :refactor.split
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "note-refactor", .version = "0.1.0", .author = "lazy-md contributors", .description = "Extract and split notes" };
+    return .{ .name = "note-refactor", .version = "0.1.0", .author = "LazyMD contributors", .description = "Extract and split notes" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

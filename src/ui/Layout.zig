@@ -100,7 +100,7 @@ pub fn renderChrome(self: *Self, surface: *Surface) void {
     const tc = @import("../themes.zig").currentColors();
     // Title bar
     surface.fillRow(self.title_rect.y, ' ', tc.title_fg, tc.title_bg, .{});
-    const title = " lazy-md v0.1.0";
+    const title = " LazyMD v0.1.0";
     surface.putStr(0, 0, title, tc.title_fg, tc.title_bg, .{ .bold = true });
 
     // Keyboard hints on title bar (right-aligned)

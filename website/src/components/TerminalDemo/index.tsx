@@ -3,18 +3,18 @@ import s from './styles.module.css';
 
 export default function TerminalDemo(): React.JSX.Element {
   return (
-    <div className={s.wrapper} role="img" aria-label="Terminal demo showing lazy-md editor with file tree, markdown editor, and live preview panels">
+    <div className={s.wrapper} role="img" aria-label="Terminal demo showing LazyMD editor with file tree, markdown editor, and live preview panels">
       <div className={s.glow} aria-hidden="true" />
       <div className={s.terminalWindow}>
         <div className={s.terminalHeader} aria-hidden="true">
           <span className={`${s.dot} ${s.red}`} />
           <span className={`${s.dot} ${s.yellow}`} />
           <span className={`${s.dot} ${s.green}`} />
-          <span className={s.title}>lazy-md v0.1.0</span>
+          <span className={s.title}>LazyMD v0.1.0</span>
         </div>
         <pre className={s.body} aria-hidden="true">
-<span className={s.bar}>{' lazy-md v0.1.0                    Tab:panels  1:tree  2:preview  :q quit '}</span>
-<span className={s.tree}>{' Files      '}</span><span className={s.gutter}>{' 1 '}</span><span className={s.h1}>{'# Welcome to lazy-md'}</span>{'          '}<span className={s.border}>{'|'}</span><span className={s.preview}> <span className={s.bold}>{'Welcome to lazy-md'}</span></span>
+<span className={s.bar}>{' LazyMD v0.1.0                    Tab:panels  1:tree  2:preview  :q quit '}</span>
+<span className={s.tree}>{' Files      '}</span><span className={s.gutter}>{' 1 '}</span><span className={s.h1}>{'# Welcome to LazyMD'}</span>{'          '}<span className={s.border}>{'|'}</span><span className={s.preview}> <span className={s.bold}>{'Welcome to LazyMD'}</span></span>
 <span className={s.tree}>{'  \u{1F4C1} src    '}</span><span className={s.gutter}>{' 2 '}</span>{'                                  '}<span className={s.border}>{'|'}</span><span className={s.preview}> <span className={s.line}>{'\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550'}</span></span>
 <span className={s.tree}>{'  \u{1F4C4} main   '}</span><span className={s.gutter}>{' 3 '}</span><span className={s.normal}>{'A **fast** terminal editor'}</span>{'       '}<span className={s.border}>{'|'}</span><span className={s.preview}> A <span className={s.bold}>{'fast'}</span> terminal editor</span>
 <span className={s.tree}>{'  \u{1F4C4} README '}</span><span className={s.gutter}>{' 4 '}</span><span className={s.normal}>{'with *vim* keybindings.'}</span>{'         '}<span className={s.border}>{'|'}</span><span className={s.preview}> with <span className={s.italic}>{'vim'}</span> keybindings.</span>

@@ -1,13 +1,13 @@
 ---
 title: Themes
 sidebar_position: 2
-description: 12 built-in color themes for lazy-md — Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night, and more. Syntax highlighting colors for 16 languages with truecolor support.
-keywords: [terminal editor themes, dracula theme, gruvbox, nord, catppuccin, color themes, syntax highlighting colors, lazy-md themes]
+description: 12 built-in color themes for LazyMD — Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night, and more. Syntax highlighting colors for 16 languages with truecolor support.
+keywords: [terminal editor themes, dracula theme, gruvbox, nord, catppuccin, color themes, syntax highlighting colors, LazyMD themes]
 ---
 
 # Themes
 
-lazy-md ships with **12 built-in color themes**. Switch themes using command mode:
+lm ships with **12 built-in color themes**. Switch themes using command mode:
 
 | Command | Action |
 |---------|--------|
@@ -20,7 +20,7 @@ lazy-md ships with **12 built-in color themes**. Switch themes using command mod
 
 | Name | Description |
 |------|-------------|
-| `default` | Default lazy-md theme (16-color terminal) |
+| `default` | Default LazyMD theme (16-color terminal) |
 | `dracula` | Dracula dark theme |
 | `gruvbox` | Gruvbox retro groove |
 | `nord` | Arctic, north-bluish clean |

@@ -1,0 +1,37 @@
+{
+  "id": "contributing/building",
+  "title": "Building from Source",
+  "description": "Build lazy-md from source with Zig — debug builds, release builds, and running directly. Compile the terminal markdown editor yourself.",
+  "source": "@site/docs/contributing/building.md",
+  "sourceDirName": "contributing",
+  "slug": "/contributing/building",
+  "permalink": "/docs/contributing/building",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/contributing/building.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "Building from Source",
+    "sidebar_position": 2,
+    "description": "Build lazy-md from source with Zig — debug builds, release builds, and running directly. Compile the terminal markdown editor yourself.",
+    "keywords": [
+      "build lazy-md",
+      "zig build",
+      "compile from source",
+      "debug build",
+      "release build",
+      "zig project"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "How to Contribute",
+    "permalink": "/docs/contributing/how-to-contribute"
+  },
+  "next": {
+    "title": "Running Tests",
+    "permalink": "/docs/contributing/testing"
+  }
+}

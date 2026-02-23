@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :rename, :rename.preview
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "note-rename", .version = "0.1.0", .author = "lazy-md contributors", .description = "Rename notes with auto link updates" };
+    return .{ .name = "note-rename", .version = "0.1.0", .author = "LazyMD contributors", .description = "Rename notes with auto link updates" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

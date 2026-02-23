@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :emoji, :emoji.search
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "emoji", .version = "0.1.0", .author = "lazy-md contributors", .description = "Emoji shortcode insertion" };
+    return .{ .name = "emoji", .version = "0.1.0", .author = "LazyMD contributors", .description = "Emoji shortcode insertion" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

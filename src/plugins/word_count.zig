@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :wc
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "word-count", .version = "0.1.0", .author = "lazy-md contributors", .description = "Word, line, and character counts" };
+    return .{ .name = "word-count", .version = "0.1.0", .author = "LazyMD contributors", .description = "Word, line, and character counts" };
 }
 
 pub fn pluginInit(self: *Self, editor: *Editor) void {

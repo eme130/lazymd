@@ -1,0 +1,38 @@
+{
+  "id": "usage/editing-modes",
+  "title": "Editing Modes",
+  "description": "Learn about vim-style modal editing in lazy-md — Normal, Insert, and Command modes. Full vim keybindings for terminal markdown editing.",
+  "source": "@site/docs/usage/editing-modes.md",
+  "sourceDirName": "usage",
+  "slug": "/usage/editing-modes",
+  "permalink": "/docs/usage/editing-modes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/usage/editing-modes.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "Editing Modes",
+    "sidebar_position": 1,
+    "description": "Learn about vim-style modal editing in lazy-md — Normal, Insert, and Command modes. Full vim keybindings for terminal markdown editing.",
+    "keywords": [
+      "vim modes",
+      "modal editing",
+      "normal mode",
+      "insert mode",
+      "command mode",
+      "vim markdown",
+      "lazy-md vim"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Your First File",
+    "permalink": "/docs/getting-started/first-file"
+  },
+  "next": {
+    "title": "Navigation",
+    "permalink": "/docs/usage/navigation"
+  }
+}

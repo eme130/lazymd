@@ -7,7 +7,7 @@ const Self = @This();
 /// Commands: :tpl.meeting, :tpl.daily, :tpl.readme, :tpl.blog
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "templates", .version = "0.1.0", .author = "lazy-md contributors", .description = "Markdown document templates" };
+    return .{ .name = "templates", .version = "0.1.0", .author = "LazyMD contributors", .description = "Markdown document templates" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

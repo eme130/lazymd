@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :mindmap, :mindmap.insert
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "mind-map", .version = "0.1.0", .author = "lazy-md contributors", .description = "ASCII mind map from headings" };
+    return .{ .name = "mind-map", .version = "0.1.0", .author = "LazyMD contributors", .description = "ASCII mind map from headings" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;

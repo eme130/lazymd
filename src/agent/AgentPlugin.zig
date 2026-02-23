@@ -126,7 +126,7 @@ fn infoImpl(_: *anyopaque) plugin.PluginInfo {
     return .{
         .name = "agent",
         .version = "0.1.0",
-        .author = "lazy-md",
+        .author = "LazyMD",
         .description = "Bidirectional AI agent communication",
     };
 }

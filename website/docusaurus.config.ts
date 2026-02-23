@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'lazy-md — Terminal Markdown Editor with Vim Keybindings',
-  tagline: 'A fast, terminal-based markdown editor written in Zig. Vim-native modal editing, live preview, syntax highlighting, and a plugin system — all with zero dependencies.',
+  title: 'LazyMD — The Editor of the Future',
+  tagline: 'The code editor built for the AI era. Plain text is the universal interface. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.',
   favicon: 'img/favicon.ico',
 
   url: 'https://lazymd.com',
@@ -12,7 +12,7 @@ const config: Config = {
   trailingSlash: false,
 
   organizationName: 'user',
-  projectName: 'lazy-md',
+  projectName: 'LazyMD',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -25,11 +25,11 @@ const config: Config = {
   headTags: [
     {
       tagName: 'meta',
-      attributes: {name: 'keywords', content: 'markdown editor, terminal markdown editor, vim markdown editor, zig markdown editor, cli markdown editor, tui markdown editor, lazy-md, lazymd, terminal text editor, vim keybindings, live preview markdown, MCP server markdown'},
+      attributes: {name: 'keywords', content: 'code editor, editor of the future, AI code editor, plain text editor, markdown editor, terminal editor, vim editor, zig editor, MCP server, LazyMD, lazymd, multi-platform editor, cooperative coding, team editor'},
     },
     {
       tagName: 'meta',
-      attributes: {name: 'author', content: 'lazy-md'},
+      attributes: {name: 'author', content: 'LazyMD'},
     },
     {
       tagName: 'link',
@@ -41,9 +41,9 @@ const config: Config = {
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
-        name: 'lazy-md',
+        name: 'LazyMD',
         url: 'https://lazymd.com',
-        description: 'A fast, terminal-based markdown editor with vim keybindings, live preview, syntax highlighting for 16+ languages, and a plugin system. Written in Zig with zero dependencies.',
+        description: 'The code editor built for the AI era. Plain text is the universal interface. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.',
         applicationCategory: 'DeveloperApplication',
         operatingSystem: 'Linux, macOS',
         offers: {
@@ -62,7 +62,7 @@ const config: Config = {
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: 'lazy-md',
+        name: 'LazyMD',
         url: 'https://lazymd.com',
         potentialAction: {
           '@type': 'SearchAction',
@@ -104,17 +104,17 @@ const config: Config = {
 
   themeConfig: {
     metadata: [
-      {name: 'description', content: 'lazy-md is a fast, terminal-based markdown editor with vim keybindings, live preview, syntax highlighting, and a plugin system. Built in Zig with zero dependencies.'},
+      {name: 'description', content: 'LazyMD is the code editor built for the AI era. Plain text is the universal interface. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.'},
       {property: 'og:type', content: 'website'},
-      {property: 'og:site_name', content: 'lazy-md'},
-      {property: 'og:title', content: 'lazy-md — Terminal Markdown Editor with Vim Keybindings'},
-      {property: 'og:description', content: 'A fast, terminal-based markdown editor with vim keybindings, live preview, syntax highlighting, and a plugin system. Built in Zig with zero dependencies.'},
+      {property: 'og:site_name', content: 'LazyMD'},
+      {property: 'og:title', content: 'LazyMD — The Editor of the Future'},
+      {property: 'og:description', content: 'The code editor built for the AI era. Plain text is the universal interface. Runs everywhere — terminal, web, native apps, any device.'},
       {property: 'og:url', content: 'https://lazymd.com'},
       {name: 'twitter:card', content: 'summary_large_image'},
-      {name: 'twitter:title', content: 'lazy-md — Terminal Markdown Editor with Vim Keybindings'},
-      {name: 'twitter:description', content: 'A fast, terminal-based markdown editor with vim keybindings, live preview, and zero dependencies. Written in Zig.'},
+      {name: 'twitter:title', content: 'LazyMD — The Editor of the Future'},
+      {name: 'twitter:description', content: 'The code editor built for the AI era. Plain text is the universal interface. Runs everywhere. Written in Zig.'},
       {name: 'robots', content: 'index, follow'},
-      {name: 'theme-color', content: '#6366f1'},
+      {name: 'theme-color', content: '#10b981'},
     ],
     colorMode: {
       defaultMode: 'dark',
@@ -122,7 +122,7 @@ const config: Config = {
       respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'lazy-md',
+      title: 'LazyMD',
       items: [
         {
           type: 'docSidebar',
@@ -166,7 +166,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} lazy-md. Open source under the MIT License.`,
+      copyright: `Copyright © ${new Date().getFullYear()} LazyMD. Open source under the MIT License.`,
     },
     prism: {
       theme: prismThemes.github,

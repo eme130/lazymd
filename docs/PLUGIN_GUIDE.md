@@ -1,10 +1,10 @@
-# lazy-md Plugin Development Guide
+# LazyMD Plugin Development Guide
 
-Build plugins to extend lazy-md with custom commands, UI panels, and editor integrations.
+Build plugins to extend LazyMD with custom commands, UI panels, and editor integrations.
 
 ## Overview
 
-lazy-md's plugin system uses a vtable-based interface pattern. Plugins are Zig modules that implement the `Plugin` interface and register with the `PluginManager`.
+LazyMD's plugin system uses a vtable-based interface pattern. Plugins are Zig modules that implement the `Plugin` interface and register with the `PluginManager`.
 
 ## Quick Start
 
@@ -30,7 +30,7 @@ pub fn pluginInfo(self: *Self) plugin.PluginInfo {
         .name = "my-plugin",
         .version = "0.1.0",
         .author = "Your Name",
-        .description = "A sample lazy-md plugin",
+        .description = "A sample LazyMD plugin",
     };
 }
 

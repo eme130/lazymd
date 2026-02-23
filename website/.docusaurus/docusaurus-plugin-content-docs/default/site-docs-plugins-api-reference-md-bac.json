@@ -1,0 +1,37 @@
+{
+  "id": "plugins/api-reference",
+  "title": "Plugin API Reference",
+  "description": "lazy-md plugin API reference — EventType, PluginInfo, and CommandDef types. Hook into file open, save, buffer changes, mode changes, and cursor events.",
+  "source": "@site/docs/plugins/api-reference.md",
+  "sourceDirName": "plugins",
+  "slug": "/plugins/api-reference",
+  "permalink": "/docs/plugins/api-reference",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/plugins/api-reference.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "title": "Plugin API Reference",
+    "sidebar_position": 4,
+    "description": "lazy-md plugin API reference — EventType, PluginInfo, and CommandDef types. Hook into file open, save, buffer changes, mode changes, and cursor events.",
+    "keywords": [
+      "lazy-md API",
+      "plugin API",
+      "event types",
+      "command definition",
+      "plugin info",
+      "zig API reference"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Developing Plugins",
+    "permalink": "/docs/plugins/development"
+  },
+  "next": {
+    "title": "System Design",
+    "permalink": "/docs/architecture/system-design"
+  }
+}

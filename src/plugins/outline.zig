@@ -9,7 +9,7 @@ const Self = @This();
 /// Commands: :outline, :toc
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "outline", .version = "0.1.0", .author = "lazy-md contributors", .description = "Document outline / table of contents" };
+    return .{ .name = "outline", .version = "0.1.0", .author = "LazyMD contributors", .description = "Document outline / table of contents" };
 }
 
 pub fn pluginInit(self: *Self, editor: *Editor) void {

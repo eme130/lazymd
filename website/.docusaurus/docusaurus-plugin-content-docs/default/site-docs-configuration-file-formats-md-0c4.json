@@ -1,0 +1,36 @@
+{
+  "id": "configuration/file-formats",
+  "title": "File Formats",
+  "description": "File formats supported by lazy-md — standard Markdown (.md) and the .rndm format, both with full syntax highlighting and live preview.",
+  "source": "@site/docs/configuration/file-formats.md",
+  "sourceDirName": "configuration",
+  "slug": "/configuration/file-formats",
+  "permalink": "/docs/configuration/file-formats",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/user/lazy-md/tree/main/website/docs/configuration/file-formats.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "File Formats",
+    "sidebar_position": 1,
+    "description": "File formats supported by lazy-md — standard Markdown (.md) and the .rndm format, both with full syntax highlighting and live preview.",
+    "keywords": [
+      "markdown file format",
+      "rndm format",
+      "md file",
+      "lazy-md file types",
+      "supported formats"
+    ]
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Mouse Support",
+    "permalink": "/docs/usage/mouse-support"
+  },
+  "next": {
+    "title": "Themes",
+    "permalink": "/docs/configuration/themes"
+  }
+}

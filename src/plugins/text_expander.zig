@@ -8,7 +8,7 @@ const Self = @This();
 /// Commands: :expand, :expand.add, :expand.date, :expand.time
 pub fn pluginInfo(self: *Self) plugin.PluginInfo {
     _ = self;
-    return .{ .name = "text-expander", .version = "0.1.0", .author = "lazy-md contributors", .description = "Shorthand text expansion" };
+    return .{ .name = "text-expander", .version = "0.1.0", .author = "LazyMD contributors", .description = "Shorthand text expansion" };
 }
 pub fn pluginInit(self: *Self, editor: *Editor) void {
     _ = self;
@@ -37,7 +37,7 @@ const Expansion = struct {
 };
 
 const builtin_expansions = [_]Expansion{
-    .{ .trigger = ";sig", .replacement = "---\n*lazy-md user*\n" },
+    .{ .trigger = ";sig", .replacement = "---\n*LazyMD user*\n" },
     .{ .trigger = ";br", .replacement = "<br>\n" },
     .{ .trigger = ";hr", .replacement = "\n---\n\n" },
     .{ .trigger = ";todo", .replacement = "- [ ] " },

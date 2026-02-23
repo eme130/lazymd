@@ -1,4 +1,4 @@
-# lazy-md
+# LazyMD
 
 Terminal-based markdown editor written in Zig. Inspired by lazygit/lazydocker.
 
@@ -43,11 +43,11 @@ build.zig.zon        # Package manifest
 
 ## MCP Server Mode
 
-lazy-md is an MCP server. AI agents connect via stdio (JSON-RPC 2.0):
+lm is an MCP server. AI agents connect via stdio (JSON-RPC 2.0):
 
 ```bash
-lazy-md --mcp-server              # Start MCP server
-lazy-md --mcp-server myfile.md    # Start with file preloaded
+lm --mcp-server              # Start MCP server
+lm --mcp-server myfile.md    # Start with file preloaded
 ```
 
 **22 tools exposed**:
@@ -73,20 +73,20 @@ Brain tools (knowledge graph via `[[wiki-links]]`):
 
 ### Claude Code
 ```bash
-claude mcp add lazy-md -- /path/to/lazy-md --mcp-server
+claude mcp add LazyMD -- /path/to/lm --mcp-server
 ```
 
 ### Gemini CLI
 Add to `~/.gemini/settings.json`:
 ```json
-{ "mcpServers": { "lazy-md": { "command": "/path/to/lazy-md", "args": ["--mcp-server"] } } }
+{ "mcpServers": { "LazyMD": { "command": "/path/to/lm", "args": ["--mcp-server"] } } }
 ```
 
 ## Planned Features
 
 - Built-in version control support
 - Extensible plugin system
-- ACP agent mode (host lazy-md as coding agent in Zed/JetBrains)
+- ACP agent mode (host LazyMD as coding agent in Zed/JetBrains)
 
 ## Slash Commands
 

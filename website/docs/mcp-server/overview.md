@@ -1,19 +1,19 @@
 ---
 title: MCP Server
 sidebar_position: 1
-description: Use lazy-md as an MCP (Model Context Protocol) server for AI agents. 22 built-in tools for reading, navigating, editing markdown documents, and querying the knowledge graph via JSON-RPC 2.0 over stdio. Integrates with Claude Code and Gemini CLI.
-keywords: [MCP server, Model Context Protocol, AI agent markdown, Claude Code MCP, Gemini CLI MCP, JSON-RPC markdown, lazy-md MCP, stdio server, wiki-links, backlinks, knowledge graph]
+description: Use LazyMD as an MCP (Model Context Protocol) server for AI agents. 22 built-in tools for reading, navigating, editing markdown documents, and querying the knowledge graph via JSON-RPC 2.0 over stdio. Integrates with Claude Code and Gemini CLI.
+keywords: [MCP server, Model Context Protocol, AI agent markdown, Claude Code MCP, Gemini CLI MCP, JSON-RPC markdown, LazyMD MCP, stdio server, wiki-links, backlinks, knowledge graph]
 ---
 
 # MCP Server
 
-lazy-md includes an MCP (Model Context Protocol) server that lets AI agents interact with markdown documents via JSON-RPC 2.0 over stdio.
+lm includes an MCP (Model Context Protocol) server that lets AI agents interact with markdown documents via JSON-RPC 2.0 over stdio.
 
 ## Starting the server
 
 ```bash
-lazy-md --mcp-server              # Start MCP server
-lazy-md --mcp-server myfile.md    # Start with file preloaded
+lm --mcp-server              # Start MCP server
+lm --mcp-server myfile.md    # Start with file preloaded
 ```
 
 ## 22 tools exposed
@@ -108,7 +108,7 @@ Returns the top 5 most connected notes ranked by total link count.
 ## Integration with Claude Code
 
 ```bash
-claude mcp add lazy-md -- /path/to/lazy-md --mcp-server
+claude mcp add LazyMD -- /path/to/lm --mcp-server
 ```
 
 ## Integration with Gemini CLI
@@ -118,8 +118,8 @@ Add to `~/.gemini/settings.json`:
 ```json
 {
   "mcpServers": {
-    "lazy-md": {
-      "command": "/path/to/lazy-md",
+    "LazyMD": {
+      "command": "/path/to/lm",
       "args": ["--mcp-server"]
     }
   }

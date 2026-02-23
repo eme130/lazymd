@@ -1,13 +1,13 @@
 ---
 title: Brain — Knowledge Graph
 sidebar_position: 7
-description: "Obsidian-style knowledge graph for lazy-md. Visualize [[wiki-link]] connections between notes with a force-directed ASCII layout, backlink discovery, and graph queries via MCP."
+description: "Obsidian-style knowledge graph for LazyMD. Visualize [[wiki-link]] connections between notes with a force-directed ASCII layout, backlink discovery, and graph queries via MCP."
 keywords: [brain, knowledge graph, wiki-links, backlinks, obsidian graph, force directed layout, note connections, graph view]
 ---
 
 # Brain — Knowledge Graph
 
-The brain feature gives lazy-md an Obsidian-style knowledge graph. It scans your vault for `[[wiki-links]]` and visualizes connections between notes as a force-directed ASCII graph.
+The brain feature gives LazyMD an Obsidian-style knowledge graph. It scans your vault for `[[wiki-links]]` and visualizes connections between notes as a force-directed ASCII graph.
 
 ## How it works
 
