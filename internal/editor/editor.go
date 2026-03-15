@@ -166,6 +166,18 @@ func (e *EditorModel) OpenFile(path string) error {
 	return nil
 }
 
+// LoadContent loads text directly into the buffer without file I/O.
+// Used for help pages and other generated content.
+func (e *EditorModel) LoadContent(name string, content string) {
+	e.Buf.SetContent(content)
+	e.File = name
+	e.Row = 0
+	e.Col = 0
+	e.ScrollRow = 0
+	e.ScrollCol = 0
+	e.SetStatus("", false)
+}
+
 // Save writes the buffer to the current file path.
 func (e *EditorModel) Save() error {
 	if e.File == "" {
