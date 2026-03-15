@@ -8,6 +8,7 @@ import (
 	tea "charm.land/bubbletea/v2"
 	"github.com/EME130/lazymd/internal/agent"
 	"github.com/EME130/lazymd/internal/buffer"
+	"github.com/EME130/lazymd/internal/demo"
 	"github.com/EME130/lazymd/internal/mcp"
 	"github.com/EME130/lazymd/internal/ui"
 	"github.com/EME130/lazymd/internal/web"
@@ -19,6 +20,7 @@ func main() {
 	webServer := flag.Bool("web-server", false, "Start web server mode")
 	port := flag.Int("port", 8080, "Web server port")
 	agentMode := flag.Bool("agent", false, "Start agent mode")
+	demoMode := flag.Bool("demo", false, "Launch with demo vault")
 	flag.Parse()
 
 	switch {
@@ -87,6 +89,19 @@ func main() {
 		args := flag.Args()
 		if len(args) > 0 {
 			filePath = args[0]
+		}
+		if *demoMode {
+			vaultPath, err := demo.CreateVault()
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Failed to create demo vault: %v\n", err)
+				os.Exit(1)
+			}
+			defer demo.CleanupVault(vaultPath)
+			if err := os.Chdir(vaultPath); err != nil {
+				fmt.Fprintf(os.Stderr, "Failed to enter demo vault: %v\n", err)
+				os.Exit(1)
+			}
+			filePath = "welcome.md"
 		}
 		app := ui.NewApp(filePath)
 		p := tea.NewProgram(app)
