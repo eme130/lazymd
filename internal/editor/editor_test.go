@@ -207,3 +207,54 @@ func TestLoadContent(t *testing.T) {
 		t.Fatal("expected buffer to not be dirty after LoadContent")
 	}
 }
+
+func TestHelpCommandLoadsContent(t *testing.T) {
+	buf := buffer.New()
+	ed := New(buf)
+	ed.CmdBuf = "help brain"
+	ed.executeCommand()
+
+	if ed.File != "[help:brain]" {
+		t.Errorf("expected file '[help:brain]', got %q", ed.File)
+	}
+	if ed.Buf.LineCount() < 2 {
+		t.Error("expected help content to be loaded")
+	}
+}
+
+func TestHelpCommandDefaultsToOverview(t *testing.T) {
+	buf := buffer.New()
+	ed := New(buf)
+	ed.CmdBuf = "help"
+	ed.executeCommand()
+
+	if ed.File != "[help:overview]" {
+		t.Errorf("expected file '[help:overview]', got %q", ed.File)
+	}
+}
+
+func TestHelpCommandUnknownTopic(t *testing.T) {
+	buf := buffer.New()
+	ed := New(buf)
+	ed.CmdBuf = "help nonexistent"
+	ed.executeCommand()
+
+	if !ed.Status.IsError {
+		t.Error("expected error status for unknown topic")
+	}
+}
+
+func TestHelpCommandBlockedByDirtyBuffer(t *testing.T) {
+	buf := buffer.New()
+	buf.InsertString(0, "dirty content")
+	ed := New(buf)
+	ed.CmdBuf = "help"
+	ed.executeCommand()
+
+	if !ed.Status.IsError {
+		t.Error("expected error status for dirty buffer")
+	}
+	if ed.Buf.Line(0) != "dirty content" {
+		t.Error("expected buffer content to be unchanged")
+	}
+}
