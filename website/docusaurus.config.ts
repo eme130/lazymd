@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'LazyMD — The Editor of the Future',
-  tagline: 'The text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.',
+  tagline: 'The text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Go with zero dependencies.',
   favicon: 'img/favicon.ico',
 
   url: 'https://lazymd.com',
@@ -25,7 +25,7 @@ const config: Config = {
   headTags: [
     {
       tagName: 'meta',
-      attributes: {name: 'keywords', content: 'text editor, editor of the future, AI text editor, plain text editor, markdown editor, terminal editor, vim editor, zig editor, MCP server, LazyMD, lazymd, multi-platform editor, collaboration, team editor'},
+      attributes: {name: 'keywords', content: 'text editor, editor of the future, AI text editor, plain text editor, markdown editor, terminal editor, vim editor, go editor, MCP server, LazyMD, lazymd, multi-platform editor, collaboration, team editor'},
     },
     {
       tagName: 'meta',
@@ -43,7 +43,7 @@ const config: Config = {
         '@type': 'SoftwareApplication',
         name: 'LazyMD',
         url: 'https://lazymd.com',
-        description: 'The text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.',
+        description: 'The text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Go with zero dependencies.',
         applicationCategory: 'BusinessApplication',
         operatingSystem: 'Linux, macOS',
         offers: {
@@ -52,7 +52,7 @@ const config: Config = {
           priceCurrency: 'USD',
         },
         license: 'https://opensource.org/licenses/MIT',
-        programmingLanguage: 'Zig',
+        programmingLanguage: 'Go',
         codeRepository: 'https://github.com/EME130/lazymd',
       }),
     },
@@ -104,7 +104,7 @@ const config: Config = {
 
   themeConfig: {
     metadata: [
-      {name: 'description', content: 'LazyMD is the text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.'},
+      {name: 'description', content: 'LazyMD is the text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Go with zero dependencies.'},
       {property: 'og:type', content: 'website'},
       {property: 'og:site_name', content: 'LazyMD'},
       {property: 'og:title', content: 'LazyMD — The Editor of the Future'},
@@ -112,7 +112,7 @@ const config: Config = {
       {property: 'og:url', content: 'https://lazymd.com'},
       {name: 'twitter:card', content: 'summary_large_image'},
       {name: 'twitter:title', content: 'LazyMD — The Editor of the Future'},
-      {name: 'twitter:description', content: 'The text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere. Written in Zig.'},
+      {name: 'twitter:description', content: 'The text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere. Written in Go.'},
       {name: 'robots', content: 'index, follow'},
       {name: 'theme-color', content: '#10b981'},
     ],
@@ -172,7 +172,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
-      additionalLanguages: ['bash', 'zig', 'json', 'yaml'],
+      additionalLanguages: ['bash', 'go', 'json', 'yaml'],
     },
   } satisfies Preset.ThemeConfig,
 };

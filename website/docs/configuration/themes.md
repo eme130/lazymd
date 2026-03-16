@@ -54,4 +54,4 @@ All 12 themes include dedicated syntax highlighting colors for code blocks. Thes
 
 ### Supported Languages
 
-Syntax highlighting is available for 16 languages: Zig, Python, JavaScript, TypeScript, Rust, Go, C, C++, Bash, JSON, YAML, HTML, CSS, SQL, Lua, Ruby, and Java.
+Syntax highlighting is available for 16 languages: Go, Python, JavaScript, TypeScript, Rust, Zig, C, C++, Bash, JSON, YAML, HTML, CSS, SQL, Lua, Ruby, and Java.
