@@ -115,11 +115,11 @@ Find the most connected notes in the vault, ranked by total link count.
 ## Architecture
 
 ```
-src/brain/
-  Graph.zig     — Graph data structure (nodes, edges, backlinks, BFS neighbors)
-  Scanner.zig   — Recursive vault scanner with wiki-link extraction
-src/ui/
-  BrainView.zig — Force-directed ASCII graph panel with interactive navigation
+internal/brain/
+  graph.go      — Graph data structure (nodes, edges, backlinks, BFS neighbors)
+  scanner.go    — Recursive vault scanner with wiki-link extraction
+internal/ui/
+  brainview.go  — Force-directed ASCII graph panel with interactive navigation
 ```
 
 The graph is built once at startup by scanning the working directory. The force-directed layout runs iteratively until convergence (typically 30-50 iterations).

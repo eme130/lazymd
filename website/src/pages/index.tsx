@@ -15,7 +15,7 @@ function Hero(): React.JSX.Element {
       <div className={s.heroInner}>
         <div className={s.heroTag}>
           <span className={s.heroTagDot} aria-hidden="true" />
-          Open Source &mdash; Written in Zig
+          Open Source &mdash; Written in Go
         </div>
         <h1 className={s.heroTitle}>
           The editor<br />
@@ -43,7 +43,7 @@ function Hero(): React.JSX.Element {
 /* ── Social Proof ─────────────────────────────────────────────────── */
 
 const badges: Array<[string, string]> = [
-  ['\u26A1', 'Written in Zig'],
+  ['\u26A1', 'Written in Go'],
   ['\u{1F517}', 'MCP Protocol'],
   ['\u2328', 'Vim Keybindings'],
   ['\u{1F4E6}', 'Single Binary'],
@@ -192,9 +192,9 @@ const features = [
   {icon: '\u2328', title: 'Vim-Native Editing', desc: 'Full modal editing with Normal, Insert, and Command modes. Navigate with hjkl, motions with w/b, delete with dd, undo with u \u2014 muscle-memory compatible.', wide: false},
   {icon: '\u25CE', title: 'Live Preview', desc: 'Rendered markdown in a side panel. Headers, bold, italic, code blocks with syntax highlighting \u2014 all updating as you type.', wide: false},
   {icon: '\u2588', title: 'Multi-Panel Layout', desc: 'Inspired by lazygit \u2014 file tree, editor, preview, and brain graph side by side. Toggle panels with Alt+1/2/3.', wide: false},
-  {icon: '\u2726', title: 'Syntax Highlighting', desc: 'Built-in highlighting for Zig, Python, JavaScript, TypeScript, Rust, Go, C, C++, Java, and 16+ languages. Theme-aware colors with a pluggable highlighter backend.', wide: true},
+  {icon: '\u2726', title: 'Syntax Highlighting', desc: 'Built-in highlighting for Go, Python, JavaScript, TypeScript, Rust, Zig, C, C++, Java, and 16+ languages. Theme-aware colors with a pluggable highlighter backend.', wide: true},
   {icon: '\u2699', title: 'Plugin System', desc: 'Register custom commands, hook into editor events, add panels. Build and share community plugins.', wide: false},
-  {icon: '\u2192', title: 'Zero Dependencies', desc: 'Pure Zig using only POSIX termios and ANSI escape codes. No runtime dependencies. Fast startup, tiny single binary.', wide: false},
+  {icon: '\u2192', title: 'Zero Dependencies', desc: 'Pure Go with Bubble Tea and Lip Gloss. No runtime dependencies. Fast startup, tiny single binary.', wide: false},
   {icon: '\u2387', title: 'Mouse Support', desc: 'Click to position cursor, scroll with mouse wheel, click panels to focus. Works in iTerm2, Alacritty, kitty, and more.', wide: false},
   {icon: '\u2B21', title: 'MCP Server', desc: 'Built-in Model Context Protocol server with 22 tools. AI agents like Claude Code and Gemini CLI connect via JSON-RPC 2.0 over stdio.', wide: false},
   {icon: '\u{1F9E0}', title: 'Brain: Knowledge Graph', desc: 'Obsidian-style graph view for [[wiki-links]]. Visualize connections between notes with a force-directed ASCII layout. Navigate, explore backlinks, and find orphan notes.', wide: true},
@@ -360,20 +360,20 @@ function Install(): React.JSX.Element {
           <div className={s.installCard}>
             <div className={s.installStep} aria-hidden="true">1</div>
             <h3>Prerequisites</h3>
-            <p>Install <a href="https://ziglang.org/download/">Zig</a> 0.15.1 or later from the official site.</p>
+            <p>Install <a href="https://go.dev/dl/">Go</a> 1.24.2 or later from the official site.</p>
           </div>
           <div className={s.installCard}>
             <div className={s.installStep} aria-hidden="true">2</div>
             <h3>Build</h3>
             <div className={s.codeBlock}>
-              <code>{`git clone https://github.com/\nEME130/lazymd.git\ncd lazymd && zig build`}</code>
+              <code>{`git clone https://github.com/\nEME130/lazymd.git\ncd lazymd && go build ./cmd/lm`}</code>
             </div>
           </div>
           <div className={s.installCard}>
             <div className={s.installStep} aria-hidden="true">3</div>
             <h3>Run</h3>
             <div className={s.codeBlock}>
-              <code>{`./zig-out/bin/lm myfile.md`}</code>
+              <code>{`./lm myfile.md`}</code>
             </div>
           </div>
         </div>
@@ -445,7 +445,7 @@ export default function Home(): React.JSX.Element {
   return (
     <Layout
       title="The Editor of the Future"
-      description="LazyMD is the text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Zig with zero dependencies.">
+      description="LazyMD is the text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Go with zero dependencies.">
       <Head>
         <html lang="en" />
       </Head>
