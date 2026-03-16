@@ -43,6 +43,16 @@
         "hooks": [
           {
             "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && go vet ./... 2>&1 | tail -5",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
             "command": "cd \"$CLAUDE_PROJECT_DIR\" && go build ./... 2>&1 | tail -5",
             "timeout": 30
           }
