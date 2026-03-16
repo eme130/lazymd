@@ -115,7 +115,7 @@ Add to `~/.gemini/settings.json`:
 
 ## Slash Commands
 
-Go dev: `/release`, `/changelog`, `/issue-triage`, `/contrib-guide`
+Go dev: `/release`, `/changelog`, `/issue-triage`, `/contrib-guide`, `/go-test`, `/go-debug`
 
 ## Hooks
 

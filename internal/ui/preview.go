@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/EME130/lazymd/internal/buffer"
@@ -8,6 +9,8 @@ import (
 	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
 )
+
+var headingRe = regexp.MustCompile(`^(#{1,6})\s+(.+)$`)
 
 // PreviewModel renders a markdown preview using Glamour.
 type PreviewModel struct {
@@ -41,7 +44,108 @@ func (p *PreviewModel) ScrollDown(n int) {
 	p.scrollOff += n
 }
 
-// RenderNow performs the glamour render immediately (called from Update on debounce tick).
+// headingBorder returns the lipgloss border style for a heading level.
+func headingBorder(level int) lipgloss.Border {
+	switch level {
+	case 1:
+		return lipgloss.ThickBorder()
+	case 2:
+		return lipgloss.DoubleBorder()
+	case 3:
+		return lipgloss.NormalBorder()
+	default:
+		return lipgloss.RoundedBorder()
+	}
+}
+
+// headingColor returns the theme color for a heading level.
+func headingColor(c *themes.ThemeColors, level int) themes.Color {
+	switch level {
+	case 1:
+		return c.H1
+	case 2:
+		return c.H2
+	case 3:
+		return c.H3
+	case 4:
+		return c.H4
+	case 5:
+		return c.H5
+	default:
+		return c.H6
+	}
+}
+
+// renderHeading renders a heading as a bordered box.
+func renderHeading(text string, level, width int) string {
+	c := themes.CurrentColors()
+	color := headingColor(c, level)
+	innerW := width - 4 // account for border + padding
+	if innerW < 4 {
+		innerW = 4
+	}
+
+	style := lipgloss.NewStyle().
+		Bold(true).
+		Foreground(lipgloss.Color(color)).
+		Border(headingBorder(level)).
+		BorderForeground(lipgloss.Color(color)).
+		Width(innerW).
+		Padding(0, 1)
+
+	return style.Render(text)
+}
+
+// segment represents a chunk of markdown content — either a heading or a block of regular text.
+type segment struct {
+	isHeading bool
+	level     int    // heading level (1-6), only set if isHeading
+	text      string // heading text (stripped of #) or raw markdown block
+}
+
+// splitSegments splits markdown into heading and non-heading segments.
+func splitSegments(content string) []segment {
+	lines := strings.Split(content, "\n")
+	var segments []segment
+	var block []string
+	inFencedBlock := false
+
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+
+		// Track fenced code blocks to avoid treating # inside them as headings
+		if strings.HasPrefix(trimmed, "```") {
+			inFencedBlock = !inFencedBlock
+		}
+
+		if !inFencedBlock {
+			if m := headingRe.FindStringSubmatch(line); m != nil {
+				// Flush accumulated non-heading block
+				if len(block) > 0 {
+					segments = append(segments, segment{text: strings.Join(block, "\n")})
+					block = nil
+				}
+				segments = append(segments, segment{
+					isHeading: true,
+					level:     len(m[1]),
+					text:      strings.TrimSpace(m[2]),
+				})
+				continue
+			}
+		}
+
+		block = append(block, line)
+	}
+
+	// Flush remaining block
+	if len(block) > 0 {
+		segments = append(segments, segment{text: strings.Join(block, "\n")})
+	}
+
+	return segments
+}
+
+// RenderNow performs the render immediately (called from Update on debounce tick).
 func (p *PreviewModel) RenderNow(buf *buffer.Buffer, rect Rect) {
 	if buf.Length() == 0 {
 		p.rendered = ""
@@ -57,7 +161,7 @@ func (p *PreviewModel) RenderNow(buf *buffer.Buffer, rect Rect) {
 	// Recreate renderer if width changed or first use
 	if p.renderer == nil || p.lastWidth != wrapWidth {
 		r, err := glamour.NewTermRenderer(
-			glamour.WithAutoStyle(),
+			glamour.WithStandardStyle("dark"),
 			glamour.WithWordWrap(wrapWidth),
 		)
 		if err == nil {
@@ -67,16 +171,28 @@ func (p *PreviewModel) RenderNow(buf *buffer.Buffer, rect Rect) {
 	}
 
 	content := buf.Content()
-	if p.renderer != nil {
-		rendered, err := p.renderer.Render(content)
-		if err == nil {
-			p.rendered = rendered
+	segs := splitSegments(content)
+
+	var parts []string
+	for _, seg := range segs {
+		if seg.isHeading {
+			parts = append(parts, renderHeading(seg.text, seg.level, rect.W-2))
 		} else {
-			p.rendered = content
+			// Render non-heading markdown with Glamour
+			if p.renderer != nil {
+				rendered, err := p.renderer.Render(seg.text)
+				if err == nil {
+					parts = append(parts, rendered)
+				} else {
+					parts = append(parts, seg.text)
+				}
+			} else {
+				parts = append(parts, seg.text)
+			}
 		}
-	} else {
-		p.rendered = content
 	}
+
+	p.rendered = strings.Join(parts, "\n")
 	p.dirty = false
 }
 
