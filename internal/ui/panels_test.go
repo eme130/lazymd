@@ -144,10 +144,12 @@ func TestBrainViewLayoutConverges(t *testing.T) {
 
 	bv.SetGraph(g)
 	for range 200 {
-		bv.StepLayout()
+		if !bv.Animate() {
+			break
+		}
 	}
-	if !bv.settled {
-		t.Error("expected layout to settle")
+	if bv.IsAnimating() {
+		t.Error("expected animation to settle")
 	}
 }
 

@@ -7,16 +7,17 @@ import (
 
 	"github.com/EME130/lazymd/internal/brain"
 	"github.com/EME130/lazymd/internal/themes"
+	"github.com/charmbracelet/harmonica"
 	"github.com/charmbracelet/lipgloss"
 )
 
 // Force-directed layout constants.
 const (
-	maxIterations = 100
-	repulsion     = 500.0
-	attraction    = 0.05
+	maxIterations = 150
+	bhTheta       = 0.8  // Barnes-Hut threshold (higher = faster, less accurate)
+	attraction    = 0.02 // edge attraction (lower = more spread)
 	damping       = 0.9
-	centerPull    = 0.01
+	centerPull    = 0.005
 	minDist       = 1.0
 )
 
@@ -27,18 +28,31 @@ type cell struct {
 	style lipgloss.Style
 }
 
+// nodeSpring holds per-node spring animation state.
+type nodeSpring struct {
+	x, xVel float64
+	y, yVel float64
+}
+
 // BrainViewModel displays the knowledge graph as a force-directed ASCII layout.
 type BrainViewModel struct {
-	Graph        *brain.Graph
-	positions    []pos
-	SelectedNode int
-	CurrentFile  int // node ID of current file, -1 if none
-	LocalMode    bool
-	settled      bool
-	iteration    int
-	viewportX    float64
-	viewportY    float64
-	zoom         float64
+	Graph           *brain.Graph
+	positions       []pos // current display positions (animated)
+	targetPositions []pos // final layout positions
+	SelectedNode    int
+	CurrentFile     int // node ID of current file, -1 if none
+	LocalMode       bool
+	viewportX       float64
+	viewportY       float64
+	zoom            float64
+
+	// Spring animation
+	spring    harmonica.Spring
+	springs   []nodeSpring
+	animating bool
+
+	// Spatial index for viewport culling (rebuilt after animation settles)
+	spatialIndex *quadTree
 }
 
 // NewBrainView creates a new brain view model.
@@ -47,34 +61,203 @@ func NewBrainView() BrainViewModel {
 		SelectedNode: 0,
 		CurrentFile:  -1,
 		zoom:         1.0,
+		spring:       harmonica.NewSpring(harmonica.FPS(60), 6.0, 0.7),
 	}
 }
 
-// SetGraph sets the graph and initializes node positions.
+// SetGraph sets the graph, computes the final layout, and starts spring animation.
 func (bv *BrainViewModel) SetGraph(g *brain.Graph) {
 	bv.Graph = g
-	bv.settled = false
-	bv.iteration = 0
 	bv.positions = nil
+	bv.targetPositions = nil
+	bv.springs = nil
+	bv.animating = false
+	bv.spatialIndex = nil
 
 	n := len(g.Nodes)
 	if n == 0 {
 		return
 	}
 
-	bv.positions = make([]pos, n)
-	radius := float64(min(n*3, 40))
-	for i := range bv.positions {
+	// Initial circular positions — spread wide
+	startPositions := make([]pos, n)
+	radius := math.Max(float64(n*6), 30)
+	for i := range startPositions {
 		angle := float64(i) * (2.0 * math.Pi / float64(n))
-		bv.positions[i] = pos{
+		startPositions[i] = pos{
 			x: radius * math.Cos(angle),
 			y: radius * math.Sin(angle),
 		}
 	}
 
+	// Compute final layout using Barnes-Hut, then normalize
+	bv.targetPositions = bv.computeLayout(g, startPositions)
+	normalizePositions(bv.targetPositions)
+
+	// Set display positions to start and init springs
+	bv.positions = make([]pos, n)
+	bv.springs = make([]nodeSpring, n)
+	for i := range n {
+		bv.positions[i] = startPositions[i]
+		bv.springs[i] = nodeSpring{
+			x: startPositions[i].x, xVel: 0,
+			y: startPositions[i].y, yVel: 0,
+		}
+	}
+	bv.animating = true
+
 	if bv.SelectedNode >= n {
 		bv.SelectedNode = 0
 	}
+}
+
+// computeLayout runs the Barnes-Hut force-directed algorithm to completion.
+func (bv *BrainViewModel) computeLayout(g *brain.Graph, initial []pos) []pos {
+	n := len(g.Nodes)
+	if n <= 1 {
+		result := make([]pos, n)
+		copy(result, initial)
+		return result
+	}
+
+	// Scale repulsion up for small graphs so nodes don't collapse
+	repStrength := math.Max(2000.0, 500.0*math.Sqrt(float64(n)))
+
+	positions := make([]pos, n)
+	copy(positions, initial)
+	forces := make([]pos, n)
+
+	for iter := range maxIterations {
+		// Clear forces
+		for i := range forces {
+			forces[i] = pos{}
+		}
+
+		// Build quadtree for Barnes-Hut repulsion
+		qt := newQuadTree(positions)
+
+		// Barnes-Hut repulsion: O(n log n) instead of O(n²)
+		for i := 0; i < n; i++ {
+			bhRepulse(qt.root, i, positions[i].x, positions[i].y, &forces[i], repStrength)
+		}
+
+		// Attraction along edges: O(e)
+		for _, edge := range g.Edges {
+			dx := positions[edge.To].x - positions[edge.From].x
+			dy := positions[edge.To].y - positions[edge.From].y
+			fx := dx * attraction
+			fy := dy * attraction
+			forces[edge.From].x += fx
+			forces[edge.From].y += fy
+			forces[edge.To].x -= fx
+			forces[edge.To].y -= fy
+		}
+
+		// Center pull + apply with damping
+		maxMove := 0.0
+		for i := 0; i < n; i++ {
+			forces[i].x -= positions[i].x * centerPull
+			forces[i].y -= positions[i].y * centerPull
+			fx := forces[i].x * damping
+			fy := forces[i].y * damping
+			positions[i].x += fx
+			positions[i].y += fy
+			move := math.Abs(fx) + math.Abs(fy)
+			if move > maxMove {
+				maxMove = move
+			}
+		}
+
+		if maxMove < 0.1 || iter >= maxIterations-1 {
+			break
+		}
+	}
+
+	return positions
+}
+
+// bhRepulse computes Barnes-Hut repulsion force on node i from a quadtree node.
+func bhRepulse(node *quadNode, i int, px, py float64, force *pos, repStrength float64) {
+	if node == nil || node.count == 0 {
+		return
+	}
+
+	dx := node.comX - px
+	dy := node.comY - py
+	dist := math.Sqrt(dx*dx + dy*dy)
+
+	// If it's a leaf with a single item that is this node, skip
+	if node.children[0] == nil && node.count == 1 && len(node.items) == 1 && node.items[0].id == i {
+		return
+	}
+
+	// Barnes-Hut criterion: if the cell is far enough away, treat as one body
+	size := node.bounds.maxX - node.bounds.minX
+	if node.children[0] == nil || (dist > 0 && size/dist < bhTheta) {
+		if dist < minDist {
+			dist = minDist
+			dx = 0.5
+			dy = 0.5
+		}
+		f := repStrength * float64(node.count) / (dist * dist)
+		force.x -= (dx / dist) * f
+		force.y -= (dy / dist) * f
+		return
+	}
+
+	// Recurse into children
+	for _, child := range node.children {
+		bhRepulse(child, i, px, py, force, repStrength)
+	}
+}
+
+// Animate steps the spring animation forward one frame. Returns true if still animating.
+func (bv *BrainViewModel) Animate() bool {
+	if !bv.animating || bv.Graph == nil {
+		return false
+	}
+
+	n := len(bv.Graph.Nodes)
+	if n == 0 || len(bv.springs) != n || len(bv.targetPositions) != n {
+		bv.animating = false
+		return false
+	}
+
+	settled := true
+	for i := range n {
+		bv.springs[i].x, bv.springs[i].xVel = bv.spring.Update(
+			bv.springs[i].x, bv.springs[i].xVel, bv.targetPositions[i].x,
+		)
+		bv.springs[i].y, bv.springs[i].yVel = bv.spring.Update(
+			bv.springs[i].y, bv.springs[i].yVel, bv.targetPositions[i].y,
+		)
+
+		bv.positions[i].x = bv.springs[i].x
+		bv.positions[i].y = bv.springs[i].y
+
+		dx := math.Abs(bv.springs[i].x - bv.targetPositions[i].x)
+		dy := math.Abs(bv.springs[i].y - bv.targetPositions[i].y)
+		vel := math.Abs(bv.springs[i].xVel) + math.Abs(bv.springs[i].yVel)
+		if dx > 0.5 || dy > 0.5 || vel > 0.1 {
+			settled = false
+		}
+	}
+
+	if settled {
+		for i := range n {
+			bv.positions[i] = bv.targetPositions[i]
+		}
+		bv.animating = false
+		// Build spatial index now that positions are final
+		bv.spatialIndex = newQuadTree(bv.positions)
+	}
+
+	return bv.animating
+}
+
+// IsAnimating returns whether the brain view is currently animating.
+func (bv *BrainViewModel) IsAnimating() bool {
+	return bv.animating
 }
 
 // SetCurrentFile sets the current file node by name.
@@ -89,78 +272,56 @@ func (bv *BrainViewModel) SetCurrentFile(name string) {
 	}
 }
 
-// StepLayout runs one iteration of the force-directed layout.
-func (bv *BrainViewModel) StepLayout() {
-	if bv.settled || bv.iteration >= maxIterations {
-		return
+// SelectedPath returns the file path of the currently selected node, or "".
+func (bv *BrainViewModel) SelectedPath() string {
+	if bv.Graph == nil {
+		return ""
 	}
-	g := bv.Graph
-	if g == nil {
-		return
+	n := len(bv.Graph.Nodes)
+	if bv.SelectedNode < 0 || bv.SelectedNode >= n {
+		return ""
 	}
-	n := len(g.Nodes)
+	return bv.Graph.Nodes[bv.SelectedNode].Path
+}
+
+// normalizePositions centers and scales positions to fill a reasonable range. O(n).
+func normalizePositions(positions []pos) {
+	n := len(positions)
 	if n <= 1 {
-		bv.settled = true
 		return
 	}
 
-	forces := make([]pos, n)
-
-	// Repulsion between all pairs
-	for i := 0; i < n; i++ {
-		for j := i + 1; j < n; j++ {
-			dx := bv.positions[j].x - bv.positions[i].x
-			dy := bv.positions[j].y - bv.positions[i].y
-			dist := math.Sqrt(dx*dx + dy*dy)
-			if dist < minDist {
-				dist = minDist
-				dx = 0.5
-				dy = 0.5
-			}
-			force := repulsion / (dist * dist)
-			fx := (dx / dist) * force
-			fy := (dy / dist) * force
-			forces[i].x -= fx
-			forces[i].y -= fy
-			forces[j].x += fx
-			forces[j].y += fy
+	// Find bounding box — single pass
+	minX, maxX := positions[0].x, positions[0].x
+	minY, maxY := positions[0].y, positions[0].y
+	for _, p := range positions[1:] {
+		if p.x < minX {
+			minX = p.x
+		}
+		if p.x > maxX {
+			maxX = p.x
+		}
+		if p.y < minY {
+			minY = p.y
+		}
+		if p.y > maxY {
+			maxY = p.y
 		}
 	}
 
-	// Attraction along edges
-	for _, edge := range g.Edges {
-		dx := bv.positions[edge.To].x - bv.positions[edge.From].x
-		dy := bv.positions[edge.To].y - bv.positions[edge.From].y
-		fx := dx * attraction
-		fy := dy * attraction
-		forces[edge.From].x += fx
-		forces[edge.From].y += fy
-		forces[edge.To].x -= fx
-		forces[edge.To].y -= fy
+	// Center + scale in one pass
+	cx := (minX + maxX) / 2
+	cy := (minY + maxY) / 2
+	span := math.Max(maxX-minX, maxY-minY)
+	if span < 1 {
+		span = 1
 	}
+	target := math.Max(40, float64(n)*8)
+	scale := target / span
 
-	// Center pull
-	for i := 0; i < n; i++ {
-		forces[i].x -= bv.positions[i].x * centerPull
-		forces[i].y -= bv.positions[i].y * centerPull
-	}
-
-	// Apply forces with damping
-	maxMove := 0.0
-	for i := 0; i < n; i++ {
-		fx := forces[i].x * damping
-		fy := forces[i].y * damping
-		bv.positions[i].x += fx
-		bv.positions[i].y += fy
-		move := math.Abs(fx) + math.Abs(fy)
-		if move > maxMove {
-			maxMove = move
-		}
-	}
-
-	bv.iteration++
-	if maxMove < 0.1 || bv.iteration >= maxIterations {
-		bv.settled = true
+	for i := range positions {
+		positions[i].x = (positions[i].x - cx) * scale
+		positions[i].y = (positions[i].y - cy) * scale
 	}
 }
 
@@ -173,7 +334,71 @@ func (bv *BrainViewModel) MoveSelection(delta int) {
 	if n == 0 {
 		return
 	}
-	bv.SelectedNode = ((bv.SelectedNode + delta) % n + n) % n
+	bv.SelectedNode = ((bv.SelectedNode+delta)%n + n) % n
+}
+
+// PanView pans the viewport by the given delta.
+func (bv *BrainViewModel) PanView(dx, dy float64) {
+	bv.viewportX += dx
+	bv.viewportY += dy
+}
+
+// Zoom adjusts zoom level by delta, clamped to [0.1, 5.0].
+func (bv *BrainViewModel) Zoom(delta float64) {
+	bv.zoom += delta
+	if bv.zoom < 0.1 {
+		bv.zoom = 0.1
+	}
+	if bv.zoom > 5.0 {
+		bv.zoom = 5.0
+	}
+}
+
+// ResetView resets viewport and zoom to defaults.
+func (bv *BrainViewModel) ResetView() {
+	bv.viewportX = 0
+	bv.viewportY = 0
+	bv.zoom = 1.0
+}
+
+// CenterOnSelected pans the viewport to center the selected node.
+func (bv *BrainViewModel) CenterOnSelected() {
+	if bv.Graph == nil || bv.SelectedNode < 0 || bv.SelectedNode >= len(bv.positions) {
+		return
+	}
+	p := bv.positions[bv.SelectedNode]
+	bv.viewportX = p.x * bv.zoom
+	bv.viewportY = p.y * bv.zoom * 0.5
+}
+
+// nodeHeat returns a 0.0-1.0 connectivity score for a node.
+func nodeHeat(node *brain.Node, maxLinks int) float64 {
+	if maxLinks <= 0 {
+		return 0
+	}
+	links := len(node.OutLinks) + len(node.InLinks)
+	h := float64(links) / float64(maxLinks)
+	if h > 1.0 {
+		h = 1.0
+	}
+	return h
+}
+
+// visibleWorldRect computes the world-space rectangle visible in the viewport.
+func (bv *BrainViewModel) visibleWorldRect(gridW, gridH int) rect2D {
+	cx := float64(gridW) / 2.0
+	cy := float64(gridH) / 2.0
+	z := bv.zoom
+	if z < 0.01 {
+		z = 0.01
+	}
+	// Invert worldToScreen: wx = (sx - cx + vpX) / zoom
+	return rect2D{
+		minX: (0 - cx + bv.viewportX) / z,
+		maxX: (float64(gridW) - cx + bv.viewportX) / z,
+		minY: (0 - cy + bv.viewportY) / (z * 0.5),
+		maxY: (float64(gridH) - cy + bv.viewportY) / (z * 0.5),
+	}
 }
 
 // View renders the brain view panel.
@@ -196,16 +421,18 @@ func (bv *BrainViewModel) View(rect Rect) string {
 		return style.Render("  No notes found")
 	}
 
-	// Run layout steps
-	if !bv.settled {
-		for range 3 {
-			bv.StepLayout()
+	// Find max link count for heat mapping
+	maxLinks := 0
+	for i := range g.Nodes {
+		links := len(g.Nodes[i].OutLinks) + len(g.Nodes[i].InLinks)
+		if links > maxLinks {
+			maxLinks = links
 		}
 	}
 
 	// Create a character grid
-	gridW := rect.W - 2 // account for border
-	gridH := rect.H - 2 // status line + border
+	gridW := rect.W - 2
+	gridH := rect.H - 2
 	if gridW < 1 {
 		gridW = 1
 	}
@@ -225,14 +452,17 @@ func (bv *BrainViewModel) View(rect Rect) string {
 	cy := float64(gridH) / 2.0
 
 	worldToScreen := func(wx, wy float64) (int, int) {
-		sx := int((wx*bv.zoom-bv.viewportX)+cx)
-		sy := int((wy*bv.zoom*0.5-bv.viewportY)+cy) // 0.5 aspect ratio
+		sx := int((wx*bv.zoom - bv.viewportX) + cx)
+		sy := int((wy*bv.zoom*0.5 - bv.viewportY) + cy)
 		return sx, sy
 	}
 
-	// Determine visible nodes
-	visible := make([]int, 0, n)
+	// Determine visible nodes with viewport culling
+	worldRect := bv.visibleWorldRect(gridW, gridH)
+
+	var visible []int
 	if bv.LocalMode {
+		// Local mode: BFS neighbors (small set, no culling needed)
 		center := bv.SelectedNode
 		if bv.CurrentFile >= 0 {
 			center = bv.CurrentFile
@@ -241,9 +471,15 @@ func (bv *BrainViewModel) View(rect Rect) string {
 		for _, nid := range neighbors {
 			visible = append(visible, int(nid))
 		}
+	} else if bv.spatialIndex != nil && !bv.animating {
+		// Use quadtree for O(log n + k) viewport culling
+		visible = bv.spatialIndex.queryRange(worldRect)
 	} else {
+		// Fallback: linear scan with bounds check
 		for i := 0; i < n; i++ {
-			visible = append(visible, i)
+			if worldRect.contains(bv.positions[i].x, bv.positions[i].y) {
+				visible = append(visible, i)
+			}
 		}
 	}
 
@@ -252,16 +488,43 @@ func (bv *BrainViewModel) View(rect Rect) string {
 		isVis[v] = true
 	}
 
-	// Draw edges as dots
-	edgeDot := lipgloss.NewStyle().Foreground(lipgloss.Color(c.Border))
+	// Build set of nodes directly connected to selected node
+	connectedToSelected := make([]bool, n)
+	if bv.SelectedNode >= 0 && bv.SelectedNode < n {
+		sel := g.Nodes[bv.SelectedNode]
+		for _, id := range sel.OutLinks {
+			connectedToSelected[id] = true
+		}
+		for _, id := range sel.InLinks {
+			connectedToSelected[id] = true
+		}
+	}
+
+	// Edge styles
+	edgeDim := lipgloss.NewStyle().Foreground(lipgloss.Color(c.TextMuted))
+	edgeLit := lipgloss.NewStyle().Foreground(lipgloss.Color(c.Border))
+	edgeActive := lipgloss.NewStyle().Foreground(lipgloss.Color(c.BorderActive))
+
+	// Draw edges as sparse dots (only if both endpoints visible)
 	for _, edge := range g.Edges {
-		if !isVis[int(edge.From)] || !isVis[int(edge.To)] {
+		if !isVis[int(edge.From)] && !isVis[int(edge.To)] {
 			continue
 		}
 		x1, y1 := worldToScreen(bv.positions[edge.From].x, bv.positions[edge.From].y)
 		x2, y2 := worldToScreen(bv.positions[edge.To].x, bv.positions[edge.To].y)
-		drawLineOnGrid(grid, gridW, gridH, x1, y1, x2, y2, '·', edgeDot)
+
+		eStyle := edgeDim
+		if int(edge.From) == bv.SelectedNode || int(edge.To) == bv.SelectedNode {
+			eStyle = edgeActive
+		} else if int(edge.From) == bv.CurrentFile || int(edge.To) == bv.CurrentFile {
+			eStyle = edgeLit
+		}
+
+		drawDottedLine(grid, gridW, gridH, x1, y1, x2, y2, eStyle)
 	}
+
+	// Heat color tiers
+	heatColors := []string{c.TextMuted, c.Text, string(c.Link), string(c.H2), string(c.H1)}
 
 	// Draw nodes
 	for _, nid := range visible {
@@ -270,36 +533,63 @@ func (bv *BrainViewModel) View(rect Rect) string {
 			continue
 		}
 
+		node := &g.Nodes[nid]
 		isSelected := nid == bv.SelectedNode
 		isCurrent := nid == bv.CurrentFile
 
-		var nodeStyle lipgloss.Style
-		marker := '•'
-		if isCurrent {
-			nodeStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(c.Success)).Bold(true)
-			marker = '◉'
-		} else if isSelected {
-			nodeStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(c.BorderActive)).Bold(true)
-			marker = '○'
+		var nodeColor string
+		if isSelected {
+			nodeColor = string(c.BorderActive)
+		} else if isCurrent {
+			nodeColor = string(c.Success)
+		} else if connectedToSelected[nid] {
+			nodeColor = string(c.H5)
 		} else {
-			nodeStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(c.Text))
+			heat := nodeHeat(node, maxLinks)
+			idx := int(heat * float64(len(heatColors)-1))
+			if idx >= len(heatColors) {
+				idx = len(heatColors) - 1
+			}
+			nodeColor = heatColors[idx]
 		}
 
-		grid[sy][sx] = cell{ch: marker, style: nodeStyle}
+		nodeStyle := lipgloss.NewStyle().Foreground(lipgloss.Color(nodeColor))
+		boldStyle := nodeStyle.Bold(true)
 
-		// Draw label after marker
-		label := g.Nodes[nid].Name
-		maxLen := gridW - sx - 2
+		marker := '●'
+		if isCurrent {
+			marker = '◉'
+		} else if isSelected {
+			marker = '◈'
+		} else if len(node.OutLinks)+len(node.InLinks) == 0 {
+			marker = '○'
+		}
+
+		grid[sy][sx] = cell{ch: marker, style: boldStyle}
+
+		// Label with link count
+		label := node.Name
+		linkCount := len(node.OutLinks) + len(node.InLinks)
+		badge := ""
+		if linkCount > 0 {
+			badge = fmt.Sprintf(" (%d)", linkCount)
+		}
+		fullLabel := " " + label + badge
+		maxLen := gridW - sx - 1
 		if maxLen > 0 {
-			if len(label) > maxLen {
-				label = label[:maxLen]
+			if len(fullLabel) > maxLen {
+				fullLabel = fullLabel[:maxLen]
 			}
-			for ci, ch := range label {
+			labelStyle := nodeStyle
+			if isSelected || isCurrent {
+				labelStyle = boldStyle
+			}
+			for ci, ch := range fullLabel {
 				col := sx + 1 + ci
 				if col >= gridW {
 					break
 				}
-				grid[sy][col] = cell{ch: ch, style: nodeStyle}
+				grid[sy][col] = cell{ch: ch, style: labelStyle}
 			}
 		}
 	}
@@ -322,8 +612,12 @@ func (bv *BrainViewModel) View(rect Rect) string {
 		if bv.LocalMode {
 			mode = "LOCAL"
 		}
-		status = fmt.Sprintf(" %s  out:%d in:%d  [%s]",
-			node.Name, len(node.OutLinks), len(node.InLinks), mode)
+		hint := "⏎ dive in"
+		if bv.LocalMode {
+			hint = "⏎ dive in  ⌫ back"
+		}
+		status = fmt.Sprintf(" %s  ↗%d ↙%d  [%s]  %s",
+			node.Name, len(node.OutLinks), len(node.InLinks), mode, hint)
 	}
 	statusStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color(c.TitleFg)).Bold(true)
@@ -337,8 +631,8 @@ func (bv *BrainViewModel) View(rect Rect) string {
 	return border.Render(content)
 }
 
-// drawLineOnGrid draws a simple line of characters between two points using Bresenham-lite.
-func drawLineOnGrid(grid [][]cell, gridW, gridH, x1, y1, x2, y2 int, ch rune, style lipgloss.Style) {
+// drawDottedLine draws a sparse dotted line between two points.
+func drawDottedLine(grid [][]cell, gridW, gridH, x1, y1, x2, y2 int, style lipgloss.Style) {
 	dx := x2 - x1
 	dy := y2 - y1
 	steps := abs(dx)
@@ -357,11 +651,16 @@ func drawLineOnGrid(grid [][]cell, gridW, gridH, x1, y1, x2, y2 int, ch rune, st
 	px := float64(x1)
 	py := float64(y1)
 
-	for range steps {
+	for i := range steps {
+		if i%2 == 0 {
+			px += sx
+			py += sy
+			continue
+		}
 		ix := int(px)
 		iy := int(py)
 		if ix >= 0 && ix < gridW && iy >= 0 && iy < gridH {
-			grid[iy][ix] = cell{ch: ch, style: style}
+			grid[iy][ix] = cell{ch: '·', style: style}
 		}
 		px += sx
 		py += sy

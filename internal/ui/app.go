@@ -7,6 +7,7 @@ import (
 	"time"
 
 	tea "charm.land/bubbletea/v2"
+	"github.com/EME130/lazymd/internal/brain"
 	"github.com/EME130/lazymd/internal/buffer"
 	"github.com/EME130/lazymd/internal/editor"
 	"github.com/EME130/lazymd/internal/plugins"
@@ -57,16 +58,30 @@ func NewApp(filePath string) AppModel {
 
 // Init implements tea.Model.
 func (m AppModel) Init() tea.Cmd {
+	var cmds []tea.Cmd
 	if m.initFile != "" {
-		return func() tea.Msg {
+		cmds = append(cmds, func() tea.Msg {
 			return fileLoadMsg{path: m.initFile}
-		}
+		})
 	}
-	return nil
+	// Scan cwd for wiki-links to build brain graph
+	cwd, _ := os.Getwd()
+	cmds = append(cmds, func() tea.Msg {
+		g, err := brain.Scan(cwd)
+		if err != nil || g.NodeCount() == 0 {
+			return nil
+		}
+		return brainScanMsg{graph: g}
+	})
+	return tea.Batch(cmds...)
 }
 
 type fileLoadMsg struct {
 	path string
+}
+
+type brainScanMsg struct {
+	graph *brain.Graph
 }
 
 // previewTickMsg fires after a debounce delay to trigger preview re-render.
@@ -74,9 +89,18 @@ type previewTickMsg struct {
 	seq int
 }
 
+// brainTickMsg fires at 60fps to drive brain view spring animation.
+type brainTickMsg struct{}
+
 func previewDebounceCmd(seq int) tea.Cmd {
 	return tea.Tick(250*time.Millisecond, func(time.Time) tea.Msg {
 		return previewTickMsg{seq: seq}
+	})
+}
+
+func brainTickCmd() tea.Cmd {
+	return tea.Tick(time.Second/60, func(time.Time) tea.Msg {
+		return brainTickMsg{}
 	})
 }
 
@@ -93,6 +117,13 @@ func (m AppModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.previewSeq++
 		return m, previewDebounceCmd(m.previewSeq)
 
+	case brainScanMsg:
+		m.brain.SetGraph(msg.graph)
+		if m.layout.ShowBrain && m.brain.IsAnimating() {
+			return m, brainTickCmd()
+		}
+		return m, nil
+
 	case fileLoadMsg:
 		if err := m.editor.OpenFile(msg.path); err != nil {
 			m.editor.SetStatus(fmt.Sprintf("Failed to open: %v", err), true)
@@ -107,6 +138,15 @@ func (m AppModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Only re-render if this is the latest debounce
 		if msg.seq == m.previewSeq && m.preview.dirty {
 			m.preview.RenderNow(m.editor.Buf, m.layout.PreviewRect)
+		}
+		return m, nil
+
+	case brainTickMsg:
+		if m.layout.ShowBrain && m.brain.IsAnimating() {
+			m.brain.Animate()
+			if m.brain.IsAnimating() {
+				return m, brainTickCmd()
+			}
 		}
 		return m, nil
 
@@ -135,8 +175,8 @@ func (m AppModel) handleMouseClick(msg tea.MouseClickMsg) (tea.Model, tea.Cmd) {
 	switch panel {
 	case PanelEditor:
 		// Click to place cursor
-		bodyY := msg.Y - m.layout.TitleH
-		if bodyY >= 0 && bodyY < m.layout.EditorRect.H {
+		bodyY := msg.Y - m.layout.TitleH - 1 // -1 for panel header
+		if bodyY >= 0 && bodyY < m.layout.EditorRect.H-1 {
 			gutterW := 4
 			editorX := msg.X - m.layout.TreeRect.W - gutterW - 1
 			if editorX >= 0 {
@@ -158,8 +198,8 @@ func (m AppModel) handleMouseClick(msg tea.MouseClickMsg) (tea.Model, tea.Cmd) {
 		}
 
 	case PanelFileTree:
-		bodyY := msg.Y - m.layout.TitleH
-		if bodyY >= 0 && bodyY < m.layout.TreeRect.H {
+		bodyY := msg.Y - m.layout.TitleH - 1 // -1 for panel header
+		if bodyY >= 0 && bodyY < m.layout.TreeRect.H-1 {
 			idx := m.fileTree.ScrollOff + bodyY
 			if idx < len(m.fileTree.Entries) {
 				m.fileTree.Cursor = idx
@@ -246,13 +286,13 @@ func (m AppModel) handleKeyPress(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 	// Global panel toggles (work from any panel in normal mode or non-editor panels)
 	if m.layout.ActivePanel != PanelEditor || m.editor.Mode() == editor.ModeNormal {
 		switch key {
-		case "alt+1":
+		case "ctrl+1":
 			m.layout.TogglePanel(PanelFileTree)
 			m.layout.Compute(m.width, m.height)
 			m.editor.ViewWidth = m.layout.EditorRect.W
 			m.editor.ViewHeight = m.layout.EditorRect.H
 			return m, nil
-		case "alt+2":
+		case "ctrl+2":
 			m.layout.TogglePanel(PanelPreview)
 			m.layout.Compute(m.width, m.height)
 			m.editor.ViewWidth = m.layout.EditorRect.W
@@ -260,11 +300,14 @@ func (m AppModel) handleKeyPress(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 			m.preview.Invalidate()
 			m.previewSeq++
 			return m, previewDebounceCmd(m.previewSeq)
-		case "alt+3":
+		case "ctrl+3":
 			m.layout.TogglePanel(PanelBrain)
 			m.layout.Compute(m.width, m.height)
 			m.editor.ViewWidth = m.layout.EditorRect.W
 			m.editor.ViewHeight = m.layout.EditorRect.H
+			if m.layout.ShowBrain && m.brain.IsAnimating() {
+				return m, brainTickCmd()
+			}
 			return m, nil
 		case "tab":
 			m.layout.CyclePanel()
@@ -335,20 +378,63 @@ func (m AppModel) handleKeyPress(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 
 	case PanelBrain:
 		switch key {
+		// Selection
 		case "j", "down":
 			m.brain.MoveSelection(1)
 		case "k", "up":
 			m.brain.MoveSelection(-1)
+
+		// Navigate into / out of nodes
+		case "enter":
+			path := m.brain.SelectedPath()
+			if path != "" {
+				cwd, _ := os.Getwd()
+				fullPath := path
+				if !strings.HasPrefix(path, "/") {
+					fullPath = cwd + "/" + path
+				}
+				if err := m.editor.OpenFile(fullPath); err != nil {
+					m.editor.SetStatus(fmt.Sprintf("Failed to open: %v", err), true)
+				} else {
+					m.preview.Invalidate()
+					m.previewSeq++
+					cmd = previewDebounceCmd(m.previewSeq)
+				}
+				m.brain.CurrentFile = m.brain.SelectedNode
+				m.brain.LocalMode = true
+				m.brain.viewportX = 0
+				m.brain.viewportY = 0
+			}
+		case "backspace":
+			m.brain.LocalMode = false
+			m.brain.CurrentFile = -1
+			m.brain.viewportX = 0
+			m.brain.viewportY = 0
+
+		// Pan: h/l horizontal, ctrl+j/ctrl+k vertical (j/k reserved for selection)
+		case "h":
+			m.brain.PanView(-5, 0)
+		case "l":
+			m.brain.PanView(5, 0)
+		case "ctrl+j":
+			m.brain.PanView(0, 3)
+		case "ctrl+k":
+			m.brain.PanView(0, -3)
+
+		// Zoom
+		case "+", "=":
+			m.brain.Zoom(0.2)
+		case "-":
+			m.brain.Zoom(-0.2)
+
+		// View controls
+		case "0":
+			m.brain.ResetView()
+		case "c":
+			m.brain.CenterOnSelected()
 		case "f":
 			m.brain.LocalMode = !m.brain.LocalMode
-		case "+", "=":
-			m.brain.zoom = min(m.brain.zoom+0.2, 3.0)
-		case "-":
-			m.brain.zoom = max(m.brain.zoom-0.2, 0.3)
-		case "h":
-			m.brain.viewportX -= 3
-		case "l":
-			m.brain.viewportX += 3
+
 		case "esc":
 			m.layout.ActivePanel = PanelEditor
 		}
