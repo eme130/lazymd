@@ -427,7 +427,6 @@ export default function Home(): React.JSX.Element {
         <MCPSection />
         <Teams />
         <Install />
-        <BuyMeACigarette />
         <CTASection />
       </main>
     </Layout>
