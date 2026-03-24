@@ -112,3 +112,43 @@ func (s *spyBackend) OnOperation(_ *pluginapi.BackendContext, _ *pluginapi.Opera
 func (s *spyBackend) OnEvent(_ *pluginapi.BackendContext, _ *pluginapi.Event) {}
 func (s *spyBackend) Commands() []pluginapi.CommandDef                        { return nil }
 func (s *spyBackend) Capabilities() []pluginapi.Capability                    { return nil }
+
+func TestEngineBroadcastEventToFrontends(t *testing.T) {
+	eng := NewEngine()
+	eng.SetContexts(
+		&pluginapi.FrontendContext{},
+		&pluginapi.BackendContext{},
+	)
+
+	received := false
+	eng.RegisterFrontend(&spyFrontend{onEvent: func(e *pluginapi.Event) {
+		if e.Type == pluginapi.EventFileSaved {
+			received = true
+		}
+	}})
+
+	eng.BroadcastEvent(pluginapi.NewEvent(pluginapi.EventFileSaved))
+
+	if !received {
+		t.Error("frontend plugin should have received the event")
+	}
+}
+
+// Add spyFrontend helper at the bottom of the file:
+
+type spyFrontend struct {
+	onEvent func(e *pluginapi.Event)
+}
+
+func (s *spyFrontend) Info() pluginapi.PluginInfo         { return pluginapi.PluginInfo{Name: "spy-frontend"} }
+func (s *spyFrontend) Init(_ *pluginapi.FrontendContext) error { return nil }
+func (s *spyFrontend) Shutdown() error                     { return nil }
+func (s *spyFrontend) OnEvent(_ *pluginapi.FrontendContext, e *pluginapi.Event) {
+	if s.onEvent != nil {
+		s.onEvent(e)
+	}
+}
+func (s *spyFrontend) Render(_, _ int) string                    { return "" }
+func (s *spyFrontend) KeyBindings() []pluginapi.KeyBinding       { return nil }
+func (s *spyFrontend) Commands() []pluginapi.FrontendCommandDef  { return nil }
+func (s *spyFrontend) StatusItems() []pluginapi.StatusItem       { return nil }

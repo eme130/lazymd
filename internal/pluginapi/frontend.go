@@ -7,6 +7,9 @@ type FrontendPlugin interface {
 	Init(ctx *FrontendContext) error
 	Shutdown() error
 
+	// OnEvent is called when the core broadcasts an event.
+	OnEvent(ctx *FrontendContext, event *Event)
+
 	// Render returns content for a panel. Return "" if this plugin has no panel.
 	Render(width, height int) string
 
@@ -24,7 +27,8 @@ type FrontendPlugin interface {
 type FrontendContext struct {
 	Emit   func(op *Operation) // emit operation into the IR pipeline
 	Editor EditorAPI
-	Nav    NavAPI  // nil if unavailable
+	Nav    NavAPI   // nil if unavailable
+	Brain  BrainAPI // nil if unavailable
 	Theme  ThemeAPI // nil if unavailable
 	Log    func(msg string)
 }

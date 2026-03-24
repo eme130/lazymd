@@ -124,6 +124,9 @@ func (e *Engine) Emit(op *pluginapi.Operation) {
 
 // BroadcastEvent sends an event to all frontend and backend plugins.
 func (e *Engine) BroadcastEvent(event *pluginapi.Event) {
+	for _, f := range e.frontends {
+		f.OnEvent(e.frontendCtx, event)
+	}
 	for _, b := range e.backends {
 		b.OnEvent(e.backendCtx, event)
 	}
