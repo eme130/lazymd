@@ -18,14 +18,14 @@ function Hero(): React.JSX.Element {
           Open Source &mdash; Written in Go
         </div>
         <h1 className={s.heroTitle}>
-          The editor<br />
-          <em className={s.heroTitleItalic}>of the future.</em>
+          The compiler<br />
+          <em className={s.heroTitleItalic}>for mortals.</em>
         </h1>
         <p className={s.heroSubtitle}>
-          Not another Obsidian alternative. LazyMD is the text editor for
-          philosophers, product engineers, founders, lawyers, researchers
-          &mdash; anyone turning raw thought into structured clarity.
-          Plain text is your alchemy.
+          Not another Obsidian alternative. LazyMD is an LLVM-inspired
+          markdown compiler for philosophers, product engineers, founders,
+          lawyers, researchers &mdash; anyone turning raw thought into
+          structured output. Plain text in, anything out.
         </p>
         <div className={s.heroActions}>
           <Link className={s.btnPrimary} to="/docs/getting-started/installation">
@@ -72,9 +72,9 @@ function SocialProof(): React.JSX.Element {
 
 const philosophy = [
   {
-    icon: '\u2728',
-    title: 'AI agents speak markdown',
-    desc: 'Every LLM reads, writes, and thinks in plain text. Markdown is the native language of AI-assisted thinking \u2014 no proprietary format stands between you and your tools.',
+    icon: '\u2726',
+    title: 'LLVM for prose',
+    desc: 'LazyMD follows the LLVM architecture: a universal frontend parses markdown into an intermediate representation. Backends compile it to any target \u2014 HTML, PDF, slides, structured data, or AI-consumable context.',
   },
   {
     icon: '\u2696',
@@ -89,7 +89,7 @@ const philosophy = [
   {
     icon: '\u2318',
     title: 'Human-readable, machine-parseable',
-    desc: 'Plain text is the only format that both humans and machines read natively. No schema, no compilation step. Open a file and it just makes sense.',
+    desc: 'Plain text is the only format that both humans and machines read natively. No schema, no runtime. Open a file and it just makes sense \u2014 to you and to every AI agent.',
   },
 ];
 
@@ -101,12 +101,12 @@ function Philosophy(): React.JSX.Element {
           <span className={s.sectionLabel}>Philosophy</span>
         </div>
         <h2 className={s.sectionTitle}>
-          Plain text is eating<br />the world.
+          Parse once,<br />compile anywhere.
         </h2>
         <p className={s.sectionDesc}>
-          In the age of AI agents and LLM-driven development, plain text isn't
-          primitive &mdash; it's the most powerful format there is. Every AI
-          tool, every version control system, every OS speaks it natively.
+          Like LLVM separated frontends from backends, LazyMD separates
+          writing from output. One IR, infinite targets. Plain text is the
+          universal source code of human thought.
         </p>
         <div className={s.philosophyGrid}>
           {philosophy.map(({icon, title, desc}) => (
@@ -163,11 +163,11 @@ function Interfaces(): React.JSX.Element {
           <span className={s.sectionLabel}>Interfaces</span>
         </div>
         <h2 className={s.sectionTitle}>
-          One editor.<br />Every surface.
+          One compiler.<br />Every surface.
         </h2>
         <p className={s.sectionDesc}>
-          Your terminal is just the beginning. LazyMD is designed as a
-          protocol-first editor that can render on any device with a screen.
+          Your terminal is just the first backend. LazyMD is designed as a
+          protocol-first compiler that targets any device with a screen.
         </p>
         <div className={s.interfaceGrid}>
           {interfaces.map(({label, status, live, desc, ascii}) => (
@@ -210,7 +210,7 @@ function Features(): React.JSX.Element {
         </div>
         <h2 className={s.sectionTitle}>Everything you need,<br />nothing you don't.</h2>
         <p className={s.sectionDesc}>
-          Built for thinkers who live in plain text. Whether you're drafting briefs, shipping products, or writing research &mdash; LazyMD stays out of your way.
+          A compiler built for mortals. Whether you're drafting briefs, shipping products, or writing research &mdash; LazyMD stays out of your way.
         </p>
         <div className={s.featureGrid}>
           {features.map(({icon, title, desc, wide}) => (
@@ -422,10 +422,10 @@ function CTASection(): React.JSX.Element {
   return (
     <section className={s.ctaSection}>
       <div className={s.ctaGlow} aria-hidden="true" />
-      <h2 className={s.ctaTitle}>The future is plain text.</h2>
+      <h2 className={s.ctaTitle}>The future compiles from plain text.</h2>
       <p className={s.ctaDesc}>
-        Open source, MIT licensed, and built to outlast every proprietary editor
-        that came before it.
+        Open source, MIT licensed, and built to outlast every proprietary tool
+        that came before it. LLVM for thought.
       </p>
       <div className={s.heroActions}>
         <Link className={s.btnPrimary} to="/docs/getting-started/installation">
@@ -444,8 +444,8 @@ function CTASection(): React.JSX.Element {
 export default function Home(): React.JSX.Element {
   return (
     <Layout
-      title="The Editor of the Future"
-      description="LazyMD is the text editor for thinkers in the AI era. Plain text is your alchemy. Runs everywhere — terminal, web, native apps, any device. Written in Go with zero dependencies.">
+      title="The Compiler for Mortals"
+      description="LazyMD is an LLVM-inspired markdown compiler for mortals. Plain text in, anything out. Runs everywhere — terminal, web, native apps, any device. Written in Go.">
       <Head>
         <html lang="en" />
       </Head>

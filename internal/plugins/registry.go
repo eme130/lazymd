@@ -1,73 +1,13 @@
 package plugins
 
-// AllPlugins returns all built-in plugin instances.
-func AllPlugins() []Plugin {
-	return []Plugin{
-		&AdmonitionsPlugin{},
-		&AutoCompletePlugin{},
-		&AutoLinkPlugin{},
-		&BacklinksPlugin{},
-		&BookmarksPlugin{},
-		&CalendarPlugin{},
-		&ChecklistPlugin{},
-		&CitationsPlugin{},
-		&CommandPalettePlugin{},
-		&DailyNotesPlugin{},
-		&DataviewPlugin{},
-		&DayPlannerPlugin{},
-		&DictionaryPlugin{},
-		&EmojiPlugin{},
-		&ExportHTMLPlugin{},
-		&FileRecoveryPlugin{},
-		&FlashcardsPlugin{},
-		&FocusModePlugin{},
-		&FolderNotesPlugin{},
-		&FootnotesPlugin{},
-		&FrontmatterPlugin{},
-		&GitSyncPlugin{},
-		&GraphViewPlugin{},
-		&HabitTrackerPlugin{},
-		&JournalPlugin{},
-		&KanbanPlugin{},
-		&LinterPlugin{},
-		&MathPlugin{},
-		&McpConnectorPlugin{},
-		&MeetingNotesPlugin{},
-		&MermaidPlugin{},
-		&MindMapPlugin{},
-		&NestedTagsPlugin{},
-		&NoteRefactorPlugin{},
-		&NoteRenamePlugin{},
-		&OutlinePlugin{},
-		&PasteImagePlugin{},
-		&PeriodicNotesPlugin{},
-		&PomodoroPlugin{},
-		&ProjectManagerPlugin{},
-		&PublishPlugin{},
-		&QuickSwitcherPlugin{},
-		&RandomNotePlugin{},
-		&ReadingTimePlugin{},
-		&RecentFilesPlugin{},
-		&SearchPlugin{},
-		&SlackPlugin{},
-		&SlidesPlugin{},
-		&SnippetManagerPlugin{},
-		&SpellCheckPlugin{},
-		&TableEditorPlugin{},
-		&TagManagerPlugin{},
-		&TaskWarriorPlugin{},
-		&TemplatesPlugin{},
-		&TextExpanderPlugin{},
-		&ThemeChooserPlugin{},
-		&ThesaurusPlugin{},
-		&TodoistPlugin{},
-		&TypewriterPlugin{},
-		&UnlinkedMentionsPlugin{},
-		&VaultStatsPlugin{},
-		&VersionHistoryPlugin{},
-		&WebClipperPlugin{},
-		&WordCountPlugin{},
-		&ZenModePlugin{},
-		&ZettelkastenPlugin{},
-	}
+import "github.com/EME130/lazymd/internal/pluginapi"
+
+// AllFrontends returns all compiled-in frontend plugins.
+func AllFrontends() []pluginapi.FrontendPlugin {
+	return nil
+}
+
+// AllBackends returns all compiled-in backend plugins.
+func AllBackends() []pluginapi.BackendPlugin {
+	return nil
 }

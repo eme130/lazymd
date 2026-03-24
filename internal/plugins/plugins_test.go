@@ -3,207 +3,152 @@ package plugins
 import (
 	"testing"
 
-	"github.com/EME130/lazymd/internal/buffer"
-	"github.com/EME130/lazymd/internal/editor"
+	"github.com/EME130/lazymd/internal/pluginapi"
 )
 
-// mockEditor implements editor.PluginEditor for testing.
-type mockEditor struct {
-	buf    *buffer.Buffer
-	row    int
-	col    int
-	file   string
-	status string
-	isErr  bool
-}
-
-func newMockEditor(content string) *mockEditor {
-	buf := buffer.New()
-	if content != "" {
-		buf.InsertString(0, content)
-	}
-	return &mockEditor{buf: buf, file: "test.md"}
-}
-
-func (m *mockEditor) Buffer() *buffer.Buffer       { return m.buf }
-func (m *mockEditor) CursorRow() int               { return m.row }
-func (m *mockEditor) CursorCol() int               { return m.col }
-func (m *mockEditor) FilePath() string             { return m.file }
-func (m *mockEditor) EditorMode() editor.Mode      { return editor.ModeNormal }
-func (m *mockEditor) SetStatus(msg string, e bool) { m.status = msg; m.isErr = e }
-func (m *mockEditor) SetCursorRow(row int)         { m.row = row }
-func (m *mockEditor) SetCursorCol(col int)         { m.col = col }
-
-func TestAllPluginsRegistered(t *testing.T) {
-	all := AllPlugins()
-	if len(all) != 66 {
-		t.Errorf("expected 66 plugins, got %d", len(all))
+func TestAllFrontendsEmpty(t *testing.T) {
+	all := AllFrontends()
+	if len(all) != 0 {
+		t.Errorf("expected 0 frontends, got %d", len(all))
 	}
 }
 
-func TestPluginManagerBasics(t *testing.T) {
-	pm := NewManager()
-	ed := newMockEditor("")
+func TestAllBackendsEmpty(t *testing.T) {
+	all := AllBackends()
+	if len(all) != 0 {
+		t.Errorf("expected 0 backends, got %d", len(all))
+	}
+}
 
-	pm.Register(&WordCountPlugin{}, ed)
+func TestEngineBasics(t *testing.T) {
+	eng := NewEngine()
 
-	if pm.PluginCount() != 1 {
-		t.Errorf("expected 1 plugin, got %d", pm.PluginCount())
+	if eng.FrontendCount() != 0 {
+		t.Errorf("expected 0 frontends, got %d", eng.FrontendCount())
+	}
+	if eng.BackendCount() != 0 {
+		t.Errorf("expected 0 backends, got %d", eng.BackendCount())
 	}
 
-	if !pm.ExecuteCommand("wc", ed, "") {
-		t.Error("expected wc command to be found")
-	}
-	if ed.status == "" {
-		t.Error("expected status message after wc")
-	}
-
-	if pm.ExecuteCommand("nonexistent", ed, "") {
+	// ExecuteCommand should return false for unknown commands
+	if eng.ExecuteCommand("nonexistent", nil, "") {
 		t.Error("nonexistent command should not be found")
 	}
 }
 
-func TestWordCountPlugin(t *testing.T) {
-	ed := newMockEditor("Hello world\nFoo bar baz\n")
-	p := &WordCountPlugin{}
-	info := p.Info()
-	if info.Name != "word-count" {
-		t.Errorf("expected word-count, got %s", info.Name)
-	}
+func TestEngineEmit(t *testing.T) {
+	eng := NewEngine()
+	ctx := &pluginapi.BackendContext{}
+	eng.SetContexts(&pluginapi.FrontendContext{}, ctx)
 
-	cmds := p.Commands()
-	if len(cmds) != 1 || cmds[0].Name != "wc" {
-		t.Error("expected wc command")
-	}
+	// Emit with no plugins should not panic
+	op := pluginapi.NewOperation(pluginapi.OpSaveFile, "test")
+	eng.Emit(op)
+}
 
-	cmds[0].Handler(ed, "")
-	if ed.status == "" {
-		t.Error("expected status message")
+func TestEngineBroadcastEvent(t *testing.T) {
+	eng := NewEngine()
+	eng.SetContexts(&pluginapi.FrontendContext{}, &pluginapi.BackendContext{})
+
+	// Broadcast with no plugins should not panic
+	eng.BroadcastEvent(pluginapi.NewEvent(pluginapi.EventFileSaved))
+}
+
+func TestEngineListPluginsEmpty(t *testing.T) {
+	eng := NewEngine()
+	if len(eng.ListPlugins()) != 0 {
+		t.Error("expected empty plugin list")
+	}
+	if len(eng.ListCommands()) != 0 {
+		t.Error("expected empty command list")
 	}
 }
 
-func TestKanbanPlugin(t *testing.T) {
-	ed := newMockEditor("")
-	p := &KanbanPlugin{}
-	cmds := p.Commands()
-	if len(cmds) != 3 {
-		t.Errorf("expected 3 kanban commands, got %d", len(cmds))
-	}
+func TestEnginePassCancellation(t *testing.T) {
+	eng := NewEngine()
+	eng.SetContexts(&pluginapi.FrontendContext{}, &pluginapi.BackendContext{})
 
-	// kanban.new inserts template
-	for _, cmd := range cmds {
-		if cmd.Name == "kanban.new" {
-			cmd.Handler(ed, "")
-			content := ed.buf.Content()
-			if len(content) == 0 {
-				t.Error("expected kanban template to be inserted")
-			}
-			break
+	// Register a pass that cancels all operations
+	eng.RegisterPass(&cancelPass{})
+
+	called := false
+	eng.RegisterBackend(&spyBackend{onOp: func() { called = true }})
+	eng.backendCtx = &pluginapi.BackendContext{} // re-set after registering
+
+	op := pluginapi.NewOperation(pluginapi.OpSaveFile, "test")
+	eng.Emit(op)
+
+	if !op.Canceled {
+		t.Error("expected operation to be canceled")
+	}
+	if called {
+		t.Error("backend should not have been called after pass cancellation")
+	}
+}
+
+// --- test helpers ---
+
+type cancelPass struct{}
+
+func (p *cancelPass) Name() string                                                  { return "cancel" }
+func (p *cancelPass) Priority() int                                                 { return 0 }
+func (p *cancelPass) Transform(_ *pluginapi.BackendContext, op *pluginapi.Operation) bool {
+	op.Cancel()
+	return true
+}
+
+type spyBackend struct {
+	onOp func()
+}
+
+func (s *spyBackend) Info() pluginapi.PluginInfo { return pluginapi.PluginInfo{Name: "spy"} }
+func (s *spyBackend) Init(_ *pluginapi.BackendContext) error   { return nil }
+func (s *spyBackend) Shutdown() error                          { return nil }
+func (s *spyBackend) OnOperation(_ *pluginapi.BackendContext, _ *pluginapi.Operation) {
+	if s.onOp != nil {
+		s.onOp()
+	}
+}
+func (s *spyBackend) OnEvent(_ *pluginapi.BackendContext, _ *pluginapi.Event) {}
+func (s *spyBackend) Commands() []pluginapi.CommandDef                        { return nil }
+func (s *spyBackend) Capabilities() []pluginapi.Capability                    { return nil }
+
+func TestEngineBroadcastEventToFrontends(t *testing.T) {
+	eng := NewEngine()
+	eng.SetContexts(
+		&pluginapi.FrontendContext{},
+		&pluginapi.BackendContext{},
+	)
+
+	received := false
+	eng.RegisterFrontend(&spyFrontend{onEvent: func(e *pluginapi.Event) {
+		if e.Type == pluginapi.EventFileSaved {
+			received = true
 		}
+	}})
+
+	eng.BroadcastEvent(pluginapi.NewEvent(pluginapi.EventFileSaved))
+
+	if !received {
+		t.Error("frontend plugin should have received the event")
 	}
 }
 
-func TestEmojiPlugin(t *testing.T) {
-	ed := newMockEditor("")
-	p := &EmojiPlugin{}
-	cmds := p.Commands()
+// Add spyFrontend helper at the bottom of the file:
 
-	// Insert a known emoji
-	for _, cmd := range cmds {
-		if cmd.Name == "emoji" {
-			cmd.Handler(ed, "smile")
-			content := ed.buf.Content()
-			if len(content) == 0 {
-				t.Error("expected emoji to be inserted")
-			}
-			break
-		}
-	}
+type spyFrontend struct {
+	onEvent func(e *pluginapi.Event)
 }
 
-func TestBookmarksPlugin(t *testing.T) {
-	ed := newMockEditor("Line 1\nLine 2\nLine 3\n")
-	ed.row = 2
-
-	p := &BookmarksPlugin{}
-	cmds := p.Commands()
-
-	// Set bookmark 'a'
-	for _, cmd := range cmds {
-		if cmd.Name == "bm.set" {
-			cmd.Handler(ed, "a")
-			break
-		}
-	}
-
-	// Jump to bookmark 'a'
-	ed.row = 0
-	for _, cmd := range cmds {
-		if cmd.Name == "bm.go" {
-			cmd.Handler(ed, "a")
-			break
-		}
-	}
-	if ed.row != 2 {
-		t.Errorf("expected row 2 after bookmark jump, got %d", ed.row)
+func (s *spyFrontend) Info() pluginapi.PluginInfo         { return pluginapi.PluginInfo{Name: "spy-frontend"} }
+func (s *spyFrontend) Init(_ *pluginapi.FrontendContext) error { return nil }
+func (s *spyFrontend) Shutdown() error                     { return nil }
+func (s *spyFrontend) OnEvent(_ *pluginapi.FrontendContext, e *pluginapi.Event) {
+	if s.onEvent != nil {
+		s.onEvent(e)
 	}
 }
-
-func TestRegisterAll(t *testing.T) {
-	pm := NewManager()
-	ed := newMockEditor("")
-	RegisterAll(pm, ed)
-
-	if pm.PluginCount() != 66 {
-		t.Errorf("expected 66 plugins after RegisterAll, got %d", pm.PluginCount())
-	}
-
-	// Verify we have a good number of commands
-	cmds := pm.AllCommands()
-	if len(cmds) < 100 {
-		t.Errorf("expected at least 100 commands, got %d", len(cmds))
-	}
-}
-
-func TestPluginInfoUnique(t *testing.T) {
-	all := AllPlugins()
-	names := make(map[string]bool)
-	for _, p := range all {
-		name := p.Info().Name
-		if names[name] {
-			t.Errorf("duplicate plugin name: %s", name)
-		}
-		names[name] = true
-	}
-}
-
-func TestListPlugins(t *testing.T) {
-	pm := NewManager()
-	ed := newMockEditor("")
-	pm.Register(&WordCountPlugin{}, ed)
-	pm.Register(&KanbanPlugin{}, ed)
-
-	summaries := pm.ListPlugins()
-	if len(summaries) != 2 {
-		t.Fatalf("expected 2 plugin summaries, got %d", len(summaries))
-	}
-	if summaries[0].Name != "word-count" {
-		t.Errorf("expected first plugin name 'word-count', got %q", summaries[0].Name)
-	}
-}
-
-func TestListCommands(t *testing.T) {
-	pm := NewManager()
-	ed := newMockEditor("")
-	pm.Register(&KanbanPlugin{}, ed)
-
-	cmds := pm.ListCommands()
-	if len(cmds) != 3 {
-		t.Fatalf("expected 3 command summaries, got %d", len(cmds))
-	}
-	for _, cmd := range cmds {
-		if cmd.PluginName != "kanban" {
-			t.Errorf("expected PluginName 'kanban', got %q", cmd.PluginName)
-		}
-	}
-}
+func (s *spyFrontend) Render(_, _ int) string                    { return "" }
+func (s *spyFrontend) KeyBindings() []pluginapi.KeyBinding       { return nil }
+func (s *spyFrontend) Commands() []pluginapi.FrontendCommandDef  { return nil }
+func (s *spyFrontend) StatusItems() []pluginapi.StatusItem       { return nil }

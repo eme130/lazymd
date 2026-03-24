@@ -90,13 +90,11 @@ go test ./...        # Run tests
 gofmt -w .           # Format code
 ```
 
-## :smoking: Buy Me a Cigarette
+---
 
-If **LazyMD** saves you time, send some Material Love:
+> *Be grateful for what we have — and use it to make Earth a heaven.*
 
-Donate with Bitcoin: `bitcoin:bc1qzauvea9urya5r087n6mp69jwy5uchmynqcl74l?message=Donations`
-
-Donate with Monero: `monero:84Jd3E44j54ZpmH2xAnJ6qJstnDtaJEmvK4pmvR78i5xcLGADnviwDpSa1uZMzCcrkVqH2u8E8hbBU4g4bn9sfB14t5Yjoi?recipient_name=EME130`
+**Disclaimer:** This project is not for sale, not for profit, and not for you to monetize. It was built with love — for Kleopetra. If your first instinct is to figure out how to make money from it, you're in the wrong place.
 
 ## License
 
