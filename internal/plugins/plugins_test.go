@@ -3,63 +3,112 @@ package plugins
 import (
 	"testing"
 
-	"github.com/EME130/lazymd/internal/buffer"
-	"github.com/EME130/lazymd/internal/editor"
+	"github.com/EME130/lazymd/internal/pluginapi"
 )
 
-// mockEditor implements editor.PluginEditor for testing.
-type mockEditor struct {
-	buf    *buffer.Buffer
-	row    int
-	col    int
-	file   string
-	status string
-	isErr  bool
-}
-
-func newMockEditor(content string) *mockEditor {
-	buf := buffer.New()
-	if content != "" {
-		buf.InsertString(0, content)
-	}
-	return &mockEditor{buf: buf, file: "test.md"}
-}
-
-func (m *mockEditor) Buffer() *buffer.Buffer       { return m.buf }
-func (m *mockEditor) CursorRow() int               { return m.row }
-func (m *mockEditor) CursorCol() int               { return m.col }
-func (m *mockEditor) FilePath() string             { return m.file }
-func (m *mockEditor) EditorMode() editor.Mode      { return editor.ModeNormal }
-func (m *mockEditor) SetStatus(msg string, e bool) { m.status = msg; m.isErr = e }
-func (m *mockEditor) SetCursorRow(row int)         { m.row = row }
-func (m *mockEditor) SetCursorCol(col int)         { m.col = col }
-
-func TestAllPluginsEmpty(t *testing.T) {
-	all := AllPlugins()
+func TestAllFrontendsEmpty(t *testing.T) {
+	all := AllFrontends()
 	if len(all) != 0 {
-		t.Errorf("expected 0 plugins, got %d", len(all))
+		t.Errorf("expected 0 frontends, got %d", len(all))
 	}
 }
 
-func TestPluginManagerBasics(t *testing.T) {
-	pm := NewManager()
+func TestAllBackendsEmpty(t *testing.T) {
+	all := AllBackends()
+	if len(all) != 0 {
+		t.Errorf("expected 0 backends, got %d", len(all))
+	}
+}
 
-	if pm.PluginCount() != 0 {
-		t.Errorf("expected 0 plugins, got %d", pm.PluginCount())
+func TestEngineBasics(t *testing.T) {
+	eng := NewEngine()
+
+	if eng.FrontendCount() != 0 {
+		t.Errorf("expected 0 frontends, got %d", eng.FrontendCount())
+	}
+	if eng.BackendCount() != 0 {
+		t.Errorf("expected 0 backends, got %d", eng.BackendCount())
 	}
 
-	ed := newMockEditor("")
-	if pm.ExecuteCommand("nonexistent", ed, "") {
+	// ExecuteCommand should return false for unknown commands
+	if eng.ExecuteCommand("nonexistent", nil, "") {
 		t.Error("nonexistent command should not be found")
 	}
 }
 
-func TestRegisterAll(t *testing.T) {
-	pm := NewManager()
-	ed := newMockEditor("")
-	RegisterAll(pm, ed)
+func TestEngineEmit(t *testing.T) {
+	eng := NewEngine()
+	ctx := &pluginapi.BackendContext{}
+	eng.SetContexts(&pluginapi.FrontendContext{}, ctx)
 
-	if pm.PluginCount() != 0 {
-		t.Errorf("expected 0 plugins after RegisterAll, got %d", pm.PluginCount())
+	// Emit with no plugins should not panic
+	op := pluginapi.NewOperation(pluginapi.OpSaveFile, "test")
+	eng.Emit(op)
+}
+
+func TestEngineBroadcastEvent(t *testing.T) {
+	eng := NewEngine()
+	eng.SetContexts(&pluginapi.FrontendContext{}, &pluginapi.BackendContext{})
+
+	// Broadcast with no plugins should not panic
+	eng.BroadcastEvent(pluginapi.NewEvent(pluginapi.EventFileSaved))
+}
+
+func TestEngineListPluginsEmpty(t *testing.T) {
+	eng := NewEngine()
+	if len(eng.ListPlugins()) != 0 {
+		t.Error("expected empty plugin list")
+	}
+	if len(eng.ListCommands()) != 0 {
+		t.Error("expected empty command list")
 	}
 }
+
+func TestEnginePassCancellation(t *testing.T) {
+	eng := NewEngine()
+	eng.SetContexts(&pluginapi.FrontendContext{}, &pluginapi.BackendContext{})
+
+	// Register a pass that cancels all operations
+	eng.RegisterPass(&cancelPass{})
+
+	called := false
+	eng.RegisterBackend(&spyBackend{onOp: func() { called = true }})
+	eng.backendCtx = &pluginapi.BackendContext{} // re-set after registering
+
+	op := pluginapi.NewOperation(pluginapi.OpSaveFile, "test")
+	eng.Emit(op)
+
+	if !op.Canceled {
+		t.Error("expected operation to be canceled")
+	}
+	if called {
+		t.Error("backend should not have been called after pass cancellation")
+	}
+}
+
+// --- test helpers ---
+
+type cancelPass struct{}
+
+func (p *cancelPass) Name() string                                                  { return "cancel" }
+func (p *cancelPass) Priority() int                                                 { return 0 }
+func (p *cancelPass) Transform(_ *pluginapi.BackendContext, op *pluginapi.Operation) bool {
+	op.Cancel()
+	return true
+}
+
+type spyBackend struct {
+	onOp func()
+}
+
+func (s *spyBackend) Info() pluginapi.PluginInfo { return pluginapi.PluginInfo{Name: "spy"} }
+func (s *spyBackend) Init(_ *pluginapi.BackendContext) error   { return nil }
+func (s *spyBackend) Shutdown() error                          { return nil }
+func (s *spyBackend) OnOperation(_ *pluginapi.BackendContext, _ *pluginapi.Operation) {
+	if s.onOp != nil {
+		s.onOp()
+	}
+}
+func (s *spyBackend) OnEvent(_ *pluginapi.BackendContext, _ *pluginapi.Event) {}
+func (s *spyBackend) Commands() []pluginapi.CommandDef                        { return nil }
+func (s *spyBackend) Capabilities() []pluginapi.Capability                    { return nil }

@@ -25,7 +25,7 @@ type AppModel struct {
 	styles    Styles
 	width     int
 	height    int
-	pluginMgr *plugins.PluginManager
+	pluginEngine *plugins.Engine
 	quitting  bool
 	initFile  string
 
@@ -37,9 +37,8 @@ type AppModel struct {
 func NewApp(filePath string) AppModel {
 	buf := buffer.New()
 	ed := editor.New(buf)
-	pm := plugins.NewManager()
-	plugins.RegisterAll(pm, ed)
-	ed.CmdExec = pm
+	eng := plugins.NewEngine()
+	ed.CmdExec = eng
 
 	cwd, _ := os.Getwd()
 
@@ -50,7 +49,7 @@ func NewApp(filePath string) AppModel {
 		brain:     NewBrainView(),
 		layout:    NewLayout(),
 		styles:    NewStyles(),
-		pluginMgr: pm,
+		pluginEngine: eng,
 		initFile:  filePath,
 	}
 	return m
