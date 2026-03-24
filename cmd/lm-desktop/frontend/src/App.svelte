@@ -1,29 +1,65 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import Editor from './components/Editor.svelte';
+  import FileTree from './components/FileTree.svelte';
+  import Preview from './components/Preview.svelte';
+  import BrainGraph from './components/BrainGraph.svelte';
+  import StatusBar from './components/StatusBar.svelte';
+  import CommandBar from './components/CommandBar.svelte';
+  import { applyTheme } from './lib/theme';
+
   let activeRightPanel: 'preview' | 'brain' = 'preview';
   let showFileTree = true;
+  let commandBar: CommandBar;
+
+  function handleKeydown(e: KeyboardEvent) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
+      e.preventDefault();
+      commandBar.open();
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
+      e.preventDefault();
+      showFileTree = !showFileTree;
+    }
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'p') {
+      e.preventDefault();
+      activeRightPanel = activeRightPanel === 'preview' ? 'brain' : 'preview';
+    }
+  }
+
+  onMount(() => {
+    applyTheme();
+  });
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
+<CommandBar bind:this={commandBar} />
 
 <div class="app" class:hide-filetree={!showFileTree}>
   {#if showFileTree}
     <aside class="filetree">
-      <p>File Tree (placeholder)</p>
+      <FileTree />
     </aside>
   {/if}
 
   <main class="editor">
-    <p>Editor (placeholder)</p>
+    <Editor />
   </main>
 
   <aside class="right-panel">
+    <div class="panel-tabs">
+      <button class:active={activeRightPanel === 'preview'} on:click={() => activeRightPanel = 'preview'}>Preview</button>
+      <button class:active={activeRightPanel === 'brain'} on:click={() => activeRightPanel = 'brain'}>Brain</button>
+    </div>
     {#if activeRightPanel === 'preview'}
-      <p>Preview (placeholder)</p>
+      <Preview />
     {:else}
-      <p>Brain Graph (placeholder)</p>
+      <BrainGraph />
     {/if}
   </aside>
 
   <footer class="statusbar">
-    <span>Status Bar (placeholder)</span>
+    <StatusBar />
   </footer>
 </div>
 
@@ -63,8 +99,30 @@
   .right-panel {
     grid-row: 1;
     border-left: 1px solid var(--lm-border, #3b4261);
-    overflow-y: auto;
-    padding: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--lm-border, #3b4261);
+  }
+
+  .panel-tabs button {
+    flex: 1;
+    padding: 6px 12px;
+    background: transparent;
+    border: none;
+    color: var(--lm-fg, #c0caf5);
+    cursor: pointer;
+    font-size: 12px;
+    opacity: 0.6;
+  }
+
+  .panel-tabs button.active {
+    opacity: 1;
+    border-bottom: 2px solid var(--lm-link, #7aa2f7);
   }
 
   .statusbar {
