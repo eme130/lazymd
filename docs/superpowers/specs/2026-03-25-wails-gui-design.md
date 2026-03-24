@@ -40,13 +40,25 @@ Initialization sequence:
 4. Create `WailsApp` (wraps plugin context for Go-Svelte bindings)
 5. Call `wails.Run()` with Svelte frontend embedded via `//go:embed all:frontend/dist`
 
+## Prerequisites: Extending the Plugin Interfaces
+
+The current `FrontendPlugin` interface lacks two things the Wails GUI needs:
+
+1. **`OnEvent()` method** — Currently only `BackendPlugin` has `OnEvent()`, and `Engine.BroadcastEvent()` only iterates backends. The Wails GUI needs to receive events (buffer changes, file opens, graph updates) to keep the Svelte UI in sync. **Fix:** Add `OnEvent(Event)` to the `FrontendPlugin` interface and update `Engine.BroadcastEvent()` to iterate both frontends and backends.
+
+2. **`BrainAPI` on `FrontendContext`** — Currently `FrontendContext` exposes `EditorAPI`, `NavAPI`, and `ThemeAPI` but not `BrainAPI` (only `BackendContext` has it). The Wails GUI needs `BrainAPI` for the brain graph panel. **Fix:** Add `Brain BrainAPI` field to `FrontendContext`.
+
+These are small, backward-compatible changes: existing frontend plugins that don't implement `OnEvent` get a no-op default, and the new `Brain` field is simply available for those that need it.
+
 ## WailsFrontendPlugin
 
 **Package:** `internal/wailsplugin/plugin.go`
 
 Implements `pluginapi.FrontendPlugin`:
-- `Init(ctx FrontendContext)` — stores context, sets up event forwarding
+- `Info() PluginInfo` — returns plugin metadata (name: "wails-gui", version, etc.)
+- `Init(ctx FrontendContext)` — stores context, saves Wails runtime context for event emission
 - `Shutdown()` — cleanup
+- `OnEvent(event Event)` — forwards plugin events to Svelte via Wails `runtime.EventsEmit()`
 - `Render(w, h int) string` — returns empty (Svelte handles rendering)
 - `KeyBindings() []KeyBinding` — returns empty (browser handles input)
 - `Commands() []Command` — GUI-specific commands if needed
@@ -84,7 +96,7 @@ Bound struct whose public methods are callable from Svelte.
 - `GetCurrentFile() string` — current file path
 
 ### Brain Graph Methods
-- `GetGraph() GraphData` — nodes, edges, stats from `BrainAPI`
+- `GetGraph() GraphData` — nodes, edges, stats via `FrontendContext.Brain` (`BrainAPI`)
 - `GetNeighbors(note string) []Neighbor` — direct connections
 - `FindPath(from, to string) []string` — shortest path
 
@@ -184,6 +196,7 @@ internal/
 
 **Go (go.mod):**
 - `github.com/wailsapp/wails/v2`
+- `github.com/fsnotify/fsnotify` (filesystem watcher for file tree refresh)
 
 **JS (frontend/package.json):**
 - `codemirror`, `@codemirror/lang-markdown`, `@codemirror/theme-one-dark`
@@ -207,7 +220,7 @@ cd cmd/lm-desktop && wails build
 - `internal/ui/` — TUI remains untouched
 - `internal/mcp/` — MCP server unchanged
 - `internal/web/` — Web server unchanged
-- `internal/plugins/` — Plugin engine unchanged (GUI is just another frontend plugin)
+- `internal/plugins/` — Plugin engine: minor change to `BroadcastEvent()` to include frontend plugins
 - `internal/editor/` — Editor model unchanged (GUI uses conventional editing via CodeMirror, not vim keybindings)
 - `cmd/lm/` — TUI binary unchanged
 
