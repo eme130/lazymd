@@ -15,8 +15,8 @@
   height: 700px;
   background: radial-gradient(
     ellipse at center,
-    rgba(16, 185, 129, 0.12) 0%,
-    rgba(6, 182, 212, 0.06) 30%,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 30%,
     transparent 70%
   );
   pointer-events: none;
@@ -59,7 +59,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #10b981;
+  background: var(--lmd-text);
   animation: pulse 2s ease-in-out infinite;
 }
 
@@ -109,21 +109,21 @@
   font-weight: 600;
   font-size: 0.95rem;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  background: #10b981;
-  color: #fff;
+  background: var(--lmd-text);
+  color: var(--lmd-bg);
   text-decoration: none;
   box-shadow: var(--lmd-btn-primary-shadow);
 }
 .btnPrimary:focus-visible {
-  outline: 2px solid #34d399;
+  outline: 2px solid var(--lmd-text-muted);
   outline-offset: 2px;
 }
 .btnPrimary:hover {
-  background: #34d399;
+  background: var(--lmd-text-muted);
   text-decoration: none;
-  color: #fff;
+  color: var(--lmd-bg);
   transform: translateY(-1px);
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btnSecondary {
@@ -141,13 +141,13 @@
   text-decoration: none;
 }
 .btnSecondary:focus-visible {
-  outline: 2px solid var(--lmd-accent);
+  outline: 2px solid var(--lmd-text-muted);
   outline-offset: 2px;
 }
 .btnSecondary:hover {
-  border-color: rgba(16, 185, 129, 0.4);
+  border-color: var(--lmd-text-muted);
   background: var(--lmd-btn-secondary-hover-bg);
-  color: var(--lmd-accent);
+  color: var(--lmd-text);
   text-decoration: none;
   transform: translateY(-1px);
 }
@@ -161,21 +161,21 @@
   font-weight: 600;
   font-size: 0.95rem;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  background: var(--lmd-accent-warm);
-  color: #000;
+  background: var(--lmd-text);
+  color: var(--lmd-bg);
   text-decoration: none;
-  box-shadow: 0 0 20px var(--lmd-accent-warm-muted);
+  box-shadow: 0 0 20px var(--lmd-glow);
 }
 .btnWarm:focus-visible {
-  outline: 2px solid var(--lmd-accent-warm);
+  outline: 2px solid var(--lmd-text-muted);
   outline-offset: 2px;
 }
 .btnWarm:hover {
-  background: #fbbf24;
+  background: var(--lmd-text-muted);
   text-decoration: none;
-  color: #000;
+  color: var(--lmd-bg);
   transform: translateY(-1px);
-  box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
 /* ── Terminal Demo ────────────────────────────────────────────────── */
@@ -375,11 +375,11 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #10b981;
+  color: var(--lmd-text);
   padding: 3px 10px;
   border-radius: 100px;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: var(--lmd-accent-muted);
+  border: 1px solid var(--lmd-accent-border);
   white-space: nowrap;
 }
 
@@ -642,7 +642,7 @@
   height: 500px;
   background: radial-gradient(
     ellipse at center,
-    var(--lmd-accent-warm-muted) 0%,
+    rgba(255, 255, 255, 0.03) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -736,7 +736,7 @@
   height: 400px;
   background: radial-gradient(
     ellipse at center,
-    rgba(16, 185, 129, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -769,20 +769,20 @@
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  color: #000;
+  border: 1px solid var(--lmd-border);
+  background: var(--lmd-text);
+  color: var(--lmd-bg);
   text-decoration: none;
-  box-shadow: 0 0 24px rgba(245, 158, 11, 0.2);
+  box-shadow: 0 0 24px var(--lmd-glow);
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 .btnCigarette:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 36px rgba(245, 158, 11, 0.4);
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 0 36px rgba(255, 255, 255, 0.15);
+  background: var(--lmd-text-muted);
 }
 .btnCigarette:focus-visible {
-  outline: 2px solid #f59e0b;
+  outline: 2px solid var(--lmd-text-muted);
   outline-offset: 2px;
 }
 
