@@ -13,17 +13,19 @@
   let commandBar: CommandBar;
 
   function handleKeydown(e: KeyboardEvent) {
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'p') {
+      e.preventDefault();
+      activeRightPanel = activeRightPanel === 'preview' ? 'brain' : 'preview';
+      return;
+    }
     if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
       e.preventDefault();
       commandBar.open();
+      return;
     }
     if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
       e.preventDefault();
       showFileTree = !showFileTree;
-    }
-    if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'p') {
-      e.preventDefault();
-      activeRightPanel = activeRightPanel === 'preview' ? 'brain' : 'preview';
     }
   }
 
