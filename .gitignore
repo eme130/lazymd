@@ -17,3 +17,6 @@ editor/.vite/
 .claude.local.md
 .vercel
 .env*.local
+
+# Git worktrees
+.worktrees/
