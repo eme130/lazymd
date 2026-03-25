@@ -33,6 +33,7 @@ type ThemeColors struct {
 	Strikethrough            Color
 	Checkbox                 Color
 	CheckboxDone             Color
+	Math                     Color
 
 	// Code highlighting
 	SynKeyword     Color
@@ -77,6 +78,7 @@ var defaultColors = ThemeColors{
 	Link: "#5555FF", LinkURL: "#0000FF",
 	ListMarker: "#FF00FF", Blockquote: "#808080", HR: "#808080",
 	Strikethrough: "#808080", Checkbox: "#FFFF00", CheckboxDone: "#00FF00",
+	Math: "#FF00FF",
 	SynKeyword: "#FF00FF", SynType: "#00FFFF", SynString: "#00FF00",
 	SynNumber: "#FFFF00", SynComment: "#808080", SynBuiltin: "#5555FF",
 	SynOperator: "#FFFFFF", SynPunctuation: "#C0C0C0", SynAnnotation: "#FFFF00", SynNormal: "#C0C0C0",
@@ -94,6 +96,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#F8F8F2", Italic: "#F8F8F2", Code: "#50FA7B", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#8BE9FD", LinkURL: "#6272A4", ListMarker: "#FF79C6", Blockquote: "#6272A4",
 		HR: "#6272A4", Strikethrough: "#6272A4", Checkbox: "#F1FA8C", CheckboxDone: "#50FA7B",
+		Math: "#BD93F9",
 		SynKeyword: "#FF79C6", SynType: "#8BE9FD", SynString: "#F1FA8C", SynNumber: "#BD93F9",
 		SynComment: "#6272A4", SynBuiltin: "#50FA7B", SynOperator: "#FF79C6", SynPunctuation: "#F8F8F2",
 		SynAnnotation: "#50FA7B", SynNormal: "#F8F8F2",
@@ -107,6 +110,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#EBDBB2", Italic: "#EBDBB2", Code: "#B8BB26", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#83A598", LinkURL: "#458588", ListMarker: "#FE8019", Blockquote: "#928374",
 		HR: "#928374", Strikethrough: "#928374", Checkbox: "#FABD2F", CheckboxDone: "#B8BB26",
+		Math: "#D3869B",
 		SynKeyword: "#FB4934", SynType: "#FABD2F", SynString: "#B8BB26", SynNumber: "#D3869B",
 		SynComment: "#928374", SynBuiltin: "#FE8019", SynOperator: "#EBDBB2", SynPunctuation: "#BDAE93",
 		SynAnnotation: "#83A598", SynNormal: "#EBDBB2",
@@ -120,6 +124,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#ECEFF4", Italic: "#ECEFF4", Code: "#A3BE8C", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#88C0D0", LinkURL: "#5E81AC", ListMarker: "#D08770", Blockquote: "#4C566A",
 		HR: "#4C566A", Strikethrough: "#4C566A", Checkbox: "#EBCB8B", CheckboxDone: "#A3BE8C",
+		Math: "#B48EAD",
 		SynKeyword: "#81A1C1", SynType: "#88C0D0", SynString: "#A3BE8C", SynNumber: "#B48EAD",
 		SynComment: "#4C566A", SynBuiltin: "#EBCB8B", SynOperator: "#ECEFF4", SynPunctuation: "#D8DEE9",
 		SynAnnotation: "#D08770", SynNormal: "#D8DEE9",
@@ -133,6 +138,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#EEE8D5", Italic: "#EEE8D5", Code: "#859900", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#268BD2", LinkURL: "#268BD2", ListMarker: "#6C71C4", Blockquote: "#586E75",
 		HR: "#586E75", Strikethrough: "#586E75", Checkbox: "#B58900", CheckboxDone: "#859900",
+		Math: "#6C71C4",
 		SynKeyword: "#859900", SynType: "#B58900", SynString: "#2AA198", SynNumber: "#D33682",
 		SynComment: "#586E75", SynBuiltin: "#268BD2", SynOperator: "#839496", SynPunctuation: "#839496",
 		SynAnnotation: "#CB4B16", SynNormal: "#839496",
@@ -146,6 +152,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#F8F8F2", Italic: "#F8F8F2", Code: "#A6E22E", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#66D9EF", LinkURL: "#66D9EF", ListMarker: "#F92672", Blockquote: "#75715E",
 		HR: "#75715E", Strikethrough: "#75715E", Checkbox: "#E6DB74", CheckboxDone: "#A6E22E",
+		Math: "#AE81FF",
 		SynKeyword: "#F92672", SynType: "#66D9EF", SynString: "#E6DB74", SynNumber: "#AE81FF",
 		SynComment: "#75715E", SynBuiltin: "#A6E22E", SynOperator: "#F92672", SynPunctuation: "#F8F8F2",
 		SynAnnotation: "#A6E22E", SynNormal: "#F8F8F2",
@@ -159,6 +166,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#CDD6F4", Italic: "#CDD6F4", Code: "#A6E3A1", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#89B4FA", LinkURL: "#89B4FA", ListMarker: "#F5C2E7", Blockquote: "#6C7086",
 		HR: "#6C7086", Strikethrough: "#6C7086", Checkbox: "#F9E2AF", CheckboxDone: "#A6E3A1",
+		Math: "#CBA6F7",
 		SynKeyword: "#CBA6F7", SynType: "#F9E2AF", SynString: "#A6E3A1", SynNumber: "#FAB387",
 		SynComment: "#6C7086", SynBuiltin: "#89B4FA", SynOperator: "#74C7EC", SynPunctuation: "#BAC2DE",
 		SynAnnotation: "#F5C2E7", SynNormal: "#CDD6F4",
@@ -172,6 +180,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#C0CAF5", Italic: "#C0CAF5", Code: "#9ECE6A", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#7DCFFF", LinkURL: "#7AA2F7", ListMarker: "#FF9E64", Blockquote: "#565F89",
 		HR: "#565F89", Strikethrough: "#565F89", Checkbox: "#E0AF68", CheckboxDone: "#9ECE6A",
+		Math: "#BB9AF7",
 		SynKeyword: "#BB9AF7", SynType: "#7DCFFF", SynString: "#9ECE6A", SynNumber: "#FF9E64",
 		SynComment: "#565F89", SynBuiltin: "#7AA2F7", SynOperator: "#89DDFF", SynPunctuation: "#A9B1D6",
 		SynAnnotation: "#E0AF68", SynNormal: "#C0CAF5",
@@ -185,6 +194,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#ABB2BF", Italic: "#ABB2BF", Code: "#98C379", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#61AFEF", LinkURL: "#61AFEF", ListMarker: "#C678DD", Blockquote: "#5C6370",
 		HR: "#5C6370", Strikethrough: "#5C6370", Checkbox: "#E5C07B", CheckboxDone: "#98C379",
+		Math: "#C678DD",
 		SynKeyword: "#C678DD", SynType: "#E5C07B", SynString: "#98C379", SynNumber: "#D19A66",
 		SynComment: "#5C6370", SynBuiltin: "#61AFEF", SynOperator: "#56B6C2", SynPunctuation: "#ABB2BF",
 		SynAnnotation: "#E5C07B", SynNormal: "#ABB2BF",
@@ -198,6 +208,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#E0DEF4", Italic: "#E0DEF4", Code: "#F6C177", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#9CCFD8", LinkURL: "#9CCFD8", ListMarker: "#EB6F92", Blockquote: "#6E6A86",
 		HR: "#6E6A86", Strikethrough: "#6E6A86", Checkbox: "#F6C177", CheckboxDone: "#9CCFD8",
+		Math: "#C4A7E7",
 		SynKeyword: "#31748F", SynType: "#F6C177", SynString: "#9CCFD8", SynNumber: "#C4A7E7",
 		SynComment: "#6E6A86", SynBuiltin: "#EB6F92", SynOperator: "#E0DEF4", SynPunctuation: "#908CAA",
 		SynAnnotation: "#F6C177", SynNormal: "#E0DEF4",
@@ -211,6 +222,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#DCD7BA", Italic: "#DCD7BA", Code: "#98BB6C", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#7FB4CA", LinkURL: "#7FB4CA", ListMarker: "#E46876", Blockquote: "#727169",
 		HR: "#727169", Strikethrough: "#727169", Checkbox: "#E6A478", CheckboxDone: "#98BB6C",
+		Math: "#957FB8",
 		SynKeyword: "#957FB8", SynType: "#7FB4CA", SynString: "#98BB6C", SynNumber: "#FF5E63",
 		SynComment: "#727169", SynBuiltin: "#E6A478", SynOperator: "#DCD7BA", SynPunctuation: "#9B9885",
 		SynAnnotation: "#E46876", SynNormal: "#DCD7BA",
@@ -224,6 +236,7 @@ var BuiltinThemes = []ThemeDef{
 		Bold: "#D3C6AA", Italic: "#D3C6AA", Code: "#A7C080", CodeBg: "#303030", CodeBlockBg: "#262626",
 		Link: "#83C092", LinkURL: "#83C092", ListMarker: "#E67E80", Blockquote: "#859289",
 		HR: "#859289", Strikethrough: "#859289", Checkbox: "#DBBC7F", CheckboxDone: "#A7C080",
+		Math: "#D699B6",
 		SynKeyword: "#E67E80", SynType: "#DBBC7F", SynString: "#A7C080", SynNumber: "#D699B6",
 		SynComment: "#859289", SynBuiltin: "#83C092", SynOperator: "#D3C6AA", SynPunctuation: "#9DA9A0",
 		SynAnnotation: "#7FBBB3", SynNormal: "#D3C6AA",
