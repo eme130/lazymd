@@ -1,7 +1,7 @@
 ---
 title: Themes
 sidebar_position: 2
-description: 12 built-in color themes for LazyMD — Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night, and more. Syntax highlighting colors for 16 languages with truecolor support.
+description: 12 built-in color themes for LazyMD — Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night, and more. Syntax highlighting colors for 17 languages with truecolor support.
 keywords: [terminal editor themes, dracula theme, gruvbox, nord, catppuccin, color themes, syntax highlighting colors, LazyMD themes]
 ---
 
@@ -54,4 +54,4 @@ All 12 themes include dedicated syntax highlighting colors for code blocks. Thes
 
 ### Supported Languages
 
-Syntax highlighting is available for 16 languages: Go, Python, JavaScript, TypeScript, Rust, Zig, C, C++, Bash, JSON, YAML, HTML, CSS, SQL, Lua, Ruby, and Java.
+Syntax highlighting is available for 17 languages: Zig, Go, Python, JavaScript, TypeScript, Rust, C, C++, Bash, JSON, YAML, HTML, CSS, SQL, Lua, Ruby, and Java.
