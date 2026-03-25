@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { NeedsSetup } from '../wailsjs/go/wailsplugin/App';
+  import SetupWizard from './components/SetupWizard.svelte';
   import Editor from './components/Editor.svelte';
   import FileTree from './components/FileTree.svelte';
   import Preview from './components/Preview.svelte';
@@ -8,11 +10,13 @@
   import CommandBar from './components/CommandBar.svelte';
   import { applyTheme } from './lib/theme';
 
+  let needsSetup: boolean | null = null;
   let activeRightPanel: 'preview' | 'brain' = 'preview';
   let showFileTree = true;
   let commandBar: CommandBar;
 
   function handleKeydown(e: KeyboardEvent) {
+    if (needsSetup !== false) return;
     if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'p') {
       e.preventDefault();
       activeRightPanel = activeRightPanel === 'preview' ? 'brain' : 'preview';
@@ -29,41 +33,56 @@
     }
   }
 
-  onMount(() => {
+  function onSetupComplete() {
+    needsSetup = false;
     applyTheme();
+  }
+
+  onMount(async () => {
+    needsSetup = await NeedsSetup();
+    if (!needsSetup) {
+      applyTheme();
+    }
   });
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
-<CommandBar bind:this={commandBar} />
 
-<div class="app" class:hide-filetree={!showFileTree}>
-  {#if showFileTree}
-    <aside class="filetree">
-      <FileTree />
-    </aside>
-  {/if}
+{#if needsSetup === null}
+  <!-- Loading -->
+{:else if needsSetup}
+  <SetupWizard on:complete={onSetupComplete} />
+{:else}
+  <CommandBar bind:this={commandBar} />
 
-  <main class="editor">
-    <Editor />
-  </main>
-
-  <aside class="right-panel">
-    <div class="panel-tabs">
-      <button class:active={activeRightPanel === 'preview'} on:click={() => activeRightPanel = 'preview'}>Preview</button>
-      <button class:active={activeRightPanel === 'brain'} on:click={() => activeRightPanel = 'brain'}>Brain</button>
-    </div>
-    {#if activeRightPanel === 'preview'}
-      <Preview />
-    {:else}
-      <BrainGraph />
+  <div class="app" class:hide-filetree={!showFileTree}>
+    {#if showFileTree}
+      <aside class="filetree">
+        <FileTree />
+      </aside>
     {/if}
-  </aside>
 
-  <footer class="statusbar">
-    <StatusBar />
-  </footer>
-</div>
+    <main class="editor">
+      <Editor />
+    </main>
+
+    <aside class="right-panel">
+      <div class="panel-tabs">
+        <button class:active={activeRightPanel === 'preview'} on:click={() => activeRightPanel = 'preview'}>Preview</button>
+        <button class:active={activeRightPanel === 'brain'} on:click={() => activeRightPanel = 'brain'}>Brain</button>
+      </div>
+      {#if activeRightPanel === 'preview'}
+        <Preview />
+      {:else}
+        <BrainGraph />
+      {/if}
+    </aside>
+
+    <footer class="statusbar">
+      <StatusBar />
+    </footer>
+  </div>
+{/if}
 
 <style>
   :global(body) {
