@@ -1,6 +1,8 @@
 package editor
 
 import (
+	"path/filepath"
+
 	"github.com/EME130/lazymd/internal/buffer"
 )
 
@@ -75,6 +77,7 @@ type EditorModel struct {
 	mode       Mode
 	CmdBuf     string
 	File       string
+	FileType   string // "markdown" or "latex"
 	Status     StatusMsg
 	ShouldQuit bool
 	Count      int
@@ -156,6 +159,11 @@ func (e *EditorModel) OpenFile(path string) error {
 		return err
 	}
 	e.File = path
+	if filepath.Ext(path) == ".tex" {
+		e.FileType = "latex"
+	} else {
+		e.FileType = "markdown"
+	}
 	e.Row = 0
 	e.Col = 0
 	e.ScrollRow = 0
@@ -171,6 +179,7 @@ func (e *EditorModel) OpenFile(path string) error {
 func (e *EditorModel) LoadContent(name string, content string) {
 	e.Buf.SetContent(content)
 	e.File = name
+	e.FileType = "markdown"
 	e.Row = 0
 	e.Col = 0
 	e.ScrollRow = 0
