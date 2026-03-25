@@ -26,6 +26,7 @@ type BackendContext struct {
 	Editor EditorAPI
 	Nav    NavAPI  // nil if unavailable
 	Brain  BrainAPI // nil if unavailable
+	Config ConfigAPI
 	Log    func(msg string)
 }
 

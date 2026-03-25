@@ -30,6 +30,7 @@ type FrontendContext struct {
 	Nav    NavAPI   // nil if unavailable
 	Brain  BrainAPI // nil if unavailable
 	Theme  ThemeAPI // nil if unavailable
+	Config ConfigAPI
 	Log    func(msg string)
 }
 

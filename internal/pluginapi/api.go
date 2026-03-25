@@ -45,6 +45,11 @@ type ThemeAPI interface {
 	ListThemes() []string
 }
 
+// ConfigAPI exposes app configuration to plugins.
+type ConfigAPI interface {
+	VaultPath() string
+}
+
 // SectionResult is returned by NavAPI.ReadSection.
 type SectionResult struct {
 	Title     string
