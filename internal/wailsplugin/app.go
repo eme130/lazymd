@@ -1,11 +1,14 @@
 package wailsplugin
 
 import (
+	"context"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/EME130/lazymd/internal/config"
 	"github.com/EME130/lazymd/internal/pluginapi"
+	wailsRuntime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 const pluginOrigin = "wails-gui"
@@ -47,11 +50,13 @@ type FileEntry struct {
 }
 
 type App struct {
-	editor pluginapi.EditorAPI
-	nav    pluginapi.NavAPI
-	brain  pluginapi.BrainAPI
-	theme  pluginapi.ThemeAPI
-	emit   func(op *pluginapi.Operation)
+	editor    pluginapi.EditorAPI
+	nav       pluginapi.NavAPI
+	brain     pluginapi.BrainAPI
+	theme     pluginapi.ThemeAPI
+	emit      func(op *pluginapi.Operation)
+	wailsCtx  context.Context
+	vaultPath string
 }
 
 func NewApp(ctx *pluginapi.FrontendContext) *App {
@@ -301,4 +306,41 @@ func (a *App) SetTheme(name string) bool {
 		return false
 	}
 	return a.theme.SetByName(name)
+}
+
+// --- Setup Methods ---
+
+func (a *App) SetWailsContext(ctx context.Context) {
+	a.wailsCtx = ctx
+}
+
+func (a *App) SetVaultPath(path string) {
+	a.vaultPath = path
+}
+
+func (a *App) NeedsSetup() bool {
+	return a.vaultPath == ""
+}
+
+func (a *App) SelectVaultDir() (string, error) {
+	return wailsRuntime.OpenDirectoryDialog(a.wailsCtx, wailsRuntime.OpenDialogOptions{
+		Title: "Select Vault Directory",
+	})
+}
+
+func (a *App) SaveVault(path string) error {
+	expanded, err := config.ExpandPath(path)
+	if err != nil {
+		return err
+	}
+	cfg, err := config.Load()
+	if err != nil {
+		cfg = &config.Config{}
+	}
+	cfg.VaultPath = expanded
+	if err := config.Save(cfg); err != nil {
+		return err
+	}
+	a.vaultPath = expanded
+	return os.Chdir(expanded)
 }
