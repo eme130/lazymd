@@ -10,6 +10,8 @@ import (
 	"github.com/EME130/lazymd/internal/brain"
 	"github.com/EME130/lazymd/internal/buffer"
 	"github.com/EME130/lazymd/internal/editor"
+	"github.com/EME130/lazymd/internal/highlight"
+	"github.com/EME130/lazymd/internal/markdown"
 	"github.com/EME130/lazymd/internal/plugins"
 	"github.com/EME130/lazymd/internal/themes"
 	"github.com/charmbracelet/lipgloss"
@@ -31,6 +33,9 @@ type AppModel struct {
 
 	// Preview debounce
 	previewSeq int // incremented on each buffer change
+
+	// Syntax coloring
+	hlBuiltin *highlight.BuiltinHighlighter
 }
 
 // NewApp creates a new AppModel for the TUI.
@@ -51,6 +56,7 @@ func NewApp(filePath string) AppModel {
 		styles:    NewStyles(),
 		pluginEngine: eng,
 		initFile:  filePath,
+		hlBuiltin: highlight.NewBuiltin(),
 	}
 	return m
 }
@@ -623,6 +629,19 @@ func (m AppModel) renderEditor() string {
 		availH = 1
 	}
 
+	// Reset tokenizer state for this render pass
+	mdCtx := markdown.LineContext{}
+	hlSt := highlight.State{}
+
+	// Pre-process lines before ScrollRow to build correct multi-line state
+	for r := 0; r < ed.ScrollRow && r < ed.Buf.LineCount(); r++ {
+		if ed.FileType == "latex" {
+			m.hlBuiltin.Tokenize(ed.Buf.Line(r), "latex", &hlSt)
+		} else {
+			markdown.TokenizeLine(ed.Buf.Line(r), &mdCtx)
+		}
+	}
+
 	var lines []string
 	for row := 0; row < availH; row++ {
 		bufRow := ed.ScrollRow + row
@@ -641,7 +660,10 @@ func (m AppModel) renderEditor() string {
 		}
 
 		// Line content
-		line := ed.Buf.Line(bufRow)
+		rawLine := ed.Buf.Line(bufRow)
+
+		// Apply horizontal scroll
+		line := rawLine
 		if ed.ScrollCol > 0 && ed.ScrollCol < len(line) {
 			line = line[ed.ScrollCol:]
 		} else if ed.ScrollCol >= len(line) {
@@ -652,8 +674,9 @@ func (m AppModel) renderEditor() string {
 			line = line[:contentW]
 		}
 
-		// Render cursor on current line
+		var displayLine string
 		if bufRow == ed.Row {
+			// Cursor line: plain text with cursor highlight
 			cursorCol := ed.Col - ed.ScrollCol
 			if cursorCol >= 0 && cursorCol < len(line) {
 				before := line[:cursorCol]
@@ -662,23 +685,154 @@ func (m AppModel) renderEditor() string {
 				if cursorCol+1 < len(line) {
 					after = line[cursorCol+1:]
 				}
-				line = before + cursor + after
+				displayLine = before + cursor + after
 			} else if cursorCol == len(line) {
-				line += m.styles.Cursor.Render(" ")
+				displayLine = line + m.styles.Cursor.Render(" ")
+			} else {
+				displayLine = line
+			}
+		} else {
+			// Non-cursor line: syntax coloring
+			displayLine = colorLine(rawLine, ed.FileType, &mdCtx, &hlSt, m.hlBuiltin)
+			// Apply horizontal scroll to colored output is complex,
+			// fall back to plain colored line (no scroll support for colored)
+			if ed.ScrollCol > 0 {
+				displayLine = line
 			}
 		}
 
 		// Pad to width
-		displayW := lipgloss.Width(line)
+		displayW := lipgloss.Width(displayLine)
 		pad := contentW - displayW
 		if pad < 0 {
 			pad = 0
 		}
 
-		lines = append(lines, gutter+" "+line+strings.Repeat(" ", pad))
+		lines = append(lines, gutter+" "+displayLine+strings.Repeat(" ", pad))
 	}
 
 	return strings.Join(lines, "\n")
+}
+
+func colorLine(line string, fileType string, mdCtx *markdown.LineContext, hlSt *highlight.State, hlBuiltin *highlight.BuiltinHighlighter) string {
+	if fileType == "latex" {
+		return colorLineLatex(line, hlSt, hlBuiltin)
+	}
+	return colorLineMarkdown(line, mdCtx)
+}
+
+func colorLineMarkdown(line string, mdCtx *markdown.LineContext) string {
+	spans := markdown.TokenizeLine(line, mdCtx)
+	if len(spans) == 0 {
+		return line
+	}
+	tc := themes.CurrentColors()
+	var result string
+	for _, s := range spans {
+		text := line[s.Start:s.End]
+		if len(text) == 0 {
+			continue
+		}
+		color := mdTokenColor(s.Token, tc)
+		if color != "" {
+			result += lipgloss.NewStyle().Foreground(lipgloss.Color(color)).Render(text)
+		} else {
+			result += text
+		}
+	}
+	return result
+}
+
+func colorLineLatex(line string, hlSt *highlight.State, hlBuiltin *highlight.BuiltinHighlighter) string {
+	spans := hlBuiltin.Tokenize(line, "latex", hlSt)
+	if len(spans) == 0 {
+		return line
+	}
+	tc := themes.CurrentColors()
+	var result string
+	for _, s := range spans {
+		text := line[s.Start:s.End]
+		if len(text) == 0 {
+			continue
+		}
+		color := tc.SyntaxColor(hlKindName(s.Kind))
+		if color != "" {
+			result += lipgloss.NewStyle().Foreground(lipgloss.Color(color)).Render(text)
+		} else {
+			result += text
+		}
+	}
+	return result
+}
+
+func mdTokenColor(tok markdown.TokenType, tc *themes.ThemeColors) string {
+	switch tok {
+	case markdown.H1:
+		return tc.H1
+	case markdown.H2:
+		return tc.H2
+	case markdown.H3:
+		return tc.H3
+	case markdown.H4:
+		return tc.H4
+	case markdown.H5:
+		return tc.H5
+	case markdown.H6:
+		return tc.H6
+	case markdown.Bold:
+		return tc.Bold
+	case markdown.Italic:
+		return tc.Italic
+	case markdown.BoldItalic:
+		return tc.Bold
+	case markdown.CodeInline, markdown.CodeBlock, markdown.CodeBlockMarker:
+		return tc.Code
+	case markdown.LinkText:
+		return tc.Link
+	case markdown.LinkURL:
+		return tc.LinkURL
+	case markdown.ListBullet, markdown.ListNumber:
+		return tc.ListMarker
+	case markdown.Blockquote:
+		return tc.Blockquote
+	case markdown.HR:
+		return tc.HR
+	case markdown.Strikethrough:
+		return tc.Strikethrough
+	case markdown.TaskCheckbox:
+		return tc.Checkbox
+	case markdown.WikiLink:
+		return tc.Link
+	case markdown.MathInline, markdown.MathBlock:
+		return tc.Math
+	default:
+		return ""
+	}
+}
+
+func hlKindName(k highlight.TokenKind) string {
+	switch k {
+	case highlight.Keyword:
+		return "keyword"
+	case highlight.TypeName:
+		return "type_name"
+	case highlight.Builtin:
+		return "builtin"
+	case highlight.String:
+		return "string"
+	case highlight.Number:
+		return "number"
+	case highlight.Comment:
+		return "comment"
+	case highlight.Operator:
+		return "operator"
+	case highlight.Punctuation:
+		return "punctuation"
+	case highlight.Annotation:
+		return "annotation"
+	default:
+		return ""
+	}
 }
 
 // teaKeyToEditorKey converts a Bubble Tea key message to an editor Key.
