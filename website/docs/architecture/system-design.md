@@ -22,7 +22,7 @@ internal/
   highlight/
     highlighter.go         Highlighter interface
     builtin.go             Keyword-based tokenizer
-    languages.go           17 language definitions
+    languages.go           Language definitions (LaTeX, Python)
   pluginapi/               IR types, interfaces, API contracts
   plugins/                 Plugin engine, registry, loader, external support
   pluginadapter/           Adapters: nav, brain, theme, editor → pluginapi
