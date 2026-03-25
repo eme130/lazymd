@@ -152,3 +152,4 @@ func (s *spyFrontend) Render(_, _ int) string                    { return "" }
 func (s *spyFrontend) KeyBindings() []pluginapi.KeyBinding       { return nil }
 func (s *spyFrontend) Commands() []pluginapi.FrontendCommandDef  { return nil }
 func (s *spyFrontend) StatusItems() []pluginapi.StatusItem       { return nil }
+func (s *spyFrontend) RunSetup(_ pluginapi.ConfigAPI) (string, error) { return "", nil }
