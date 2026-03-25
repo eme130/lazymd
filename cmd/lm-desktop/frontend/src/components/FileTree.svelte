@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { ListFiles, OpenFile } from '../../../wailsjs/go/wailsplugin/App';
+  import { ListFiles, OpenFile } from '../../wailsjs/go/wailsplugin/App';
   import { onFileOpened, onFileSaved } from '../lib/events';
 
   interface FileEntry {

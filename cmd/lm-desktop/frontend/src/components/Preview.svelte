@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { remark } from 'remark';
   import remarkHtml from 'remark-html';
-  import { GetContent } from '../../../wailsjs/go/wailsplugin/App';
+  import { GetContent } from '../../wailsjs/go/wailsplugin/App';
   import { onBufferChanged } from '../lib/events';
 
   let html = '';

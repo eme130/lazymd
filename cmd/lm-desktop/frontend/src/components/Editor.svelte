@@ -4,7 +4,7 @@
   import { markdown } from '@codemirror/lang-markdown';
   import { oneDark } from '@codemirror/theme-one-dark';
   import { EditorState } from '@codemirror/state';
-  import { GetContent, InsertText, DeleteRange, SetCursor, SaveFile } from '../../../wailsjs/go/wailsplugin/App';
+  import { GetContent, InsertText, DeleteRange, SetCursor, SaveFile } from '../../wailsjs/go/wailsplugin/App';
   import { onBufferChanged } from '../lib/events';
 
   let editorContainer: HTMLDivElement;

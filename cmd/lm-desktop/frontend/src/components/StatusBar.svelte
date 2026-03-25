@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { GetStatus } from '../../../wailsjs/go/wailsplugin/App';
+  import { GetStatus } from '../../wailsjs/go/wailsplugin/App';
   import { onBufferChanged, onCursorMoved, onFileOpened, onFileSaved } from '../lib/events';
 
   let status = { file: '', lines: 0, row: 0, col: 0, modified: false };
