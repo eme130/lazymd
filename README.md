@@ -84,24 +84,24 @@ claude mcp add LazyMD -- /path/to/lm --mcp-server
 ## Development
 
 ```bash
-make help             # Show all targets
-make build            # Build TUI → bin/lm
-make run              # Run TUI
-make test             # Run all tests
-make lint             # Format + vet
-make debug            # Debug TUI with delve
+task --list           # Show all targets
+task build            # Build TUI → bin/lm
+task run              # Run TUI
+task test             # Run all tests
+task lint             # Format + vet
+task debug            # Debug TUI with delve
 ```
 
 ### Desktop (Wails)
 
 ```bash
-make desktop-install  # Install frontend deps
-make desktop          # Build desktop → bin/lm-desktop
-make desktop-dev      # Wails dev mode (hot reload)
-make debug-desktop    # Debug desktop with delve
+task desktop:install  # Install frontend deps
+task desktop:build    # Build desktop → bin/lm-desktop
+task desktop:dev      # Wails dev mode (hot reload)
+task debug:desktop    # Debug desktop with delve
 ```
 
-Pass arguments: `make run ARGS=myfile.md`
+Pass arguments: `task run -- myfile.md`
 
 ---
 
