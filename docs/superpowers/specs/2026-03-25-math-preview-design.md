@@ -21,10 +21,10 @@ remark() → remarkHtml → HTML string
 
 **New pipeline:**
 ```
-unified() → remarkParse → remarkMath → remarkRehype → rehypeKatex → rehypeSanitize → rehypeStringify → HTML string
+unified() → remarkParse → remarkMath → remarkRehype → rehypeSanitize (custom schema) → rehypeKatex → rehypeStringify → HTML string
 ```
 
-Note: `rehype-sanitize` is already in `package.json` but unused. It's now wired into the pipeline after KaTeX (so KaTeX HTML is preserved) to prevent raw HTML injection.
+Note: `rehype-sanitize` is already in `package.json` but unused. It's now wired into the pipeline BEFORE KaTeX — sanitizes user HTML first, then KaTeX renders trusted math output. A custom schema preserves `math-inline` and `math-display` class names on `code` elements so KaTeX can find and render them.
 
 ### NPM Dependencies
 
@@ -53,8 +53,8 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeKatex from 'rehype-katex';
-import rehypeSanitize from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
 import 'katex/dist/katex.min.css';
 
@@ -63,8 +63,8 @@ async function render(content: string) {
     .use(remarkParse)
     .use(remarkMath)
     .use(remarkRehype)
+    .use(rehypeSanitize, { ...defaultSchema, attributes: { ...defaultSchema.attributes, code: [...(defaultSchema.attributes?.code || []), ['className', 'math-inline', 'math-display']] } })
     .use(rehypeKatex)
-    .use(rehypeSanitize)
     .use(rehypeStringify)
     .process(content);
   html = String(result);
