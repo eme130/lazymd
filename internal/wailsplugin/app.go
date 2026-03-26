@@ -273,6 +273,32 @@ func (a *App) GetStatus() StatusInfo {
 	}
 }
 
+func (a *App) GetWordCount() int {
+	if a.editor == nil {
+		return 0
+	}
+	return len(strings.Fields(a.editor.Content()))
+}
+
+func (a *App) GetCharCount() int {
+	if a.editor == nil {
+		return 0
+	}
+	return len([]rune(a.editor.Content()))
+}
+
+func (a *App) GetBacklinkCount() int {
+	if a.brain == nil || a.editor == nil {
+		return 0
+	}
+	filePath := a.editor.FilePath()
+	name := strings.TrimSuffix(filepath.Base(filePath), filepath.Ext(filePath))
+	if name == "" {
+		return 0
+	}
+	return len(a.brain.GetBacklinks(name))
+}
+
 // --- Theme Methods ---
 
 func (a *App) GetThemeColors() map[string]string {
