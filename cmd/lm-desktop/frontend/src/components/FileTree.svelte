@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { ListFiles, OpenFile } from '../../wailsjs/go/wailsplugin/App';
   import { onFileOpened, onFileSaved } from '../lib/events';
+  import { openTab, activeTab, pushHistory, viewMode } from '../lib/stores';
 
   interface FileEntry {
     name: string;
@@ -26,9 +27,14 @@
     expanded = expanded;
   }
 
-  async function open(path: string) {
+  async function open(path: string, name: string) {
+    openTab(path, name);
+    pushHistory(path);
+    viewMode.set('reading');
     await OpenFile(path);
   }
+
+  $: selectedPath = $activeTab?.path ?? '';
 
   onMount(() => {
     refresh();
@@ -50,7 +56,12 @@
             {#if child.isDir}
               <div class="dir">{child.name}</div>
             {:else}
-              <div class="file" on:click={() => open(child.path)} on:keydown={() => {}}>
+              <div
+                class="file"
+                class:selected={child.path === selectedPath}
+                on:click={() => open(child.path, child.name)}
+                on:keydown={() => {}}
+              >
                 {child.name}
               </div>
             {/if}
@@ -58,7 +69,12 @@
         </div>
       {/if}
     {:else}
-      <div class="file" on:click={() => open(entry.path)} on:keydown={() => {}}>
+      <div
+        class="file"
+        class:selected={entry.path === selectedPath}
+        on:click={() => open(entry.path, entry.name)}
+        on:keydown={() => {}}
+      >
         {entry.name}
       </div>
     {/if}
@@ -70,6 +86,7 @@
   .dir { cursor: pointer; padding: 2px 4px; font-weight: bold; }
   .dir:hover, .file:hover { background: var(--lm-highlight, #292e42); border-radius: 3px; }
   .file { cursor: pointer; padding: 2px 4px 2px 16px; }
+  .file.selected { background: var(--lm-highlight, #292e42); border-radius: 3px; }
   .children { padding-left: 12px; }
   .icon { font-size: 10px; margin-right: 4px; }
 </style>
