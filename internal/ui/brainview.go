@@ -316,7 +316,7 @@ func normalizePositions(positions []pos) {
 	if span < 1 {
 		span = 1
 	}
-	target := math.Max(40, float64(n)*8)
+	target := math.Max(40, math.Min(float64(n)*8, 120))
 	scale := target / span
 
 	for i := range positions {

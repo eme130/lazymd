@@ -9,6 +9,7 @@ import (
 	"github.com/EME130/lazymd/internal/brain"
 	"github.com/EME130/lazymd/internal/buffer"
 	"github.com/EME130/lazymd/internal/config"
+	"github.com/EME130/lazymd/internal/corebackend"
 	"github.com/EME130/lazymd/internal/editor"
 	"github.com/EME130/lazymd/internal/nav"
 	"github.com/EME130/lazymd/internal/pluginadapter"
@@ -54,14 +55,17 @@ func main() {
 		Log:    func(msg string) { log.Println("[plugin]", msg) },
 	}
 	backendCtx := &pluginapi.BackendContext{
-		Emit:   engine.Emit,
-		Editor: editorAdapter,
-		Nav:    navAdapter,
-		Brain:  brainAdapter,
-		Config: configAdapter,
-		Log:    func(msg string) { log.Println("[plugin]", msg) },
+		Emit:      engine.Emit,
+		Broadcast: engine.BroadcastEvent,
+		Editor:    editorAdapter,
+		Nav:       navAdapter,
+		Brain:     brainAdapter,
+		Config:    configAdapter,
+		Log:       func(msg string) { log.Println("[plugin]", msg) },
 	}
 	engine.SetContexts(frontendCtx, backendCtx)
+
+	engine.RegisterBackend(corebackend.New())
 
 	guiPlugin := wailsplugin.NewPlugin()
 	engine.RegisterFrontend(guiPlugin)

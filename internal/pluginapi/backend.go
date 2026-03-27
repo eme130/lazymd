@@ -22,12 +22,13 @@ type BackendPlugin interface {
 
 // BackendContext is the API surface available to backend plugins.
 type BackendContext struct {
-	Emit   func(op *Operation) // emit new operations into the IR
-	Editor EditorAPI
-	Nav    NavAPI  // nil if unavailable
-	Brain  BrainAPI // nil if unavailable
-	Config ConfigAPI
-	Log    func(msg string)
+	Emit      func(op *Operation)    // emit new operations into the IR
+	Broadcast func(event *Event)     // broadcast events to all plugins
+	Editor    EditorAPI
+	Nav       NavAPI  // nil if unavailable
+	Brain     BrainAPI // nil if unavailable
+	Config    ConfigAPI
+	Log       func(msg string)
 }
 
 // Capability declares a named capability a backend plugin provides.

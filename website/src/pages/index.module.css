@@ -178,6 +178,20 @@
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
+/* ── Hero Dedication ─────────────────────────────────────────────── */
+.heroDedication {
+  margin-top: 40px;
+  font-size: 0.85rem;
+  color: var(--lmd-text-subtle, #666);
+  font-style: italic;
+  opacity: 0.7;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
 /* ── Terminal Demo ────────────────────────────────────────────────── */
 .terminalDemo {
   padding: 0 24px 40px;
@@ -315,6 +329,96 @@
   font-size: 0.9rem;
   line-height: 1.7;
   margin: 0;
+}
+
+/* ── Vision Section ──────────────────────────────────────────────── */
+.visionSection {
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+  background: var(--lmd-bg);
+}
+
+.visionGlow {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.visionLabel {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--lmd-accent-warm, #e8a87c);
+  margin-bottom: 16px;
+  padding: 4px 14px;
+  border-radius: 100px;
+  background: var(--lmd-accent-warm-muted, rgba(232, 168, 124, 0.1));
+  border: 1px solid var(--lmd-accent-warm-border, rgba(232, 168, 124, 0.2));
+}
+
+.visionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto 48px;
+}
+
+.visionCard {
+  background: var(--lmd-badge-bg);
+  border: 1px solid var(--lmd-accent-warm-border, rgba(232, 168, 124, 0.2));
+  border-radius: 16px;
+  padding: 36px 32px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.visionCard:hover {
+  border-color: var(--lmd-accent-warm, #e8a87c);
+  transform: translateY(-2px);
+}
+
+.visionIcon {
+  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+}
+
+.visionCard h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--lmd-text);
+  letter-spacing: -0.01em;
+}
+
+.visionCard p {
+  color: var(--lmd-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.visionManifesto {
+  text-align: center;
+  color: var(--lmd-text-muted);
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.8;
+  font-style: italic;
+  opacity: 0.85;
 }
 
 /* ── Interfaces Grid ─────────────────────────────────────────────── */
@@ -808,6 +912,7 @@
   .interfaceGrid { grid-template-columns: repeat(2, 1fr); }
   .teamsGrid { grid-template-columns: repeat(2, 1fr); }
   .philosophyGrid { grid-template-columns: repeat(2, 1fr); }
+  .visionGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -826,5 +931,7 @@
   .interfaceGrid { grid-template-columns: 1fr; }
   .teamsGrid { grid-template-columns: 1fr; }
   .philosophyGrid { grid-template-columns: 1fr; }
+  .visionGrid { grid-template-columns: 1fr; }
+  .visionSection { padding: 64px 24px; }
   .teamsSection { padding: 64px 24px; }
 }

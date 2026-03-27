@@ -13,7 +13,7 @@
 - Syntax highlighting for 16+ languages
 - 12 built-in color themes (Dracula, Gruvbox, Nord, Catppuccin, Tokyo Night, etc.)
 - `.rndm` file format (100% backward compatible with `.md`)
-- Zero external dependencies (pure Zig, POSIX termios + ANSI escape codes)
+- Built with Go, Bubble Tea v2 + Lip Gloss + Glamour
 
 ### MCP Server
 - 22 tools over JSON-RPC 2.0 (stdio)
@@ -29,11 +29,12 @@
 - BFS path finding between notes
 - Hub detection, orphan detection
 
-### Plugin System
-- 62 built-in plugins (zettelkasten, kanban, pomodoro, daily notes, templates, etc.)
-- vtable-based interface for custom plugins
+### Plugin System (LLVM-Inspired)
+- Two-tier architecture: frontend plugins (UI) + backend plugins (core extensions)
+- IR pipeline: operations flow through passes before reaching the core
+- External plugins via JSON-RPC 2.0 over stdio (`~/.config/lazymd/plugins/`)
 - Event hooks (file open/save, buffer changes, mode changes, cursor events)
-- Custom commands and UI panels
+- Custom commands, keybindings, and UI panels
 
 ---
 
@@ -46,9 +47,9 @@
 
 ### Interfaces
 - Terminal TUI (shipped)
+- Wails desktop app (shipped — Svelte + CodeMirror 6 + D3.js)
 - Web editor (in progress)
-- Native desktop apps (planned)
-- Embedded/IoT (planned) -- e-ink tablets, smart displays, embedded systems
+- Embedded/IoT (planned) — e-ink tablets, smart displays, embedded systems
 
 ---
 

@@ -35,6 +35,10 @@ function Hero(): React.JSX.Element {
             Documentation
           </Link>
         </div>
+        <p className={s.heroDedication}>
+          LazyMathDeath created LazyMathDragon. In loving memory of MBZ, for my
+          Kleopetra &mdash; and in future, to my Mary.
+        </p>
       </div>
     </header>
   );
@@ -122,6 +126,77 @@ function Philosophy(): React.JSX.Element {
   );
 }
 
+/* ── Vision: The Math Playground ──────────────────────────────────── */
+
+const visionPillars = [
+  {
+    icon: '\u{1D70B}',
+    title: 'LaTeX-Native Markdown',
+    desc: 'Write theorems, proofs, and equations inline with your prose. Markdown extended with first-class LaTeX \u2014 no plugins, no hacks. The notation you think in is the notation you type.',
+  },
+  {
+    icon: '\u{1F40D}',
+    title: 'Embedded Python Interpreter',
+    desc: 'Run computations right inside your document. Symbolic algebra, numerical proofs, visualizations \u2014 your markdown is alive. Write a conjecture, then prove it in the next cell.',
+  },
+  {
+    icon: '\u{1F4DC}',
+    title: 'Document Your Theorems',
+    desc: 'Markdown is the connective tissue. Explain the intuition, state the theorem in LaTeX, verify it in Python, and publish it all as one artifact. The new generation of the research pad.',
+  },
+  {
+    icon: '\u{1F52C}',
+    title: 'Research Yourself',
+    desc: 'No gatekeepers. No paywalls on your own tools. A super-fluid playground where students and researchers alike experiment with mathematics \u2014 for the living, and for those who came before us.',
+  },
+];
+
+function Vision(): React.JSX.Element {
+  return (
+    <section className={s.visionSection} id="vision">
+      <div className={s.visionGlow} aria-hidden="true" />
+      <div className={s.container}>
+        <div style={{textAlign: 'center'}}>
+          <span className={s.visionLabel}>The Aim</span>
+        </div>
+        <h2 className={s.sectionTitle}>
+          A super-fluid<br />math playground.
+        </h2>
+        <p className={s.sectionDesc}>
+          We are building the instrument that Euler would have used if he had a
+          laptop. Markdown for the narrative, LaTeX for the notation, Python for
+          the proof. One document, one truth. Mathematics should be explored the
+          way it was meant to be &mdash; fluidly, fearlessly, and without
+          friction between thought and expression.
+        </p>
+        <div className={s.visionGrid}>
+          {visionPillars.map(({icon, title, desc}) => (
+            <article key={title} className={s.visionCard}>
+              <span className={s.visionIcon} aria-hidden="true">{icon}</span>
+              <h3>{title}</h3>
+              <p>{desc}</p>
+            </article>
+          ))}
+        </div>
+        <p className={s.visionManifesto}>
+          We believe the next breakthrough in mathematics won't come from a
+          closed-source tool with a subscription fee. It will come from someone
+          with a text file, an idea, and a compiler that sends it upward.
+          LazyMD is not a runtime &mdash; runtimes are for the gods. This is a
+          compiler. It takes the notes of a mathematician, compiles them through
+          LaTeX and Python, and dispatches them to the gods to verify &mdash;
+          first-class AI that proves, challenges, and extends your thinking.
+          The Red Dragon rides again. Same energy as Aho, Sethi, and Ullman.
+          Same lineage as the LLVM dragon. A new beast for a new era: the
+          LazyMathDragon. For students scribbling their first proof. For
+          researchers pushing the boundary. For the living and the dead &mdash;
+          because great ideas deserve compilers that outlive their creators.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 /* ── Interfaces: Runs Everywhere ──────────────────────────────────── */
 
 const interfaces = [
@@ -134,15 +209,15 @@ const interfaces = [
   },
   {
     label: 'Web Editor',
-    status: 'Coming soon',
-    live: false,
+    status: 'Available now',
+    live: true,
     desc: 'The same editing experience in your browser. Real-time collaboration, cloud sync, and zero install. Open a link and start writing.',
     ascii: '  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n  \u2502 \u25CF\u25CF\u25CF  lazymd.com   \u2502\n  \u251C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n  \u2502 # Hello world.  \u2502\n  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518',
   },
   {
     label: 'Native Apps',
-    status: 'Coming soon',
-    live: false,
+    status: 'Available now',
+    live: true,
     desc: 'macOS, Windows, Linux, iOS, Android. Native performance with platform-native feel. One markdown vault, every device in your life.',
     ascii: '  \u250C\u2500\u2500\u2500\u2500\u2510  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n  \u2502 \u2588\u2588 \u2502  \u2502  \u2588\u2588  \u2502\n  \u2502 \u2588\u2588 \u2502  \u2502  \u2588\u2588  \u2502\n  \u2514\u2500\u2500\u2500\u2500\u2518  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n   iOS      macOS',
   },
@@ -180,163 +255,6 @@ function Interfaces(): React.JSX.Element {
               <p>{desc}</p>
             </article>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── Features ─────────────────────────────────────────────────────── */
-
-const features = [
-  {icon: '\u2328', title: 'Vim-Native Editing', desc: 'Full modal editing with Normal, Insert, and Command modes. Navigate with hjkl, motions with w/b, delete with dd, undo with u \u2014 muscle-memory compatible.', wide: false},
-  {icon: '\u25CE', title: 'Live Preview', desc: 'Rendered markdown in a side panel. Headers, bold, italic, code blocks with syntax highlighting \u2014 all updating as you type.', wide: false},
-  {icon: '\u2588', title: 'Multi-Panel Layout', desc: 'Inspired by lazygit \u2014 file tree, editor, preview, and brain graph side by side. Toggle panels with Alt+1/2/3.', wide: false},
-  {icon: '\u2726', title: 'Syntax Highlighting', desc: 'Built-in highlighting for Go, Python, JavaScript, TypeScript, Rust, Zig, C, C++, Java, and 16+ languages. Theme-aware colors with a pluggable highlighter backend.', wide: true},
-  {icon: '\u2699', title: 'Plugin System', desc: 'Register custom commands, hook into editor events, add panels. Build and share community plugins.', wide: false},
-  {icon: '\u2192', title: 'Zero Dependencies', desc: 'Pure Go with Bubble Tea and Lip Gloss. No runtime dependencies. Fast startup, tiny single binary.', wide: false},
-  {icon: '\u2387', title: 'Mouse Support', desc: 'Click to position cursor, scroll with mouse wheel, click panels to focus. Works in iTerm2, Alacritty, kitty, and more.', wide: false},
-  {icon: '\u2B21', title: 'MCP Server', desc: 'Built-in Model Context Protocol server with 22 tools. AI agents like Claude Code and Gemini CLI connect via JSON-RPC 2.0 over stdio.', wide: false},
-  {icon: '\u{1F9E0}', title: 'Brain: Knowledge Graph', desc: 'Obsidian-style graph view for [[wiki-links]]. Visualize connections between notes with a force-directed ASCII layout. Navigate, explore backlinks, and find orphan notes.', wide: true},
-  {icon: '\u26A1', title: 'Instant Startup', desc: 'Compiles to a single ~2MB binary. Launches in milliseconds, even on large files. No JVM, no Electron, no wait.', wide: false},
-];
-
-function Features(): React.JSX.Element {
-  return (
-    <section className={s.section} id="features">
-      <div className={s.container}>
-        <div style={{textAlign: 'center'}}>
-          <span className={s.sectionLabel}>Features</span>
-        </div>
-        <h2 className={s.sectionTitle}>Everything you need,<br />nothing you don't.</h2>
-        <p className={s.sectionDesc}>
-          A compiler built for mortals. Whether you're drafting briefs, shipping products, or writing research &mdash; LazyMD stays out of your way.
-        </p>
-        <div className={s.featureGrid}>
-          {features.map(({icon, title, desc, wide}) => (
-            <article key={title} className={`${s.featureCard} ${wide ? s.featureCardWide : ''}`}>
-              <div className={s.featureIcon} aria-hidden="true">{icon}</div>
-              <h3>{title}</h3>
-              <p>{desc}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── MCP / AI Integration ─────────────────────────────────────────── */
-
-const mcpTools = [
-  'open_file', 'read_document', 'write_document', 'list_headings',
-  'edit_section', 'read_section', 'list_tasks', 'update_task',
-  'get_breadcrumb', 'move_section', 'search_content', 'get_structure',
-  'list_links', 'get_backlinks', 'get_graph',
-  'get_neighbors', 'find_path', 'get_orphans', 'get_hub_notes',
-];
-
-function MCPSection(): React.JSX.Element {
-  return (
-    <section className={s.sectionAlt} id="mcp-server">
-      <div className={s.container}>
-        <div style={{textAlign: 'center'}}>
-          <span className={s.sectionLabel}>AI Integration</span>
-        </div>
-        <h2 className={s.sectionTitle}>An MCP server, built in.</h2>
-        <p className={s.sectionDesc}>
-          AI agents connect via stdio to read, navigate, and edit markdown documents programmatically.
-        </p>
-        <div className={s.mcpGrid}>
-          <div className={s.mcpContent}>
-            <h3>22 tools over JSON-RPC 2.0</h3>
-            <p>
-              Document tools for reading, writing, and searching. Navigation tools for
-              heading-based traversal, task management, and section manipulation.
-              Brain tools for wiki-link analysis, backlink discovery, and graph queries.
-            </p>
-            <div className={s.mcpTools}>
-              {mcpTools.map(t => <span key={t} className={s.mcpTool}>{t}</span>)}
-            </div>
-            <Link className={s.btnSecondary} to="/docs/mcp-server/overview">
-              MCP Documentation
-            </Link>
-          </div>
-          <div className={s.mcpCode}>
-            <div className={s.mcpCodeHeader} aria-label="Code examples for Claude Code and Gemini CLI">
-              <span className={`${s.mcpCodeTab} ${s.mcpCodeTabActive}`} aria-current="true">Claude Code</span>
-              <span className={s.mcpCodeTab}>Gemini CLI</span>
-            </div>
-            <div className={s.mcpCodeBody}>
-              <code>{`# Add LazyMD as an MCP server
-claude mcp add LazyMD -- \\
-  /path/to/lm --mcp-server
-
-# Start with a file preloaded
-lm --mcp-server myfile.md`}</code>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── Teams (Coming Soon) ──────────────────────────────────────────── */
-
-const teamFeatures = [
-  {
-    icon: '\u{1F91D}',
-    title: 'Real-Time Collaboration',
-    desc: 'Real-time multiplayer editing. See your team\'s cursors, edits, and selections live. Work together across continents.',
-  },
-  {
-    icon: '\u{1F3C6}',
-    title: 'Rankings & Leaderboards',
-    desc: 'Track contributions, streaks, and impact across your organization. Gamify the writing experience.',
-  },
-  {
-    icon: '\u23F1',
-    title: 'Time Tracking',
-    desc: 'Built-in time tracking per file, project, and team. Know where your hours actually go \u2014 no third-party tools.',
-  },
-  {
-    icon: '\u{1F3E2}',
-    title: 'Multi-Tenancy',
-    desc: 'Isolated workspaces for teams and organizations. Role-based access, audit logs, and compliance-ready infrastructure.',
-  },
-];
-
-function Teams(): React.JSX.Element {
-  return (
-    <section className={s.teamsSection} id="teams">
-      <div className={s.teamsGlow} aria-hidden="true" />
-      <div className={s.container}>
-        <div style={{textAlign: 'center'}}>
-          <span className={s.teamsLabel}>Coming Soon</span>
-        </div>
-        <h2 className={s.sectionTitle}>
-          Built for teams.
-        </h2>
-        <p className={s.sectionDesc}>
-          Everything below ships with <strong>LazyMD Cloud</strong> &mdash; the managed
-          version for organizations that want collaboration, analytics, and
-          enterprise-grade infrastructure out of the box.
-        </p>
-        <div className={s.teamsGrid}>
-          {teamFeatures.map(({icon, title, desc}) => (
-            <article key={title} className={s.teamsCard}>
-              <span className={s.teamsIcon} aria-hidden="true">{icon}</span>
-              <h3>{title}</h3>
-              <p>{desc}</p>
-            </article>
-          ))}
-        </div>
-        <div className={s.teamsNotify}>
-          <p>Interested in early access?</p>
-          <Link className={s.btnWarm} to="https://github.com/EME130/lazymd/discussions">
-            Join the waitlist
-          </Link>
         </div>
       </div>
     </section>
@@ -456,10 +374,8 @@ export default function Home(): React.JSX.Element {
         </div>
         <SocialProof />
         <Philosophy />
+        <Vision />
         <Interfaces />
-        <Features />
-        <MCPSection />
-        <Teams />
         <Install />
         <BuyMeACigarette />
         <CTASection />
