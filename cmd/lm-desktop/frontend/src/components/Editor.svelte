@@ -4,8 +4,8 @@
   import { markdown } from '@codemirror/lang-markdown';
   import { oneDark } from '@codemirror/theme-one-dark';
   import { EditorState } from '@codemirror/state';
-  import { GetContent, InsertText, DeleteRange, SetCursor, SaveFile } from '../../../wailsjs/go/wailsplugin/App';
-  import { onBufferChanged } from '../lib/events';
+  import { GetContent, InsertText, DeleteRange, SetCursor, SaveFile } from '../../wailsjs/go/wailsplugin/App';
+  import { onBufferChanged, onFileOpened } from '../lib/events';
 
   let editorContainer: HTMLDivElement;
   let view: EditorView;
@@ -62,6 +62,16 @@
       if (data?.origin === 'wails-gui') return;
       const content = data?.content;
       if (content != null && view) {
+        ignoreNextUpdate = true;
+        view.dispatch({
+          changes: { from: 0, to: view.state.doc.length, insert: content },
+        });
+      }
+    });
+
+    onFileOpened(async () => {
+      const content = await GetContent();
+      if (view) {
         ignoreNextUpdate = true;
         view.dispatch({
           changes: { from: 0, to: view.state.doc.length, insert: content },

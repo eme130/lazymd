@@ -1,7 +1,7 @@
 ---
 title: Package Reference
 sidebar_position: 2
-description: Complete package reference for the LazyMD codebase — buffer, markdown, editor, nav, brain, highlight, plugins, themes, ui, mcp, web, and agent packages.
+description: Complete package reference for the LazyMD codebase — buffer, markdown, editor, nav, brain, highlight, pluginapi, plugins, pluginadapter, themes, ui, mcp, web, agent, and wailsplugin packages.
 keywords: [LazyMD packages, Go packages, terminal editor internals, buffer package, code reference]
 ---
 
@@ -14,10 +14,13 @@ keywords: [LazyMD packages, Go packages, terminal editor internals, buffer packa
 | `editor` | Vim modal editing, cursor management, keybindings |
 | `nav` | Navigation interface (heading paths, tasks, breadcrumbs, sections) |
 | `brain` | Knowledge graph with BFS, backlinks, and vault scanner |
-| `highlight` | Highlighter interface with built-in keyword tokenizer |
-| `plugins` | Plugin system with registry, lifecycle management, and events |
+| `highlight` | Highlighter interface with built-in keyword tokenizer (LaTeX, Python) |
+| `pluginapi` | Plugin IR types, interfaces, and API contracts (imports only `buffer`) |
+| `plugins` | Plugin engine, registry, loader, and external plugin support (JSON-RPC stdio) |
+| `pluginadapter` | Adapters: nav, brain, theme, editor → pluginapi interfaces |
 | `themes` | Color themes (Tokyo Night, Solarized, etc.) |
 | `ui` | Bubble Tea TUI shell, panel layout, file tree, preview, brain view |
 | `mcp` | MCP server with 22 tools over JSON-RPC 2.0 stdio |
 | `web` | HTTP server with RFC 6455 WebSocket support |
 | `agent` | Agent backend interface with MCP stdio and WebSocket implementations |
+| `wailsplugin` | Wails desktop GUI frontend plugin + WailsApp bindings |

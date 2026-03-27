@@ -1,4 +1,4 @@
-import { GetThemeColors } from '../../../wailsjs/go/wailsplugin/App';
+import { GetThemeColors } from '../../wailsjs/go/wailsplugin/App';
 
 export async function applyTheme() {
   const colors = await GetThemeColors();

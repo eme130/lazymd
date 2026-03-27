@@ -30,6 +30,8 @@ const (
 	TaskCheckbox
 	HTMLTag
 	WikiLink
+	MathInline
+	MathBlock
 )
 
 // Span represents a range of text with a token type.
@@ -42,6 +44,7 @@ type Span struct {
 // LineContext tracks state across line tokenization.
 type LineContext struct {
 	InCodeBlock bool
+	InMathBlock bool
 }
 
 // CodeFenceInfo is the result of parsing a code fence line.
@@ -107,6 +110,16 @@ func TokenizeLine(line string, ctx *LineContext) []Span {
 		return []Span{{Start: 0, End: len(line), Token: CodeBlock}}
 	}
 
+	// Math block: $$ on its own line (optional leading whitespace)
+	if isMathFence(line) {
+		ctx.InMathBlock = !ctx.InMathBlock
+		return []Span{{Start: 0, End: len(line), Token: MathBlock}}
+	}
+
+	if ctx.InMathBlock {
+		return []Span{{Start: 0, End: len(line), Token: MathBlock}}
+	}
+
 	if len(line) == 0 {
 		return nil
 	}
@@ -165,6 +178,20 @@ func tokenizeInline(line string, start, end int) []Span {
 			i = codeEnd
 			textStart = i
 			continue
+		}
+
+		// Inline math $...$
+		if line[i] == '$' && !(i > 0 && line[i-1] == '\\') {
+			mathEnd := findInlineMath(line, i+1, end)
+			if mathEnd >= 0 {
+				if i > textStart {
+					spans = append(spans, Span{Start: textStart, End: i, Token: Normal})
+				}
+				spans = append(spans, Span{Start: i, End: mathEnd, Token: MathInline})
+				i = mathEnd
+				textStart = i
+				continue
+			}
 		}
 
 		// Bold + italic (*** or ___)
@@ -387,4 +414,18 @@ func parseLink(line string, start, end int) (int, int) {
 		i++
 	}
 	return -1, -1
+}
+
+func isMathFence(line string) bool {
+	trimmed := strings.TrimLeft(line, " \t")
+	return trimmed == "$$"
+}
+
+func findInlineMath(line string, start, end int) int {
+	for i := start; i < end; i++ {
+		if line[i] == '$' && i > start && !(line[i-1] == '\\') {
+			return i + 1
+		}
+	}
+	return -1
 }

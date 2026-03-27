@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import * as d3 from 'd3';
   import { forceSimulation, forceLink, forceManyBody, forceCenter } from 'd3-force';
-  import { GetGraph, OpenFile } from '../../../wailsjs/go/wailsplugin/App';
+  import { GetGraph, OpenFile } from '../../wailsjs/go/wailsplugin/App';
   import { onGraphUpdated } from '../lib/events';
 
   interface GraphNode extends d3.SimulationNodeDatum {

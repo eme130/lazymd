@@ -11,9 +11,11 @@ Terminal-based markdown editor written in Go. Inspired by lazygit/lazydocker.
 ## Build Commands
 
 ```bash
-go build ./cmd/lm     # Build the binary
-go run ./cmd/lm       # Run the editor
-go test ./...         # Run all tests
+task build            # Build TUI → bin/lm
+task run              # Run TUI
+task test             # Run all tests
+task desktop:build    # Build desktop → bin/lm-desktop
+task desktop:dev      # Wails dev mode (hot reload)
 ```
 
 ## Project Structure

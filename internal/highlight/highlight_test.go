@@ -211,3 +211,66 @@ func TestSupportsLanguage(t *testing.T) {
 		t.Error("expected brainfuck not supported")
 	}
 }
+
+func TestLatexBuiltinCommand(t *testing.T) {
+	h := NewBuiltin()
+	state := &State{}
+	spans := h.Tokenize(`\frac{a}{b}`, "latex", state)
+	if len(spans) == 0 {
+		t.Fatal("expected spans, got none")
+	}
+	if spans[0].Kind != Builtin {
+		t.Errorf("expected \\frac as Builtin, got %v", spans[0].Kind)
+	}
+	if spans[0].Start != 0 || spans[0].End != 5 {
+		t.Errorf("expected \\frac span [0,5), got [%d,%d)", spans[0].Start, spans[0].End)
+	}
+}
+
+func TestLatexComment(t *testing.T) {
+	h := NewBuiltin()
+	state := &State{}
+	spans := h.Tokenize("% this is a comment", "latex", state)
+	if len(spans) != 1 {
+		t.Fatalf("expected 1 span, got %d: %+v", len(spans), spans)
+	}
+	if spans[0].Kind != Comment {
+		t.Errorf("expected Comment, got %v", spans[0].Kind)
+	}
+}
+
+func TestLatexKeywordAndType(t *testing.T) {
+	h := NewBuiltin()
+	state := &State{}
+	spans := h.Tokenize(`\begin{theorem}`, "latex", state)
+	if len(spans) < 2 {
+		t.Fatalf("expected at least 2 spans, got %d: %+v", len(spans), spans)
+	}
+	if spans[0].Kind != Keyword {
+		t.Errorf("expected \\begin as Keyword, got %v", spans[0].Kind)
+	}
+	found := false
+	for _, s := range spans {
+		text := `\begin{theorem}`[s.Start:s.End]
+		if text == "theorem" && s.Kind == TypeName {
+			found = true
+		}
+	}
+	if !found {
+		t.Errorf("expected 'theorem' as TypeName, spans: %+v", spans)
+	}
+}
+
+func TestLatexFindLang(t *testing.T) {
+	lang := FindLang("latex")
+	if lang == nil {
+		t.Fatal("FindLang(\"latex\") returned nil")
+	}
+	if lang.Name != "latex" {
+		t.Errorf("expected name 'latex', got %q", lang.Name)
+	}
+	lang2 := FindLang("tex")
+	if lang2 == nil {
+		t.Fatal("FindLang(\"tex\") returned nil")
+	}
+}

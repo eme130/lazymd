@@ -21,6 +21,11 @@ type FrontendPlugin interface {
 
 	// StatusItems returns status bar widgets. Return nil if none.
 	StatusItems() []StatusItem
+
+	// RunSetup is called when first-run setup is needed.
+	// Frontends must present a vault selection UI or accept it programmatically.
+	// Return the chosen vault path, or error to abort.
+	RunSetup(cfg ConfigAPI) (vaultPath string, err error)
 }
 
 // FrontendContext is the API surface available to frontend plugins.
@@ -30,6 +35,7 @@ type FrontendContext struct {
 	Nav    NavAPI   // nil if unavailable
 	Brain  BrainAPI // nil if unavailable
 	Theme  ThemeAPI // nil if unavailable
+	Config ConfigAPI
 	Log    func(msg string)
 }
 

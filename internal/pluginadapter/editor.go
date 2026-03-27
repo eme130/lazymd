@@ -19,6 +19,18 @@ func (a *EditorAdapter) SetStatus(msg string, isError bool) { a.Ed.SetStatus(msg
 func (a *EditorAdapter) SetCursorRow(row int)            { a.Ed.SetCursorRow(row) }
 func (a *EditorAdapter) SetCursorCol(col int)            { a.Ed.SetCursorCol(col) }
 
+func (a *EditorAdapter) OpenFile(path string) error { return a.Ed.OpenFile(path) }
+func (a *EditorAdapter) SaveFile() error             { return a.Ed.Save() }
+
+func (a *EditorAdapter) DeleteRange(startRow, startCol, endRow, endCol int) {
+	buf := a.Ed.Buffer()
+	startOff := buf.PosToOffset(startRow, startCol)
+	endOff := buf.PosToOffset(endRow, endCol)
+	if endOff > startOff {
+		buf.DeleteRange(startOff, endOff-startOff)
+	}
+}
+
 func (a *EditorAdapter) LineCount() int {
 	return a.Ed.Buffer().LineCount()
 }

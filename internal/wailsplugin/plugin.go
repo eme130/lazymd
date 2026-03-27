@@ -52,3 +52,7 @@ func (p *Plugin) Render(_, _ int) string                    { return "" }
 func (p *Plugin) KeyBindings() []pluginapi.KeyBinding       { return nil }
 func (p *Plugin) Commands() []pluginapi.FrontendCommandDef  { return nil }
 func (p *Plugin) StatusItems() []pluginapi.StatusItem       { return nil }
+
+func (p *Plugin) RunSetup(_ pluginapi.ConfigAPI) (string, error) {
+	return "", nil // placeholder — real implementation in Task 6
+}

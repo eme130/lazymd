@@ -41,6 +41,9 @@ func (m *mockEditorAPI) InsertAt(row, col int, text string) {
 	pos += col
 	m.buf.InsertString(pos, text)
 }
+func (m *mockEditorAPI) OpenFile(_ string) error { return nil }
+func (m *mockEditorAPI) SaveFile() error          { return nil }
+func (m *mockEditorAPI) DeleteRange(_, _, _, _ int) {}
 func (m *mockEditorAPI) DeleteLines(start, end int) {
 	// Simple mock: delete line range
 	if start >= m.buf.LineCount() {
@@ -58,6 +61,17 @@ func (m *mockEditorAPI) DeleteLines(start, end int) {
 		m.buf.DeleteRange(startPos, endPos-startPos)
 	}
 }
+
+type mockBrainAPI struct {
+	backlinks map[string][]string
+}
+
+func (m *mockBrainAPI) NodeCount() int                          { return 0 }
+func (m *mockBrainAPI) Nodes() []pluginapi.NodeInfo             { return nil }
+func (m *mockBrainAPI) GetBacklinks(name string) []string       { return m.backlinks[name] }
+func (m *mockBrainAPI) GetNeighbors(name string) []string       { return nil }
+func (m *mockBrainAPI) FindPath(from, to string) ([]string, bool) { return nil, false }
+func (m *mockBrainAPI) GetOrphans() []string                    { return nil }
 
 func TestAppGetContent(t *testing.T) {
 	editor := newMockEditor("hello world")
@@ -148,6 +162,47 @@ func TestAppListFiles(t *testing.T) {
 	files := app.ListFiles(dir)
 	if len(files) != 2 {
 		t.Errorf("expected 2 files, got %d", len(files))
+	}
+}
+
+func TestAppGetWordCount(t *testing.T) {
+	editor := newMockEditor("hello world foo")
+	app := newTestApp(editor, nil, nil)
+	if got := app.GetWordCount(); got != 3 {
+		t.Errorf("expected 3 words, got %d", got)
+	}
+}
+
+func TestAppGetWordCountEmpty(t *testing.T) {
+	editor := newMockEditor("")
+	app := newTestApp(editor, nil, nil)
+	if got := app.GetWordCount(); got != 0 {
+		t.Errorf("expected 0 words, got %d", got)
+	}
+}
+
+func TestAppGetCharCount(t *testing.T) {
+	editor := newMockEditor("hello world")
+	app := newTestApp(editor, nil, nil)
+	if got := app.GetCharCount(); got != 11 {
+		t.Errorf("expected 11 chars, got %d", got)
+	}
+}
+
+func TestAppGetBacklinkCount(t *testing.T) {
+	app := newTestApp(newMockEditor(""), nil, &mockBrainAPI{
+		backlinks: map[string][]string{"test": {"a.md", "b.md"}},
+	})
+	app.editor.(*mockEditorAPI).filePath = "test.md"
+	if got := app.GetBacklinkCount(); got != 2 {
+		t.Errorf("expected 2 backlinks, got %d", got)
+	}
+}
+
+func TestAppGetBacklinkCountNoBrain(t *testing.T) {
+	app := newTestApp(newMockEditor(""), nil, nil)
+	if got := app.GetBacklinkCount(); got != 0 {
+		t.Errorf("expected 0 backlinks, got %d", got)
 	}
 }
 

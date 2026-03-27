@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ListFiles, OpenFile } from '../../../wailsjs/go/wailsplugin/App';
+  import { ListFiles, OpenFile } from '../../wailsjs/go/wailsplugin/App';
 
   export let visible = false;
 

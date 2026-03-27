@@ -8,6 +8,17 @@ import (
 
 const maxFileSize = 64 * 1024
 
+// skipDirs contains directory names to ignore during vault scanning.
+var skipDirs = map[string]bool{
+	"node_modules": true,
+	"vendor":       true,
+	"dist":         true,
+	"build":        true,
+	"__pycache__":  true,
+	"target":       true,
+	"bin":          true,
+}
+
 // Scan recursively scans a vault directory for .md/.rndm files,
 // extracts [[wiki-links]], and builds a Graph.
 func Scan(rootPath string) (*Graph, error) {
@@ -20,12 +31,13 @@ func Scan(rootPath string) (*Graph, error) {
 			return nil // skip errors
 		}
 		if d.IsDir() {
-			if strings.HasPrefix(d.Name(), ".") {
+			name := d.Name()
+			if strings.HasPrefix(name, ".") || skipDirs[name] {
 				return filepath.SkipDir
 			}
 			return nil
 		}
-		if !isMarkdown(d.Name()) {
+		if !isMarkdown(d.Name()) || strings.HasPrefix(d.Name(), "._") {
 			return nil
 		}
 		rel, err := filepath.Rel(rootPath, path)

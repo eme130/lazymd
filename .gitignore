@@ -1,17 +1,27 @@
-# Zig build artifacts
-zig-out/
-zig-cache/
-.zig-cache/
-.scrach
-
 # Go build artifacts
 /lm
+/lm-desktop
 /cmd/lm/lm
+bin/
 
-# Editor (web UI) build artifacts
+# Wails desktop build artifacts
+cmd/lm-desktop/build/
+cmd/lm-desktop/frontend/dist/
+cmd/lm-desktop/frontend/wailsjs/
+cmd/lm-desktop/frontend/node_modules/
+cmd/lm-desktop/frontend/package.json.md5
+
+# Legacy web editor build artifacts
 editor/node_modules/
 editor/build/
 editor/.vite/
+
+# Personal vault (not part of the project)
+lazy_brain/
+
+# Tool-generated directories
+.serena/
+.playwright-mcp/
 
 # Local Claude config
 .claude.local.md

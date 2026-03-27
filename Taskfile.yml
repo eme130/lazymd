@@ -1,0 +1,101 @@
+version: "3"
+
+vars:
+  GO: /usr/local/go/bin/go
+  BINARY: lm
+  DESKTOP_BIN: lm-desktop
+  DESKTOP_DIR: cmd/lm-desktop
+  FRONTEND: cmd/lm-desktop/frontend
+
+tasks:
+  # --- TUI ---
+
+  build:
+    desc: Build TUI binary
+    cmds:
+      - "{{.GO}} build {{.GOFLAGS}} -o bin/{{.BINARY}} ./cmd/lm"
+
+  run:
+    desc: Run TUI
+    cmds:
+      - "{{.GO}} run ./cmd/lm {{.CLI_ARGS}}"
+
+  # --- Desktop (Wails) ---
+
+  desktop:install:
+    desc: Install desktop frontend deps
+    dir: "{{.FRONTEND}}"
+    cmds:
+      - npm install
+
+  desktop:frontend:
+    desc: Build desktop frontend (Vite)
+    dir: "{{.FRONTEND}}"
+    cmds:
+      - npm run build
+
+  desktop:build:
+    desc: Build desktop binary
+    deps: [desktop:frontend]
+    dir: "{{.DESKTOP_DIR}}"
+    cmds:
+      - "{{.GO}} build {{.GOFLAGS}} -o ../../bin/{{.DESKTOP_BIN}} ."
+
+  desktop:dev:
+    desc: Run desktop in Wails dev mode
+    dir: "{{.DESKTOP_DIR}}"
+    cmds:
+      - wails dev
+
+  # --- Quality ---
+
+  test:
+    desc: Run all tests
+    cmds:
+      - "{{.GO}} test ./..."
+
+  fmt:
+    desc: Format Go code
+    cmds:
+      - "{{.GO}} fmt ./..."
+
+  vet:
+    desc: Run go vet
+    cmds:
+      - "{{.GO}} vet ./..."
+
+  lint:
+    desc: Run all linters
+    cmds:
+      - task: vet
+      - task: fmt
+
+  # --- Debug (requires delve) ---
+
+  debug:
+    desc: Debug TUI with delve
+    cmds:
+      - "{{.GO}} build -gcflags='all=-N -l' -o bin/{{.BINARY}}-debug ./cmd/lm"
+      - "dlv exec bin/{{.BINARY}}-debug {{.CLI_ARGS}}"
+
+  debug:desktop:
+    desc: Debug desktop with delve
+    deps: [desktop:frontend]
+    cmds:
+      - "cd {{.DESKTOP_DIR}} && {{.GO}} build -gcflags='all=-N -l' -o ../../bin/{{.DESKTOP_BIN}}-debug ."
+      - "dlv exec bin/{{.DESKTOP_BIN}}-debug {{.CLI_ARGS}}"
+
+  # --- MCP ---
+
+  mcp:
+    desc: Run as MCP server
+    deps: [build]
+    cmds:
+      - "bin/{{.BINARY}} --mcp-server {{.CLI_ARGS}}"
+
+  # --- Misc ---
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - rm -rf bin/

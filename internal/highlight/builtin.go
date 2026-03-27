@@ -146,6 +146,26 @@ func highlightLine(line string, lang *LangDef, state *State) []Span {
 			}
 		}
 
+		// LaTeX backslash commands: \frac, \begin, etc.
+		if line[i] == '\\' && lang.Name == "latex" {
+			cmdEnd := i + 1
+			for cmdEnd < len(line) && isIdentStart(line[cmdEnd]) {
+				cmdEnd++
+			}
+			if cmdEnd > i+1 {
+				cmd := line[i:cmdEnd]
+				if matchWord(lang.Keywords, cmd) {
+					spans = append(spans, Span{Start: i, End: cmdEnd, Kind: Keyword})
+				} else if matchWord(lang.Builtins, cmd) {
+					spans = append(spans, Span{Start: i, End: cmdEnd, Kind: Builtin})
+				} else {
+					spans = append(spans, Span{Start: i, End: cmdEnd, Kind: Normal})
+				}
+				i = cmdEnd
+				continue
+			}
+		}
+
 		// Identifiers
 		if isIdentStart(line[i]) {
 			identEnd := scanIdentifier(line, i)

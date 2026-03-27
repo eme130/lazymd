@@ -13,11 +13,16 @@ type EditorAPI interface {
 	SetCursorRow(row int)
 	SetCursorCol(col int)
 
+	// File operations
+	OpenFile(path string) error
+	SaveFile() error
+
 	// Convenience methods
 	LineCount() int
 	Line(n int) string
 	Content() string
 	InsertAt(row, col int, text string)
+	DeleteRange(startRow, startCol, endRow, endCol int)
 	DeleteLines(start, end int) // end exclusive
 }
 
@@ -43,6 +48,11 @@ type ThemeAPI interface {
 	CurrentName() string
 	SetByName(name string) bool
 	ListThemes() []string
+}
+
+// ConfigAPI exposes app configuration to plugins.
+type ConfigAPI interface {
+	VaultPath() string
 }
 
 // SectionResult is returned by NavAPI.ReadSection.

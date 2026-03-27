@@ -172,3 +172,152 @@ func TestTokenizeNumberedList(t *testing.T) {
 		t.Errorf("span 0: expected ListNumber, got %v", spans[0].Token)
 	}
 }
+
+func TestTokenizeMathInlineSimple(t *testing.T) {
+	ctx := &LineContext{}
+	spans := TokenizeLine("$x^2$", ctx)
+	if len(spans) != 1 {
+		t.Fatalf("expected 1 span, got %d: %+v", len(spans), spans)
+	}
+	if spans[0].Token != MathInline {
+		t.Errorf("expected MathInline, got %v", spans[0].Token)
+	}
+	if spans[0].Start != 0 || spans[0].End != 5 {
+		t.Errorf("expected span [0,5), got [%d,%d)", spans[0].Start, spans[0].End)
+	}
+}
+
+func TestTokenizeMathInlineWithText(t *testing.T) {
+	ctx := &LineContext{}
+	spans := TokenizeLine("text $a+b$ more", ctx)
+	if len(spans) != 3 {
+		t.Fatalf("expected 3 spans, got %d: %+v", len(spans), spans)
+	}
+	if spans[0].Token != Normal {
+		t.Errorf("span 0: expected Normal, got %v", spans[0].Token)
+	}
+	if spans[1].Token != MathInline {
+		t.Errorf("span 1: expected MathInline, got %v", spans[1].Token)
+	}
+	if spans[2].Token != Normal {
+		t.Errorf("span 2: expected Normal, got %v", spans[2].Token)
+	}
+}
+
+func TestTokenizeMathBlockOpenClose(t *testing.T) {
+	ctx := &LineContext{}
+	spans := TokenizeLine("$$", ctx)
+	if !ctx.InMathBlock {
+		t.Fatal("expected InMathBlock after opening $$")
+	}
+	if len(spans) != 1 || spans[0].Token != MathBlock {
+		t.Fatalf("expected 1 MathBlock span for opening $$, got %+v", spans)
+	}
+	spans = TokenizeLine("x = 1", ctx)
+	if len(spans) != 1 || spans[0].Token != MathBlock {
+		t.Fatalf("expected 1 MathBlock span for content, got %+v", spans)
+	}
+	spans = TokenizeLine("$$", ctx)
+	if ctx.InMathBlock {
+		t.Fatal("expected not InMathBlock after closing $$")
+	}
+	if len(spans) != 1 || spans[0].Token != MathBlock {
+		t.Fatalf("expected 1 MathBlock span for closing $$, got %+v", spans)
+	}
+}
+
+func TestTokenizeMathUnclosedInlineDollar(t *testing.T) {
+	ctx := &LineContext{}
+	spans := TokenizeLine("price is $5", ctx)
+	for _, s := range spans {
+		if s.Token == MathInline {
+			t.Errorf("unclosed $ should not produce MathInline, got %+v", spans)
+		}
+	}
+}
+
+func TestTokenizeMathEscapedDollar(t *testing.T) {
+	ctx := &LineContext{}
+	spans := TokenizeLine(`\$escaped`, ctx)
+	for _, s := range spans {
+		if s.Token == MathInline || s.Token == MathBlock {
+			t.Errorf("escaped $ should not produce math token, got %+v", spans)
+		}
+	}
+}
+
+func TestTokenizeMathCodeSpanPrecedence(t *testing.T) {
+	ctx := &LineContext{}
+	spans := TokenizeLine("`code $not math$`", ctx)
+	for _, s := range spans {
+		if s.Token == MathInline {
+			t.Errorf("$ inside code span should not produce MathInline, got %+v", spans)
+		}
+	}
+	found := false
+	for _, s := range spans {
+		if s.Token == CodeInline {
+			found = true
+		}
+	}
+	if !found {
+		t.Error("expected CodeInline span")
+	}
+}
+
+func TestTokenizeMathInsideCodeBlock(t *testing.T) {
+	ctx := &LineContext{InCodeBlock: true}
+	spans := TokenizeLine("$x^2$", ctx)
+	for _, s := range spans {
+		if s.Token == MathInline {
+			t.Errorf("math inside code block should not produce MathInline, got %+v", spans)
+		}
+	}
+	if len(spans) != 1 || spans[0].Token != CodeBlock {
+		t.Errorf("expected CodeBlock, got %+v", spans)
+	}
+}
+
+func TestTokenizeMathBlockPrecedenceOverCodeBlock(t *testing.T) {
+	ctx := &LineContext{}
+	TokenizeLine("```", ctx)
+	if !ctx.InCodeBlock {
+		t.Fatal("expected InCodeBlock")
+	}
+	spans := TokenizeLine("$$", ctx)
+	if ctx.InMathBlock {
+		t.Fatal("$$ inside code block should not open math block")
+	}
+	if len(spans) != 1 || spans[0].Token != CodeBlock {
+		t.Errorf("expected CodeBlock, got %+v", spans)
+	}
+}
+
+func TestTokenizeMathBlockMidLine(t *testing.T) {
+	ctx := &LineContext{}
+	spans := TokenizeLine("$$x$$ and $y$", ctx)
+	if ctx.InMathBlock {
+		t.Fatal("mid-line $$ should not open math block")
+	}
+	mathCount := 0
+	for _, s := range spans {
+		if s.Token == MathInline {
+			mathCount++
+		}
+	}
+	if mathCount != 2 {
+		t.Errorf("expected 2 MathInline spans, got %d: %+v", mathCount, spans)
+	}
+}
+
+func TestTokenizeMathBlockUnclosedEOF(t *testing.T) {
+	ctx := &LineContext{}
+	TokenizeLine("$$", ctx)
+	if !ctx.InMathBlock {
+		t.Fatal("expected InMathBlock after $$")
+	}
+	TokenizeLine("some math content", ctx)
+	if !ctx.InMathBlock {
+		t.Fatal("InMathBlock should persist until closing $$")
+	}
+}
