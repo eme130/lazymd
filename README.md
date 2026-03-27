@@ -104,6 +104,7 @@ task debug:desktop    # Debug desktop with delve
 Pass arguments: `task run -- myfile.md`
 
 ---
+Inspired by lazygit and llvm
 
 > *Be grateful for what we have — and use it to make Earth a heaven.*
 
