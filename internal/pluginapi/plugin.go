@@ -21,3 +21,25 @@ type FrontendCommandDef struct {
 	Description string
 	Handler     func(ctx *FrontendContext, args string) error
 }
+
+// PluginSummary describes a plugin for listing purposes.
+type PluginSummary struct {
+	Name        string
+	Version     string
+	Description string
+}
+
+// CommandSummary describes a plugin command for listing purposes.
+type CommandSummary struct {
+	Name        string
+	Description string
+	PluginName  string
+}
+
+// CommandExecutor dispatches plugin commands and queries.
+type CommandExecutor interface {
+	ExecuteCommand(name string, args string) bool
+	Broadcast(eventType string)
+	ListPlugins() []PluginSummary
+	ListCommands() []CommandSummary
+}

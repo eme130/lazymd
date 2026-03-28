@@ -3,14 +3,11 @@ package plugins
 import (
 	"sort"
 
-	"github.com/EME130/lazymd/internal/editor"
 	"github.com/EME130/lazymd/internal/pluginapi"
 )
 
 // Engine is the central plugin orchestrator. It manages frontend and backend
 // plugins, runs passes, and routes operations through the IR pipeline.
-//
-// It also implements editor.CommandExecutor for backward compatibility.
 type Engine struct {
 	frontends  []pluginapi.FrontendPlugin
 	backends   []pluginapi.BackendPlugin
@@ -132,9 +129,9 @@ func (e *Engine) BroadcastEvent(event *pluginapi.Event) {
 	}
 }
 
-// --- editor.CommandExecutor implementation (backward compat) ---
+// --- pluginapi.CommandExecutor implementation ---
 
-func (e *Engine) ExecuteCommand(name string, _ editor.PluginEditor, args string) bool {
+func (e *Engine) ExecuteCommand(name string, args string) bool {
 	entry, ok := e.commandMap[name]
 	if !ok {
 		return false
@@ -143,18 +140,18 @@ func (e *Engine) ExecuteCommand(name string, _ editor.PluginEditor, args string)
 	return true
 }
 
-func (e *Engine) Broadcast(eventType string, _ editor.PluginEditor) {
+func (e *Engine) Broadcast(eventType string) {
 	e.BroadcastEvent(&pluginapi.Event{
 		Type: pluginapi.EventType(eventType),
 		Data: make(map[string]any),
 	})
 }
 
-func (e *Engine) ListPlugins() []editor.PluginSummary {
-	var out []editor.PluginSummary
+func (e *Engine) ListPlugins() []pluginapi.PluginSummary {
+	var out []pluginapi.PluginSummary
 	for _, f := range e.frontends {
 		info := f.Info()
-		out = append(out, editor.PluginSummary{
+		out = append(out, pluginapi.PluginSummary{
 			Name:        info.Name,
 			Version:     info.Version,
 			Description: info.Description,
@@ -162,7 +159,7 @@ func (e *Engine) ListPlugins() []editor.PluginSummary {
 	}
 	for _, b := range e.backends {
 		info := b.Info()
-		out = append(out, editor.PluginSummary{
+		out = append(out, pluginapi.PluginSummary{
 			Name:        info.Name,
 			Version:     info.Version,
 			Description: info.Description,
@@ -171,10 +168,10 @@ func (e *Engine) ListPlugins() []editor.PluginSummary {
 	return out
 }
 
-func (e *Engine) ListCommands() []editor.CommandSummary {
-	var out []editor.CommandSummary
+func (e *Engine) ListCommands() []pluginapi.CommandSummary {
+	var out []pluginapi.CommandSummary
 	for name, entry := range e.commandMap {
-		out = append(out, editor.CommandSummary{
+		out = append(out, pluginapi.CommandSummary{
 			Name:       name,
 			PluginName: entry.pluginName,
 		})

@@ -31,7 +31,7 @@ func TestEngineBasics(t *testing.T) {
 	}
 
 	// ExecuteCommand should return false for unknown commands
-	if eng.ExecuteCommand("nonexistent", nil, "") {
+	if eng.ExecuteCommand("nonexistent", "") {
 		t.Error("nonexistent command should not be found")
 	}
 }
@@ -90,8 +90,8 @@ func TestEnginePassCancellation(t *testing.T) {
 
 type cancelPass struct{}
 
-func (p *cancelPass) Name() string                                                  { return "cancel" }
-func (p *cancelPass) Priority() int                                                 { return 0 }
+func (p *cancelPass) Name() string  { return "cancel" }
+func (p *cancelPass) Priority() int { return 0 }
 func (p *cancelPass) Transform(_ *pluginapi.BackendContext, op *pluginapi.Operation) bool {
 	op.Cancel()
 	return true
@@ -101,9 +101,9 @@ type spyBackend struct {
 	onOp func()
 }
 
-func (s *spyBackend) Info() pluginapi.PluginInfo { return pluginapi.PluginInfo{Name: "spy"} }
-func (s *spyBackend) Init(_ *pluginapi.BackendContext) error   { return nil }
-func (s *spyBackend) Shutdown() error                          { return nil }
+func (s *spyBackend) Info() pluginapi.PluginInfo             { return pluginapi.PluginInfo{Name: "spy"} }
+func (s *spyBackend) Init(_ *pluginapi.BackendContext) error { return nil }
+func (s *spyBackend) Shutdown() error                        { return nil }
 func (s *spyBackend) OnOperation(_ *pluginapi.BackendContext, _ *pluginapi.Operation) {
 	if s.onOp != nil {
 		s.onOp()
@@ -140,16 +140,16 @@ type spyFrontend struct {
 	onEvent func(e *pluginapi.Event)
 }
 
-func (s *spyFrontend) Info() pluginapi.PluginInfo         { return pluginapi.PluginInfo{Name: "spy-frontend"} }
+func (s *spyFrontend) Info() pluginapi.PluginInfo              { return pluginapi.PluginInfo{Name: "spy-frontend"} }
 func (s *spyFrontend) Init(_ *pluginapi.FrontendContext) error { return nil }
-func (s *spyFrontend) Shutdown() error                     { return nil }
+func (s *spyFrontend) Shutdown() error                         { return nil }
 func (s *spyFrontend) OnEvent(_ *pluginapi.FrontendContext, e *pluginapi.Event) {
 	if s.onEvent != nil {
 		s.onEvent(e)
 	}
 }
-func (s *spyFrontend) Render(_, _ int) string                    { return "" }
-func (s *spyFrontend) KeyBindings() []pluginapi.KeyBinding       { return nil }
-func (s *spyFrontend) Commands() []pluginapi.FrontendCommandDef  { return nil }
-func (s *spyFrontend) StatusItems() []pluginapi.StatusItem       { return nil }
+func (s *spyFrontend) Render(_, _ int) string                         { return "" }
+func (s *spyFrontend) KeyBindings() []pluginapi.KeyBinding            { return nil }
+func (s *spyFrontend) Commands() []pluginapi.FrontendCommandDef       { return nil }
+func (s *spyFrontend) StatusItems() []pluginapi.StatusItem            { return nil }
 func (s *spyFrontend) RunSetup(_ pluginapi.ConfigAPI) (string, error) { return "", nil }

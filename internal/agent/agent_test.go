@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/EME130/lazymd/internal/buffer"
-	"github.com/EME130/lazymd/internal/editor"
+	"github.com/EME130/lazymd/internal/pluginapi"
 )
 
 type mockEditor struct {
@@ -16,14 +16,25 @@ type mockEditor struct {
 	isErr  bool
 }
 
-func (m *mockEditor) Buffer() *buffer.Buffer    { return m.buf }
-func (m *mockEditor) CursorRow() int             { return m.row }
-func (m *mockEditor) CursorCol() int             { return m.col }
-func (m *mockEditor) FilePath() string            { return m.file }
-func (m *mockEditor) EditorMode() editor.Mode     { return editor.ModeNormal }
-func (m *mockEditor) SetStatus(msg string, e bool) { m.status = msg; m.isErr = e }
-func (m *mockEditor) SetCursorRow(row int)         { m.row = row }
-func (m *mockEditor) SetCursorCol(col int)         { m.col = col }
+func (m *mockEditor) Buffer() *buffer.Buffer                             { return m.buf }
+func (m *mockEditor) CursorRow() int                                     { return m.row }
+func (m *mockEditor) CursorCol() int                                     { return m.col }
+func (m *mockEditor) FilePath() string                                   { return m.file }
+func (m *mockEditor) Mode() string                                       { return "NORMAL" }
+func (m *mockEditor) SetStatus(msg string, e bool)                       { m.status = msg; m.isErr = e }
+func (m *mockEditor) SetCursorRow(row int)                               { m.row = row }
+func (m *mockEditor) SetCursorCol(col int)                               { m.col = col }
+func (m *mockEditor) OpenFile(path string) error                         { return nil }
+func (m *mockEditor) SaveFile() error                                    { return nil }
+func (m *mockEditor) LineCount() int                                     { return m.buf.LineCount() }
+func (m *mockEditor) Line(n int) string                                  { return m.buf.Line(n) }
+func (m *mockEditor) Content() string                                    { return m.buf.Content() }
+func (m *mockEditor) InsertAt(row, col int, text string)                 {}
+func (m *mockEditor) DeleteRange(startRow, startCol, endRow, endCol int) {}
+func (m *mockEditor) DeleteLines(start, end int)                         {}
+
+// Verify mockEditor satisfies EditorAPI
+var _ pluginapi.EditorAPI = (*mockEditor)(nil)
 
 func TestPluginInitDeinit(t *testing.T) {
 	p := NewPlugin()
