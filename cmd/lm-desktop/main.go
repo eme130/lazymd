@@ -10,7 +10,6 @@ import (
 	"github.com/EME130/lazymd/internal/buffer"
 	"github.com/EME130/lazymd/internal/config"
 	"github.com/EME130/lazymd/internal/corebackend"
-	"github.com/EME130/lazymd/internal/editor"
 	"github.com/EME130/lazymd/internal/nav"
 	"github.com/EME130/lazymd/internal/pluginadapter"
 	"github.com/EME130/lazymd/internal/pluginapi"
@@ -34,10 +33,9 @@ func main() {
 
 	buf := buffer.New()
 	g := brain.NewGraph()
-	ed := editor.New(buf)
 	navigator := nav.NewBuiltin(buf)
 
-	editorAdapter := &pluginadapter.EditorAdapter{Ed: ed}
+	editorAdapter := &pluginadapter.EditorAdapter{Buf: buf}
 	navAdapter := &pluginadapter.NavAdapter{Nav: navigator}
 	brainAdapter := &pluginadapter.BrainAdapter{Graph: g}
 	themeAdapter := &pluginadapter.ThemeAdapter{}

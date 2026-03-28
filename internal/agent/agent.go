@@ -1,14 +1,14 @@
 package agent
 
 import (
-	"github.com/EME130/lazymd/internal/editor"
+	"github.com/EME130/lazymd/internal/pluginapi"
 )
 
 // Transport identifies the agent communication transport.
 type Transport int
 
 const (
-	TransportStdio     Transport = iota
+	TransportStdio Transport = iota
 	TransportWebSocket
 	TransportHTTP
 )
@@ -96,7 +96,7 @@ type Backend interface {
 // Plugin manages agent backend lifecycle and editor integration.
 type Plugin struct {
 	backend   Backend
-	editor    editor.PluginEditor
+	editor    pluginapi.EditorAPI
 	connected bool
 }
 
@@ -155,7 +155,7 @@ func (p *Plugin) executeCommand(cmd *Command) {
 			buf.InsertString(pos, cmd.Text)
 		}
 	case CmdOpenFile:
-		// Would need access to editor.OpenFile — deferred to full integration
+		// Deferred to full integration
 	case CmdRequestContext:
 		p.sendCurrentContext()
 	}
@@ -169,19 +169,19 @@ func (p *Plugin) sendCurrentContext() {
 		FilePath:  p.editor.FilePath(),
 		CursorRow: p.editor.CursorRow(),
 		CursorCol: p.editor.CursorCol(),
-		Mode:      p.editor.EditorMode().String(),
+		Mode:      p.editor.Mode(),
 	})
 }
 
 // NotifyEvent sends an editor event to the agent.
-func (p *Plugin) NotifyEvent(eventType EventType, ed editor.PluginEditor) {
+func (p *Plugin) NotifyEvent(eventType EventType, ed pluginapi.EditorAPI) {
 	if p.backend == nil || !p.backend.IsConnected() {
 		return
 	}
 	event := Event{
 		Type:     eventType,
 		FilePath: ed.FilePath(),
-		Mode:     ed.EditorMode().String(),
+		Mode:     ed.Mode(),
 	}
 	p.backend.SendEvent(event)
 }
